@@ -15,10 +15,12 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig)
 
-const database = firebase.database();
+const database = firebase.firestore();
 // const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
 // const facebookAuthProvider = new firebase.auth.FacebookAuthProvider();
 // const emailAuthProvider = new firebase.auth.EmailAuthProvider();
+
+
 
 export { firebase, database as default }; 
 

@@ -31,7 +31,7 @@ export default (state = authReducersDefaultState, action) => {
                 isSigningUp: true,
                 signupError: null
             }
-        case SIGNUP_SUCCESS: 
+        case SIGNUP_SUCCESS:
             return {
                 ...state,
                 isSigningUp: false,
@@ -52,7 +52,7 @@ export default (state = authReducersDefaultState, action) => {
                 isLoggingIn: true,
                 loginError: null
             }
-        case LOGIN_SUCCESS: 
+        case LOGIN_SUCCESS:
             return {
                 ...state,
                 isLoggingIn: false,

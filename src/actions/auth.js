@@ -59,10 +59,10 @@ export const startLoginWithEmailAndPassword = (email, password) => {
         return firebase
             .auth()
             .signInWithEmailAndPassword(email, password)
-            .then((result) => {
-
-                dispatch(receiveLogin(result.user));
-            })
+            // .then((result) => {
+            //     const user = result.user;
+            //     dispatch(receiveLogin(user));
+            // })
             .catch((e) => {
                 dispatch(loginError(e));
             });

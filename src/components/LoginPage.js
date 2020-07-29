@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { startLoginWithEmailAndPassword } from '../actions/auth';
+import { startLogout } from '../actions/auth';
 
 export class LoginPage extends React.Component {
     state = {
@@ -41,6 +42,7 @@ export class LoginPage extends React.Component {
                         />
                         {this.props.loginError && <h5>{this.props.loginError.message}</h5>}
                         <button type="submit" onSubmit={this.onSubmit}> Continue </button>
+                        <button onClick={startLogout}> Logout </button>
                     </form>
                     <div>
                         <Link to='/forgot'> Forgot password? </Link>
@@ -58,6 +60,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     startLoginWithEmailAndPassword: (email, password) => dispatch(startLoginWithEmailAndPassword(email, password)),
+    startLogout: () => dispatch(startLogout())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
