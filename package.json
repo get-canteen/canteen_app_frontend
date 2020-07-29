@@ -1,0 +1,43 @@
+{
+  "name": "canteen_app_frontend",
+  "version": "1.0.0",
+  "description": "Frontend for Canteen web app",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "build:dev": "webpack",
+    "build:prod": "webpack -p --env production",
+    "start": "node server/server"
+  },
+  "dependencies": {
+    "@babel/cli": "^7.0.0-beta.40",
+    "@babel/core": "^7.0.0-beta.40",
+    "@babel/preset-env": "^7.10.2",
+    "@babel/preset-react": "^7.0.0-beta.40",
+    "babel-loader": "^8.0.0-beta.0",
+    "express": "^4.17.1",
+    "firebase": "^7.17.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-redux": "^7.2.1",
+    "react-router-dom": "^5.2.0",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0",
+    "webpack": "^4.40.2"
+  },
+  "devDependencies": {
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "dotenv": "^8.2.0",
+    "webpack-cli": "^3.3.11"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/get-canteen/canteen_app_frontend.git"
+  },
+  "bugs": {
+    "url": "https://github.com/get-canteen/canteen_app_frontend/issues"
+  },
+  "homepage": "https://github.com/get-canteen/canteen_app_frontend#readme",
+  "proxy": "http://localhost:5000"
+}
