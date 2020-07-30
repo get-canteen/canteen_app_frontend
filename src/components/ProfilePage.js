@@ -9,14 +9,35 @@ const ProfilePage = ({ user }) => {
         { user ? 
             <div>
                 <img src={user.photo_url} alt="user-photo" width="50px" height="60px"/>
-                <h1> {user.display_name} </h1> 
-                <h3> {user.title} </h3>
-                <h3> {user.about} </h3>
+                <h3> {user.display_name} </h3> 
+                <h6> {user.title} </h6>
+                <h6> {user.about} </h6>
                 <div>
+                    <h3> Interests </h3>
                     {user.interests.map(interest => (
                         <div>
-                           <p> #{interest.toLowerCase()} </p> 
+                           <h6> #{interest.toLowerCase()} </h6> 
                         </div>    
+                    ))}
+                </div>
+                <div>
+                    <h3> Offerings </h3>
+                    {Object.values(user.learn_skill).map((skill, i) => (
+                        <div key={i}>
+                            <h4> {skill.name} </h4>
+                            <h6> {skill.description} </h6>
+                            <h6> ${skill.price} / {skill.duration} minutes </h6>
+                        </div>
+                    ))}
+                </div>
+                <div>
+                    <h3> Asks </h3>
+                    {Object.values(user.teach_skill).map((skill, i) => (
+                        <div key={i}>
+                            <h4> {skill.name} </h4>
+                            <h6> {skill.description} </h6>
+                            <h6> ${skill.price} / {skill.duration} minutes </h6>
+                        </div>
                     ))}
                 </div>
             </div>    
