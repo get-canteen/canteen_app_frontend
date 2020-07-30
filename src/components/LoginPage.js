@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { startLoginWithEmailAndPassword } from '../actions/auth';
 
-export class LoginPage extends React.Component {
+class LoginPage extends React.Component {
     state = {
         email: '',
         password: ''

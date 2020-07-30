@@ -1,8 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { startLogout } from '../actions/auth';
 
-const ProfilePage = ({ user, startLogout }) => {
+const ProfilePage = ({ user }) => {
     console.log('user', user);
     return (
     <div>
@@ -13,9 +12,15 @@ const ProfilePage = ({ user, startLogout }) => {
                 <h1> {user.display_name} </h1> 
                 <h3> {user.title} </h3>
                 <h3> {user.about} </h3>
+                <div>
+                    {user.interests.map(interest => (
+                        <div>
+                           <p> #{interest.toLowerCase()} </p> 
+                        </div>    
+                    ))}
+                </div>
             </div>    
         : '' }
-        <button onClick={startLogout}> Logout </button>
     </div>
     )
 };
@@ -24,8 +29,4 @@ const mapStateToProps = (state) => ({
     user: state.user.userData
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    startLogout: () => dispatch(startLogout())
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage);
+export default connect(mapStateToProps, undefined)(ProfilePage);
