@@ -1,8 +1,8 @@
 import database from '../../firebase/firebase';
-import { FETCH_USER_DOCUMENT } from './types';
+import { SET_USER_DOCUMENT } from './types';
 
-export const fetchUserDocument = (data) => ({
-    type: FETCH_USER_DOCUMENT,
+export const setUserDocument = (data) => ({
+    type: SET_USER_DOCUMENT,
     userData: data
 })
 
@@ -13,7 +13,7 @@ export const startFetchUserDocument = (uid) => async (dispatch) => {
     }
     try {
         const userDocument = await database.collection("users").doc(uid).get();
-        dispatch(fetchUserDocument(userDocument.data()));
+        dispatch(setUserDocument(userDocument.data()));
     } catch (e) {
         console.error("Error fetching user", e);
     }

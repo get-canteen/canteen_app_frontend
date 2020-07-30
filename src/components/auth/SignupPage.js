@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { startCreateUserWithEmailAndPassword } from '../actions/auth';
+import { startCreateUserWithEmailAndPassword } from '../../actions/auth';
 
 class SignupPage extends React.Component {
     state = {

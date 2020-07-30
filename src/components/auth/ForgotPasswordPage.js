@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { startSendPasswordResetEmail } from '../actions/auth';
+import { startSendPasswordResetEmail } from '../../actions/auth';
 
 export class ForgotPasswordPage extends React.Component {
     state = {
