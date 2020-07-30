@@ -52,35 +52,24 @@ export const logoutError = (error) => ({
     error
 }); 
 
-export const startLoginWithEmailAndPassword = (email, password) => {
+export const startLoginWithEmailAndPassword = (email, password) => dispatch => {
     console.log('startLoginWithEmailAndPassword is called');
-    return (dispatch) => {
-        dispatch(requestLogin());
-        return firebase
-            .auth()
-            .signInWithEmailAndPassword(email, password)
-            // .then((result) => {
-            //     const user = result.user;
-            //     dispatch(receiveLogin(user));
-            // })
-            .catch((e) => {
-                dispatch(loginError(e));
-            });
-    };
+    dispatch(requestLogin());
+    return firebase
+        .auth()
+        .signInWithEmailAndPassword(email, password)
+        .catch((e) => {
+            dispatch(loginError(e));
+        });
 };
 
-export const startLogout = () => {
+export const startLogout = () => dispatch => {
     console.log('startLogout is called');
-    return (dispatch) => {
-        dispatch(requestLogout());
-        return firebase
-            .auth()
-            .signOut()
-            .then(() => {
-                dispatch(receiveLogout())
-            })
-            .catch((e) => {
-                dispatch(logoutError(e))
-            });
-    };
+    dispatch(requestLogout());
+    return firebase
+        .auth()
+        .signOut()
+        .catch((e) => {
+            dispatch(logoutError(e))
+        });
 };

@@ -1,21 +1,20 @@
 import database from '../../firebase/firebase';
-import { SET_USER_PROFILE } from './types';
+import { FETCH_USER_DOCUMENT } from './types';
 
-export const setUserProfile = (data) => ({
-    type: SET_USER_PROFILE,
+export const fetchUserDocument = (data) => ({
+    type: FETCH_USER_DOCUMENT,
     userData: data
 })
 
-export const startSetUserProfile = (user) => {
-    console.log('startSetUser is called');
-    return async (dispatch, getState) => {
-        // const authUser =  await getState().auth.user;
-        // if (authUser !== null) {
-            const userRef = database.collection("users").doc(user.uid);
-            const user = await userRef.get();
-            const data = user.data();
-            console.log('Document data', data);
-            dispatch(setUserProfile(data));
-        // }
+export const startFetchUserDocument = (uid) => async (dispatch) => {
+    console.log('startFetchUserDocument is called');
+    if (!uid) {
+        throw new Error('uid does not exist!');
+    }
+    try {
+        const userDocument = await database.collection("users").doc(uid).get();
+        dispatch(fetchUserDocument(userDocument));
+    } catch (e) {
+        console.error("Error fetching user", e);
     }
 }

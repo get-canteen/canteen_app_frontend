@@ -6,10 +6,10 @@ import { Provider } from 'react-redux';
 import configureStore from './store/configureStore';
 import AppRouter, { history } from './routers/AppRouter';
 import { firebase } from '../firebase/firebase';
-import { receiveLogin } from './actions/auth';
-import { startSetUserProfile } from './actions/user';
+import { receiveLogin, receiveLogout } from './actions/auth';
+import { startFetchUserDocument } from './actions/user';
 
-const store = configureStore();
+const store = configureStore(); 
 
 let hasRendered = false;
 export const renderApp = () => {
@@ -26,16 +26,16 @@ renderApp()
 
 firebase.auth().onAuthStateChanged((user) => {
     if (user) { // User is signed in.
-        console.log('user',user);
         console.log('log in');
-        store.dispatch(receiveLogin(user))
-        .then(() => {
-            store.dispatch(startSetUserProfile(user))
+        const uid = user.uid;
+        store.dispatch(receiveLogin(user)) // Lets redux know user is now authenticated and stores uid of currently authenticated user
+        .then(() => { // Fetch user document from firestore using uid
+            store.dispatch(startFetchUserDocument(uid));
         })
-        .then(() => {
+        .then(() => { // Re-render app with newly fetched user data
             renderApp();
-            if (history.location.pathname === '/') {
-                history.push('/profile');
+            if (history.location.pathname === '/') { 
+                history.push('/profile'); // Redirect to profile page
             }
         })
         .catch((e) => {
@@ -44,7 +44,8 @@ firebase.auth().onAuthStateChanged((user) => {
     } else { // No user is signed in.
     console.log('user when logged out',user);
       console.log('log out');
+      dispatch(receiveLogout()) // Lets redux know user is not authenticated 
       renderApp();
-      history.push('/');
+      history.push('/'); // Redirect to login page
     }
 });
