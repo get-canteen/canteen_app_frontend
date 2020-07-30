@@ -7,7 +7,8 @@ import {
     LOGIN_ERROR,
     LOGOUT_REQUEST,
     LOGOUT_SUCCESS,
-    LOGOUT_ERROR
+    LOGOUT_ERROR,
+    SEND_PASSWORD_RESET_EMAIL
 } from '../actions/types';
 
 
@@ -20,7 +21,8 @@ const authReducersDefaultState = {
     loginError: null,
     logoutError: null,
     isAuthenticated: false,
-    newUserIsCreated: false
+    newUserIsCreated: false,
+    sendPasswordReset: false
 };
 
 export default (state = authReducersDefaultState, action) => {
@@ -57,7 +59,8 @@ export default (state = authReducersDefaultState, action) => {
                 ...state,
                 isLoggingIn: false,
                 isAuthenticated: true,
-                user: action.user
+                user: action.user,
+                sendPasswordReset: false
             }
         case LOGIN_ERROR:
             return {
@@ -87,6 +90,11 @@ export default (state = authReducersDefaultState, action) => {
                 isLoggingOut: false,
                 isAuthenticated: true,
                 logoutError: action.error
+            }
+        case SEND_PASSWORD_RESET_EMAIL:
+            return {
+                ...state,
+                sendPasswordReset: true
             }
         default:
             return state;

@@ -6,6 +6,7 @@ import PublicRoute from '../routers/PublicRoute';
 import PrivateRoute from '../routers/PrivateRoute';
 import LoginPage from '../components/LoginPage';
 import SignupPage from '../components/SignupPage';
+import ForgotPasswordPage from '../components/ForgotPasswordPage';
 import ProfilePage from '../components/ProfilePage';
 // import HomePage from '../components/HomePage';
 // import SearchPage from '../components/SearchPage';
@@ -21,6 +22,7 @@ const AppRouter = () => (
         <Switch> 
             <PublicRoute exact path="/" component={LoginPage}/>
             <PublicRoute path="/signup" component={SignupPage}/>
+            <PublicRoute path="/forgot" component={ForgotPasswordPage}/>
             <PrivateRoute path="/profile" component={ProfilePage}/>
             {/* <Route path="/home" component={HomePage}/>
             <Route path="/search" component={SearchPage}/>

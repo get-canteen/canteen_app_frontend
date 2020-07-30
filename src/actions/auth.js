@@ -8,7 +8,8 @@ import {
     LOGIN_ERROR,
     LOGOUT_REQUEST,
     LOGOUT_SUCCESS,
-    LOGOUT_ERROR
+    LOGOUT_ERROR,
+    SEND_PASSWORD_RESET_EMAIL
 } from './types';
 
 export const requestSignup = () => ({
@@ -52,6 +53,10 @@ export const logoutError = (error) => ({
     error
 }); 
 
+export const sendPasswordResetEmail = () => ({
+    type: SEND_PASSWORD_RESET_EMAIL
+})
+
 export const startLoginWithEmailAndPassword = (email, password) => dispatch => {
     console.log('startLoginWithEmailAndPassword is called');
     dispatch(requestLogin());
@@ -88,3 +93,18 @@ export const startLogout = () => dispatch => {
             dispatch(logoutError(e))
         });
 };
+
+
+export const startSendPasswordResetEmail = (email) => dispatch => {
+    console.log('startSendPasswordResetEmail is called');
+    return firebase
+        .auth()
+        .sendPasswordResetEmail(email)
+        .then(() => {
+            dispatch(sendPasswordResetEmail());
+        })
+        .catch((e) => {
+            dispatch(loginError(e));
+        });
+};
+
