@@ -4,16 +4,15 @@ import { startLogout } from '../actions/auth';
 
 const ProfilePage = ({ user, startLogout }) => {
     console.log('user', user);
-    const { photo_url, display_name, title, about } = user;
     return (
     <div>
         <h1> Profile Page </h1>
         { user ? 
             <div>
-                <img src={photo_url} alt="user-photo" width="50px" height="60px"/>
-                <h1> {display_name} </h1> 
-                <h3> {title} </h3>
-                <h3> {about} </h3>
+                <img src={user.photo_url} alt="user-photo" width="50px" height="60px"/>
+                <h1> {user.display_name} </h1> 
+                <h3> {user.title} </h3>
+                <h3> {user.about} </h3>
             </div>    
         : '' }
         <button onClick={startLogout}> Logout </button>

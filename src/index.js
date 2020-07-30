@@ -32,7 +32,7 @@ firebase.auth().onAuthStateChanged((user) => {
         store.dispatch(startFetchUserDocument(uid)) // Fetch user document from firestore using uid and set to store
         .then(() => { 
             renderApp(); // Re-render app with newly fetched user data
-            if (history.location.pathname === '/') { 
+            if (history.location.pathname === '/' || history.location.pathname === '/signup') { 
                 history.push('/profile'); // Redirect to profile page
             }
         })

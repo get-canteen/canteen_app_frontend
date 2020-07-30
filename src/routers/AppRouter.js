@@ -3,6 +3,7 @@ import { BrowserRouter, Router, Route, Switch } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 
 import LoginPage from '../components/LoginPage';
+import SignupPage from '../components/SignupPage';
 import ProfilePage from '../components/ProfilePage';
 import NotFoundPage from '../components/NotFoundPage';
 
@@ -13,6 +14,7 @@ const AppRouter = () => (
         {/* <Switch> looks through its children <Route>s and renders the first one that matches the current URL. */}
         <Switch> 
             <Route exact path="/" component={LoginPage}/>
+            <Route path="/signup" component={SignupPage}/>
             <Route path="/profile" component={ProfilePage}/>
             <Route component={NotFoundPage}/>
         </Switch>

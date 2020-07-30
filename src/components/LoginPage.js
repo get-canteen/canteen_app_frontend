@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { startLoginWithEmailAndPassword } from '../actions/auth';
-import { startLogout } from '../actions/auth';
 
 export class LoginPage extends React.Component {
     state = {
@@ -41,8 +40,7 @@ export class LoginPage extends React.Component {
                             onChange={this.onPasswordChange}
                         />
                         {this.props.loginError && <h5>{this.props.loginError.message}</h5>}
-                        <button type="submit" onSubmit={this.onSubmit}> Continue </button>
-                        <button onClick={startLogout}> Logout </button>
+                        <button type="submit" onSubmit={this.onSubmit}> Next</button>
                     </form>
                     <div>
                         <Link to='/forgot'> Forgot password? </Link>
