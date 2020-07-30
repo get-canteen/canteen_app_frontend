@@ -29,11 +29,9 @@ firebase.auth().onAuthStateChanged((user) => {
         console.log('log in');
         const uid = user.uid;
         store.dispatch(receiveLogin(user)) // Lets redux know user is now authenticated and stores uid of currently authenticated user
-        .then(() => { // Fetch user document from firestore using uid
-            store.dispatch(startFetchUserDocument(uid));
-        })
-        .then(() => { // Re-render app with newly fetched user data
-            renderApp();
+        store.dispatch(startFetchUserDocument(uid)) // Fetch user document from firestore using uid and set to store
+        .then(() => { 
+            renderApp(); // Re-render app with newly fetched user data
             if (history.location.pathname === '/') { 
                 history.push('/profile'); // Redirect to profile page
             }
@@ -42,10 +40,10 @@ firebase.auth().onAuthStateChanged((user) => {
             console.log(e);
         })
     } else { // No user is signed in.
-    console.log('user when logged out',user);
-      console.log('log out');
-      dispatch(receiveLogout()) // Lets redux know user is not authenticated 
-      renderApp();
-      history.push('/'); // Redirect to login page
+        console.log('user when logged out',user);
+        console.log('log out');
+        store.dispatch(receiveLogout()) // Lets redux know user is not authenticated 
+        renderApp();
+        history.push('/'); // Redirect to login page
     }
 });

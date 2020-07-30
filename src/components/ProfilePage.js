@@ -3,19 +3,19 @@ import { connect } from 'react-redux';
 import { startLogout } from '../actions/auth';
 
 const ProfilePage = ({ user, startLogout }) => {
-    // console.log('user', user);
-    // const { photo_url, display_name, title, about } = user;
+    console.log('user', user);
+    const { photo_url, display_name, title, about } = user;
     return (
     <div>
         <h1> Profile Page </h1>
-        {/* { userData ? 
+        { user ? 
             <div>
-                <img src={photo_url} alt="user-photo"/>
-                <h3> {display_name} </h3> 
-                <h4> {title} </h4>
-                <h6> {about} </h6>
+                <img src={photo_url} alt="user-photo" width="50px" height="60px"/>
+                <h1> {display_name} </h1> 
+                <h3> {title} </h3>
+                <h3> {about} </h3>
             </div>    
-        : '' } */}
+        : '' }
         <button onClick={startLogout}> Logout </button>
     </div>
     )

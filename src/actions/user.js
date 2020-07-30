@@ -13,7 +13,7 @@ export const startFetchUserDocument = (uid) => async (dispatch) => {
     }
     try {
         const userDocument = await database.collection("users").doc(uid).get();
-        dispatch(fetchUserDocument(userDocument));
+        dispatch(fetchUserDocument(userDocument.data()));
     } catch (e) {
         console.error("Error fetching user", e);
     }
