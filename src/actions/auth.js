@@ -63,6 +63,21 @@ export const startLoginWithEmailAndPassword = (email, password) => dispatch => {
         });
 };
 
+export const startSignup = (email, password) => dispatch => {
+    console.log('startSignup is called');
+    dispatch(requestSignup());
+    return firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then((result) => {
+            const user = result.user;
+            dispatch(receiveSignup(user));
+        })
+        .catch((e) => {
+            dispatch(signupError(e));
+        })
+}
+
 export const startLogout = () => dispatch => {
     console.log('startLogout is called');
     dispatch(requestLogout());
