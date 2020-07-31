@@ -76,7 +76,7 @@ class EditProfilePage extends React.Component {
                     <div>
                         {Object.values(this.props.user.teach_skill).map((skill, i) => (
                             <div key={i} type="teach">
-                                <Link to={`/profile/edit/skill/${type}/${i}`}>
+                                <Link to={`/profile/edit/teach_skill/${i}`}>
                                     <p> {skill.name} </p>
                                     <p> {skill.description} </p>
                                     <p> ${skill.price} / {skill.duration} minutes </p>
@@ -91,7 +91,7 @@ class EditProfilePage extends React.Component {
                     <div>
                         {Object.values(this.props.user.learn_skill).map((skill, i) => (
                             <div key={i} type="learn">
-                                <Link to={`/profile/edit/skill/${type}/${i}`}>
+                                <Link to={`/profile/edit/learn_skill/${i}`}>
                                     <p> {skill.name} </p>
                                     <p> {skill.description} </p>
                                     <p> ${skill.price} / {skill.duration} minutes </p>

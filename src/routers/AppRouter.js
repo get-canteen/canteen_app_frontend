@@ -29,7 +29,9 @@ const AppRouter = () => (
             <PrivateRoute exact path="/profile" component={ProfilePage}/>
             <PrivateRoute exact path="/profile/edit" component={EditProfilePage}/>
             <PrivateRoute path="/profile/edit/interest" component={EditInterestPage}/>
-            <PrivateRoute path="/profile/edit/skill/:type/:index" component={EditSkillPage}/> 
+            <PrivateRoute path="/profile/add/skill" component={EditSkillPage}/> 
+            <PrivateRoute path="/profile/edit/teach_skill/:index" component={EditSkillPage}/> 
+            <PrivateRoute path="/profile/edit/learn_skill/:index" component={EditSkillPage}/>
             {/* <Route path="/home" component={HomePage}/>
             <Route path="/search" component={SearchPage}/>
             <Route path="/messages" component={MessagesPage}/>
