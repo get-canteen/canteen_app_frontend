@@ -60,7 +60,7 @@ export const sendPasswordResetEmail = () => ({
 export const startLoginWithEmailAndPassword = (email, password) => dispatch => {
     console.log('startLoginWithEmailAndPassword is called');
     dispatch(requestLogin());
-    return firebase
+    firebase
         .auth()
         .signInWithEmailAndPassword(email, password)
         .catch((e) => {
@@ -71,7 +71,7 @@ export const startLoginWithEmailAndPassword = (email, password) => dispatch => {
 export const startCreateUserWithEmailAndPassword = (email, password) => dispatch => {
     console.log('startCreateUserWithEmailAndPassword is called');
     dispatch(requestSignup());
-    return firebase
+    firebase
         .auth()
         .createUserWithEmailAndPassword(email, password)
         .then((result) => {
@@ -86,7 +86,7 @@ export const startCreateUserWithEmailAndPassword = (email, password) => dispatch
 export const startLogout = () => dispatch => {
     console.log('startLogout is called');
     dispatch(requestLogout());
-    return firebase
+    firebase
         .auth()
         .signOut()
         .catch((e) => {
@@ -97,7 +97,7 @@ export const startLogout = () => dispatch => {
 
 export const startSendPasswordResetEmail = (email) => dispatch => {
     console.log('startSendPasswordResetEmail is called');
-    return firebase
+    firebase
         .auth()
         .sendPasswordResetEmail(email)
         .then(() => {

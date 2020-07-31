@@ -13,6 +13,9 @@ import ProfilePage from '../components/user/ProfilePage';
 // import MessagesPage from '../components/MessagesPage';
 // import NotificationsPage from '../components/NotificationsPage';
 import NotFoundPage from '../components/shared/NotFoundPage';
+import EditProfilePage from '../components/user/EditProfilePage';
+import EditInterestPage from '../components/user/EditInterestPage';
+import EditSkillPage from '../components/user/EditSkillPage';
 
 export const history = createBrowserHistory();
 
@@ -23,7 +26,10 @@ const AppRouter = () => (
             <PublicRoute exact path="/" component={LoginPage}/>
             <PublicRoute path="/signup" component={SignupPage}/>
             <PublicRoute path="/forgot" component={ForgotPasswordPage}/>
-            <PrivateRoute path="/profile" component={ProfilePage}/>
+            <PrivateRoute exact path="/profile" component={ProfilePage}/>
+            <PrivateRoute exact path="/profile/edit" component={EditProfilePage}/>
+            <PrivateRoute path="/profile/edit/interest" component={EditInterestPage}/>
+            <PrivateRoute path="/profile/edit/skill/:type/:index" component={EditSkillPage}/> 
             {/* <Route path="/home" component={HomePage}/>
             <Route path="/search" component={SearchPage}/>
             <Route path="/messages" component={MessagesPage}/>

@@ -1,22 +1,24 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 const ProfilePage = ({ user }) => {
     console.log('user', user);
     return (
     <div>
         <h1> Profile Page </h1>
+        <Link to="/profile/edit"> Edit </Link>
         { user ? 
             <div>
                 <img src={user.photo_url} alt="user-photo" width="50px" height="60px"/>
                 <h3> {user.display_name} </h3> 
-                <h6> {user.title} </h6>
-                <h6> {user.about} </h6>
+                <h4> {user.title} </h4>
+                <p> {user.about} </p>
                 <div>
                     <h3> Interests </h3>
-                    {user.interests.map(interest => (
-                        <div>
-                           <h6> #{interest.toLowerCase()} </h6> 
+                    {user.interests.map((interest, i) => (
+                        <div key={i}>
+                           <p> #{interest.toLowerCase()} </p> 
                         </div>    
                     ))}
                 </div>
@@ -24,9 +26,9 @@ const ProfilePage = ({ user }) => {
                     <h3> Offerings </h3>
                     {Object.values(user.learn_skill).map((skill, i) => (
                         <div key={i}>
-                            <h4> {skill.name} </h4>
-                            <h6> {skill.description} </h6>
-                            <h6> ${skill.price} / {skill.duration} minutes </h6>
+                            <p> {skill.name} </p>
+                            <p> {skill.description} </p>
+                            <p> ${skill.price} / {skill.duration} minutes </p>
                         </div>
                     ))}
                 </div>
@@ -34,9 +36,9 @@ const ProfilePage = ({ user }) => {
                     <h3> Asks </h3>
                     {Object.values(user.teach_skill).map((skill, i) => (
                         <div key={i}>
-                            <h4> {skill.name} </h4>
-                            <h6> {skill.description} </h6>
-                            <h6> ${skill.price} / {skill.duration} minutes </h6>
+                            <p> {skill.name} </p>
+                            <p> {skill.description} </p>
+                            <p> ${skill.price} / {skill.duration} minutes </p>
                         </div>
                     ))}
                 </div>
@@ -47,7 +49,7 @@ const ProfilePage = ({ user }) => {
 };
 
 const mapStateToProps = (state) => ({
-    user: state.user.userData
+    user: state.user
 });
 
 export default connect(mapStateToProps, undefined)(ProfilePage);
