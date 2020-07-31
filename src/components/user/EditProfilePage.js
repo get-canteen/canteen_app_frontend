@@ -83,7 +83,7 @@ class EditProfilePage extends React.Component {
                                 </Link>
                             </div>
                         ))}
-                        <Link to="/profile/edit/skill"> Add Offering </Link>
+                        <Link to="/profile/add/skill"> Add Offering </Link>
                     </div>
                 </div>
                 <div>
@@ -98,7 +98,7 @@ class EditProfilePage extends React.Component {
                                 </Link>
                             </div>
                         ))}
-                        <Link to="/profile/edit/skill"> Add Ask </Link>
+                        <Link to="/profile/add/skill"> Add Ask </Link>
                     </div>
                 </div>
                 <br></br>
