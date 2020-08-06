@@ -20,18 +20,18 @@ export const startFetchUserDocument = (uid) => async (dispatch) => {
 }
 
 // When new user is created, we need to add a new user document to the users collection within firestore.
-export const startAddUserDocument = async (user) => {
+export const startAddUserDocument = async (uid, userDoc) => {
     console.log('startAddUserDocument is called');
-    // const user = firebase.auth().currentUser;
-    console.log("user: ", user);
+    // const uid = firebase.auth().currentUser.uid; 
     try {
-        await database.collection("users").doc(user.uid).set(user)
+        await database.collection("users").doc(uid).set(userDoc)
+        console.log('User doc is successfully added to firestore');
     } catch (e) {
         console.log('Error creating user document', e);
     }
 }
 
-// Updates currently authenticated user's users document in firestore
+// Updates currently authenticated user's user document in firestore
 export const startEditUserDocument = async (updates) => {
     console.log('startEditUserDocument is called');
     const uid = firebase.auth().currentUser.uid; 
@@ -44,7 +44,16 @@ export const startEditUserDocument = async (updates) => {
     }
 }
 
-// startDeleteUserDocument 
+// Deletes currently authenticated user's user document from firestore
+export const startDeleteUserDocument = async () => {
+    console.log('startDeleteUserDocument is called');
+    const uid = firebase.auth().currentUser.uid; 
+    try {
+        await database.collection("users").doc(uid).delete();
+    } catch (e) {
+        console.log("Error deleting user", e);
+    }
+}
 
 // Adds an interest to currently authenticated user in firstore
 export const startAddInterest = async (interest) => {

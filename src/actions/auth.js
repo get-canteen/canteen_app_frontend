@@ -13,7 +13,7 @@ import {
 } from './types';
 import { renderApp } from '../index';
 import { history } from '../routers/AppRouter';
-import { startAddUserDocument } from './user';
+import { startAddUserDocument, startFetchUserDocument } from './user';
 
 export const requestSignup = () => ({
     type: SIGNUP_REQUEST
@@ -64,10 +64,8 @@ export const startLoginWithEmailAndPassword = (email, password) => async (dispat
     console.log('startLoginWithEmailAndPassword is called');
     dispatch(requestLogin());
     try {
-        const res = await firebase.auth().signInWithEmailAndPassword(email, password);
-        const user = res.user;
-        dispatch(receiveLogin(user));
-        // await verifyAuthStateChange();
+        await firebase.auth().signInWithEmailAndPassword(email, password);
+        dispatch(verifyAuthStateChange());
     } catch (e) {
         dispatch(loginError(e));
     }
@@ -79,28 +77,27 @@ export const startCreateUserWithEmailAndPassword = (email, password) => async (d
     try {
         const res = await firebase.auth().createUserWithEmailAndPassword(email, password);
         const user = res.user;
+        console.log("user in startCreateUserWithEmailAndPassword", user);
         dispatch(receiveSignup(user));
         const userDoc = {
+            email: user.email,
+            display_name: user.displayName,
+            photo_url: user.photoURL,
+            is_anonymous: user.isAnonymous,
+            is_email_verfied: user.emailVerified,
+            phone_number: user.phoneNumber,
+            provider_id: user.providerId,
+            title: '',
             about: '',
-            avaliability: {},
-            // creation_time: '',
-            display_name: '',
-            email: '',
             interests: [],
-            is_anonymous: false,
-            is_email_verfied: false,
-            // last_sign_in_time: '',
+            avaliability: {},
             learn_skill: {},
             onboarded: 1,
-            phone_number: null,
-            photo_url: '',
-            provider_id: "Firebase",
             teach_skill: {},
             time_zone: null,
-            title: ''
         };
-        await startAddUserDocument(userDoc);
-        // await verifyAuthStateChange();
+        await startAddUserDocument(user.uid, userDoc);
+        dispatch(verifyAuthStateChange());
     } catch (e) {
         dispatch(signupError(e));
     }
@@ -111,36 +108,36 @@ export const startLogout = () => async (dispatch) => {
     dispatch(requestLogout());
     try {
         await firebase.auth().signOut();
-        dispatch(receiveLogout());
-        // await verifyAuthStateChange();
+        dispatch(verifyAuthStateChange());
     } catch (e) {
         dispatch(logoutError(e))
     }
 };
 
-// export const verifyAuthStateChange = () => async (dispatch) => {
-//     console.log("verifyAuthStateChange is called");
-//     try {
-//         const user = firebase.auth().onAuthStateChanged();
-//         if (user) { // User is signed in.
-//             console.log('log in');
-//             const uid = user.uid;
-//             dispatch(receiveLogin(user)) // Lets redux know user is now authenticated and stores uid of currently authenticated user
-//             dispatch(startFetchUserDocument(uid)) // Fetch user document from firestore using uid and set to store
-//             await renderApp();
-//             if (history.location.pathname === '/' || history.location.pathname === '/signup') { 
-//                 history.push('/profile'); // Redirect to profile page
-//             }
-//         } else {
-//             console.log('log out');
-//             dispatch(receiveLogout());
-//             renderApp();
-//             history.push('/'); // Redirect to login page
-//         }
-//     } catch (e) {
-//         dispatch(loginError(e));
-//     }
-// }
+export const verifyAuthStateChange = () => (dispatch) => {
+    console.log("verifyAuthStateChange is called");
+    try {
+        firebase.auth().onAuthStateChanged( async (user) => {
+            if (user) { // User is signed in.
+                console.log('log in');
+                const uid = user.uid;
+                dispatch(receiveLogin(user)) 
+                await dispatch(startFetchUserDocument(uid))
+                renderApp();
+                if (history.location.pathname === '/' || history.location.pathname === '/signup') { 
+                    history.push('/profile');
+                }
+            } else {
+                console.log('log out');
+                dispatch(receiveLogout());
+                renderApp();
+                history.push('/');
+            }
+        });
+    } catch (e) {
+        dispatch(loginError(e));
+    }
+}
 
 export const startSendPasswordResetEmail = (email) => async (dispatch) => {
     console.log('startSendPasswordResetEmail is called');

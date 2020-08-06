@@ -40,7 +40,7 @@ class EditInterestPage extends React.Component {
                         </div>
                     )) }
                 </div>
-                <button onClick={onClickDone}> Done </button>
+                <button onClick={this.onClickDone}> Done </button>
             </div>
         );
     };
