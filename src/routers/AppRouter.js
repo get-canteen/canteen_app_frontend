@@ -21,7 +21,6 @@ export const history = createBrowserHistory();
 
 const AppRouter = () => (
     <Router history={history}>
-        {/* <Switch> looks through its children <Route>s and renders the first one that matches the current URL. */}
         <Switch> 
             <PublicRoute exact path="/" component={LoginPage}/>
             <PublicRoute path="/signup" component={SignupPage}/>

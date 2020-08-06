@@ -1,6 +1,7 @@
 import database, { firebase } from '../../firebase/firebase';
 import { SET_USER_DOCUMENT } from './types';
 
+// This will be our only user redux action object that gets dispatched to the user reducer 
 export const setUserDocument = (data) => ({
     type: SET_USER_DOCUMENT,
     userData: data
@@ -11,7 +12,7 @@ export const startFetchUserDocument = (uid) => async (dispatch) => {
     console.log('startFetchUserDocument is called');
     try {
         await database.collection("users").doc(uid).onSnapshot((doc) => {
-            console.log("Current user data: ", doc.data());
+            console.log("Current user document: ", doc.data());
             dispatch(setUserDocument(doc.data()));
         });
     } catch (e) {
@@ -103,9 +104,11 @@ export const startAddLearnSkill = async (skill) => {
     const uid = firebase.auth().currentUser.uid;
     try {
         const user = await database.collection("users").doc(uid).get();
-        const index = Object.keys(user.data().learn_skill).length;
+        const length = Object.keys(user.data().learn_skill).length;
+        const indexArr = Object.keys(user.data().learn_skill);
+        const lastIndex = indexArr[length - 1];
         await database.collection("users").doc(uid).update({
-            [`learn_skill.${index}`]: { ...skill }
+            [`learn_skill.${lastIndex + 1}`]: { ...skill }
         })
     } catch (e) {
         console.log("Error in adding learn skill", e);
@@ -138,26 +141,28 @@ export const startUpdateLearnSkill = async (skillData, index) => {
     }
 }
 
+// Deletes currently autherntiated user's user document's teach_skill field at input index in firestore
 export const startDeleteTeachSkill = async (index) => {
     console.log('startDeleteTeachSkill is called');
-    // const uid = firebase.auth().currentUser.uid; 
-    // try {
-    //     await database.collection("users").doc(uid).update({
-    //         [`teach_skill.${index}`]: FieldValue.delete()
-    //     });
-    // } catch (e) {
-    //     console.log("Error deleting teach skill");
-    // }
+    const uid = firebase.auth().currentUser.uid; 
+    try {
+        await database.collection("users").doc(uid).update({
+            [`teach_skill.${index}`]: firebase.firestore.FieldValue.delete()
+        });
+    } catch (e) {
+        console.log("Error deleting teach skill");
+    }
 }
 
+// Deletes currently autherntiated user's user document's learn_skill field at input index in firestore
 export const startDeleteLearnSkill = async (index) => {
     console.log('startDeleteLearnSkill is called');
-    // const uid = firebase.auth().currentUser.uid; 
-    // try {
-    //     await database.collection("users").doc(uid).update({
-    //         [`learn_skill.${index}`]: FieldValue.delete()
-    //     })
-    // } catch (e) {
-    //     console.log("Error deleting learn skill");
-    // }
+    const uid = firebase.auth().currentUser.uid; 
+    try {
+        await database.collection("users").doc(uid).update({
+            [`learn_skill.${index}`]: firebase.firestore.FieldValue.delete()
+        })
+    } catch (e) {
+        console.log("Error deleting learn skill");
+    }
 }
