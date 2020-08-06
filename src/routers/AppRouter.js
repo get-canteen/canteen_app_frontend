@@ -15,6 +15,7 @@ import ProfilePage from '../components/user/ProfilePage';
 import NotFoundPage from '../components/shared/NotFoundPage';
 import EditProfilePage from '../components/user/EditProfilePage';
 import EditInterestPage from '../components/user/EditInterestPage';
+import AddSkillPage from '../components/user/AddSkillPage';
 import EditSkillPage from '../components/user/EditSkillPage';
 
 export const history = createBrowserHistory();
@@ -29,9 +30,8 @@ const AppRouter = () => (
             <PrivateRoute exact path="/profile" component={ProfilePage}/>
             <PrivateRoute exact path="/profile/edit" component={EditProfilePage}/>
             <PrivateRoute path="/profile/edit/interest" component={EditInterestPage}/>
-            <PrivateRoute path="/profile/add/skill" component={EditSkillPage}/> 
-            <PrivateRoute path="/profile/edit/teach_skill/:index" component={EditSkillPage}/> 
-            <PrivateRoute path="/profile/edit/learn_skill/:index" component={EditSkillPage}/>
+            <PrivateRoute path="/profile/add/:type" component={AddSkillPage}/> 
+            <PrivateRoute path="/profile/edit/:type/:index" component={EditSkillPage}/> 
             {/* <Route path="/home" component={HomePage}/>
             <Route path="/search" component={SearchPage}/>
             <Route path="/messages" component={MessagesPage}/>

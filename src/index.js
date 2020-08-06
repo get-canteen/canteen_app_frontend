@@ -24,6 +24,7 @@ export const renderApp = () => {
 }
 renderApp()
 
+// need an firestore listener to listen on new users created to call createNewUserDocumentFunction  
 firebase.auth().onAuthStateChanged((user) => {
     if (user) { // User is signed in.
         console.log('log in');
@@ -40,7 +41,6 @@ firebase.auth().onAuthStateChanged((user) => {
             console.log(e);
         })
     } else { // No user is signed in.
-        console.log('user when logged out',user);
         console.log('log out');
         store.dispatch(receiveLogout()) // Lets redux know user is not authenticated 
         renderApp();

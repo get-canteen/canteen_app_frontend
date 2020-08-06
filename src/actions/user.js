@@ -9,12 +9,9 @@ export const setUserDocument = (data) => ({
 // Listens to realtime updates on user's users document. Every time user document is updated in firestore, set updated data to redux store  
 export const startFetchUserDocument = (uid) => async (dispatch) => {
     console.log('startFetchUserDocument is called');
-    if (!uid) {
-        throw new Error('uid does not exist in firestore!');
-    }
     try {
         await database.collection("users").doc(uid).onSnapshot((doc) => {
-            console.log("Current data: ", doc.data());
+            console.log("Current user data: ", doc.data());
             dispatch(setUserDocument(doc.data()));
         });
     } catch (e) {
@@ -22,19 +19,32 @@ export const startFetchUserDocument = (uid) => async (dispatch) => {
     }
 }
 
-// Updates currently authenticated user's users document in firestore and update redux store
-export const startEditUserDocument = (updates) => async (dispatch) => {
+// When new user is created, we need to add a new user document to the users collection within firestore.
+export const startAddUserDocument = async (user) => {
+    console.log('startAddUserDocument is called');
+    // const user = firebase.auth().currentUser;
+    console.log("user: ", user);
+    try {
+        await database.collection("users").doc(user.uid).set(user)
+    } catch (e) {
+        console.log('Error creating user document', e);
+    }
+}
+
+// Updates currently authenticated user's users document in firestore
+export const startEditUserDocument = async (updates) => {
     console.log('startEditUserDocument is called');
     const uid = firebase.auth().currentUser.uid; 
     try {
         await database.collection("users").doc(uid).update({
             ...updates
         });
-        dispatch(setUserDocument(updates));
     } catch (e) {
         console.log("Error updating user", e);
     }
 }
+
+// startDeleteUserDocument 
 
 // Adds an interest to currently authenticated user in firstore
 export const startAddInterest = async (interest) => {
@@ -50,7 +60,7 @@ export const startAddInterest = async (interest) => {
     }
 }
 
-// Deletes an interest to currently authenticated user in firstore
+// Deletes an interest from currently authenticated user in firstore
 export const startDeleteInterest = async (interest) => {
      console.log('startDeleteInterest is called');
      const uid = firebase.auth().currentUser.uid;
@@ -64,22 +74,58 @@ export const startDeleteInterest = async (interest) => {
      }
 }
 
-export const startSetTeachSkill = async (skill) => {
-    console.log('startSetTeachSkill is called');
+// Adds to currently authenticated user's user document's teach_skill field in firestore
+export const startAddTeachSkill = async (skill) => {
+    console.log('startAddTeachSkill is called');
     const uid = firebase.auth().currentUser.uid;
     try {
-        const userRef =  database.collection("users").doc(uid);
+        const user = await database.collection("users").doc(uid).get();
+        const index = Object.keys(user.data().teach_skill).length;
+        await database.collection("users").doc(uid).update({
+            [`teach_skill.${index}`]: { ...skill }
+        })
     } catch (e) {
-        console.log("Error in setting teach skill", e);
+        console.log("Error in adding teach skill", e);
     }
 } 
 
-export const startSetLearnSkill = async (skill) => {
-    console.log('startSetLearnSkill is called');
+// Adds to currently authenticated user's user document's learn_skill field in firestore
+export const startAddLearnSkill = async (skill) => {
+    console.log('startAddLearnSkill is called');
     const uid = firebase.auth().currentUser.uid;
     try {
-        const userRef =  database.collection("users").doc(uid);
+        const user = await database.collection("users").doc(uid).get();
+        const index = Object.keys(user.data().learn_skill).length;
+        await database.collection("users").doc(uid).update({
+            [`learn_skill.${index}`]: { ...skill }
+        })
     } catch (e) {
-        console.log("Error in setting learn skill", e);
+        console.log("Error in adding learn skill", e);
+    }
+}
+
+// Updates currently authenticated user's user document's teach_skill field at given index in firestore
+export const startUpdateTeachSkill = async (skill, index) => {
+    console.log('startUpdateTeachSkill is called');
+    const uid = firebase.auth().currentUser.uid; 
+    try {
+        await database.collection("users").doc(uid).update({
+            [`teach_skill.${index}`]: { ...skill }
+        });
+    } catch (e) {
+        console.log("Error updating teach_skill", e);
+    }
+}
+
+// Updates currently authenticated user's user document's learn_skill field at input index in firestore
+export const startUpdateLearnSkill = async (skill, index) => {
+    console.log('startUpdateLearnSkill is called');
+    const uid = firebase.auth().currentUser.uid; 
+    try {
+        await database.collection("users").doc(uid).update({
+            [`learn_skill.${index}`]: { ...skill }
+        });
+    } catch (e) {
+        console.log("Error updating learn_skill", e);
     }
 }

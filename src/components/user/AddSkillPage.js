@@ -1,22 +1,13 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { startUpdateTeachSkill, startUpdateLearnSkill } from '../../actions/user';
+import { startAddTeachSkill, startAddLearnSkill } from '../../actions/user';
 import { history } from '../../routers/AppRouter';
 
-class EditSkillPage extends React.Component {
+class AddSkillPage extends React.Component {
     state = {
-        name: this.props.match.params.type === "teach-skill" 
-            ? this.props.teach_skill[this.props.match.params.index]["name"] 
-            : this.props.learn_skill[this.props.match.params.index]["name"],
-        description: this.props.match.params.type === "teach-skill"
-            ? this.props.teach_skill[this.props.match.params.index]["description"] 
-            : this.props.learn_skill[this.props.match.params.index]["description"],
-        duration: this.props.match.params.type === "teach-skill"
-            ? this.props.teach_skill[this.props.match.params.index]["duration"] 
-            : this.props.learn_skill[this.props.match.params.index]["duration"],
-        price: this.props.match.params.type === "teach-skill"
-            ? this.props.teach_skill[this.props.match.params.index]["price"] 
-            : this.props.learn_skill[this.props.match.params.index]["price"],
+        name: '',
+        description: '',
+        duration: 30,
+        price: 0
     }
     onNameChange = (e) => {
         const name = e.target.value;
@@ -36,21 +27,19 @@ class EditSkillPage extends React.Component {
     }
     onSubmit = async (e) => {
         e.preventDefault();
-        const { type, index } = this.props.match.params;
-        if (type === 'teach-skill') {
-            await startUpdateTeachSkill(this.state, index);
-        } 
-        else if (type === 'learn-skill') {
-            await startUpdateLearnSkill(this.state, index);
+        if (this.props.match.params.type === 'teach-skill') {
+            await startAddTeachSkill(this.state);
+        } else if (this.props.match.params.type === 'learn-skill') {
+            await startAddLearnSkill(this.state);
         }
         history.push("/profile/edit");
     }
     render() {
-        const { type } = this.props.match.params.type;
+        const { type } = this.props.match.params;
         const type_name = type === "teach-skill" ? "Offering" : "Ask";
         return (
             <form onSubmit={this.onSubmit}>
-                <h1> Edit {type_name} Skill Page </h1>
+                <h1> Add {type_name} Skill Page </h1>
                 <div>
                     <h3> Skill Name </h3>
                     <input
@@ -95,9 +84,4 @@ class EditSkillPage extends React.Component {
     };
 };
 
-const mapStateToProps = (state) => ({
-    teach_skill: state.user.teach_skill,
-    learn_skill: state.user.learn_skill
-})
-
-export default connect(mapStateToProps)(EditSkillPage);
+export default AddSkillPage;

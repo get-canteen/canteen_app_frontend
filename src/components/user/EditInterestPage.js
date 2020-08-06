@@ -1,20 +1,25 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { startAddInterest, startDeleteInterest } from '../../actions/user';
+import { history } from '../../routers/AppRouter';
 
 class EditInterestPage extends React.Component {
     state = {
         interest: ''
-    }
+    };
     onChange = (e) => {
         const interest = e.target.value;
         this.setState({ interest });
     }
-    onClickAdd = () => {
-        this.props.addInterest(this.state.interest);
+    onClickAdd = (e) => {
+        e.preventDefault();
+        startAddInterest(this.state.interest);
     }
     onClickX = (interest) => {
-        this.props.deleteInterest(interest);
+        startDeleteInterest(interest);
+    }
+    onClickDone = () => {
+        history.push("/profile/edit");
     }
     render() {
         return (
@@ -35,6 +40,7 @@ class EditInterestPage extends React.Component {
                         </div>
                     )) }
                 </div>
+                <button onClick={onClickDone}> Done </button>
             </div>
         );
     };
@@ -44,9 +50,4 @@ const mapStateToProps = (state) => ({
     interests: state.user.interests
 })
 
-const mapDispatchToProps = (dispatch) => ({
-    addInterest: (interest) => dispatch(startAddInterest(interest)),
-    deleteInterest: (interest) => dispatch(startDeleteInterest(interest))
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(EditInterestPage);
+export default connect(mapStateToProps)(EditInterestPage);

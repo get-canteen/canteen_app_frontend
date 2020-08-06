@@ -2,12 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { startEditUserDocument } from '../../actions/user';
+import { history } from '../../routers/AppRouter';
 
 class EditProfilePage extends React.Component {
     state = {
-        display_name: '',
-        title: '',
-        about: ''
+        display_name: this.props.user.display_name ? this.props.user.display_name : '',
+        title: this.props.user.title ? this.props.user.title : '',
+        about: this.props.user.about ? this.props.user.about : ''
     }
     onNameChange = (e) => {
         const display_name = e.target.value;
@@ -21,10 +22,11 @@ class EditProfilePage extends React.Component {
         const about = e.target.value;
         this.setState(() => ({ about }));
     }
-    onSubmit = (e) => {
+    onSubmit = async (e) => {
         e.preventDefault();
         console.log('onSubmit is called...')
-        this.props.startEditUserDocument(this.state);
+        await startEditUserDocument(this.state);
+        history.push("/profile");
     }
     render() {
         return (
@@ -75,30 +77,30 @@ class EditProfilePage extends React.Component {
                     <h3> Offerings </h3>
                     <div>
                         {Object.values(this.props.user.teach_skill).map((skill, i) => (
-                            <div key={i} type="teach">
-                                <Link to={`/profile/edit/teach_skill/${i}`}>
-                                    <p> {skill.name} </p>
+                            <div key={i}>
+                                <Link to={`/profile/edit/teach-skill/${i}`}>
+                                    <p> {i+1}. {skill.name} </p>
                                     <p> {skill.description} </p>
                                     <p> ${skill.price} / {skill.duration} minutes </p>
                                 </Link>
                             </div>
                         ))}
-                        <Link to="/profile/add/skill"> Add Offering </Link>
+                        <Link to="/profile/add/teach-skill"> <h3> Add Offering </h3> </Link>
                     </div>
                 </div>
                 <div>
                     <h3> Asks </h3>
                     <div>
                         {Object.values(this.props.user.learn_skill).map((skill, i) => (
-                            <div key={i} type="learn">
-                                <Link to={`/profile/edit/learn_skill/${i}`}>
-                                    <p> {skill.name} </p>
+                            <div key={i}>
+                                <Link to={`/profile/edit/learn-skill/${i}`}>
+                                    <p> {i+1}. {skill.name} </p>
                                     <p> {skill.description} </p>
                                     <p> ${skill.price} / {skill.duration} minutes </p>
                                 </Link>
                             </div>
                         ))}
-                        <Link to="/profile/add/skill"> Add Ask </Link>
+                        <Link to="/profile/add/learn-skill"> <h3> Add Ask </h3> </Link>
                     </div>
                 </div>
                 <br></br>
@@ -113,8 +115,4 @@ const mapStateToProps = (state) => ({
     user: state.user
 })
 
-const mapDispatchToProps = (dispatch) => ({
-    startEditUserDocument: (updates) => dispatch(startEditUserDocument(updates))
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(EditProfilePage);
+export default connect(mapStateToProps)(EditProfilePage);

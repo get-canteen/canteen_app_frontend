@@ -5,7 +5,7 @@ import { startLogout } from '../../actions/auth';
 
 export const Navbar = ({ startLogout }) => (
     <div>
-        <Link to="/home"> Home </Link>
+        <Link to="/profile"> Home </Link>
         <Link to="/search"> Search </Link>
         <Link to="/messages"> Messages </Link>
         <Link to="/notifications"> Notifications </Link>

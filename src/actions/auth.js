@@ -11,6 +11,9 @@ import {
     LOGOUT_ERROR,
     SEND_PASSWORD_RESET_EMAIL
 } from './types';
+import { renderApp } from '../index';
+import { history } from '../routers/AppRouter';
+import { startAddUserDocument } from './user';
 
 export const requestSignup = () => ({
     type: SIGNUP_REQUEST
@@ -57,54 +60,95 @@ export const sendPasswordResetEmail = () => ({
     type: SEND_PASSWORD_RESET_EMAIL
 })
 
-export const startLoginWithEmailAndPassword = (email, password) => dispatch => {
+export const startLoginWithEmailAndPassword = (email, password) => async (dispatch) => {
     console.log('startLoginWithEmailAndPassword is called');
     dispatch(requestLogin());
-    firebase
-        .auth()
-        .signInWithEmailAndPassword(email, password)
-        .catch((e) => {
-            dispatch(loginError(e));
-        });
+    try {
+        const res = await firebase.auth().signInWithEmailAndPassword(email, password);
+        const user = res.user;
+        dispatch(receiveLogin(user));
+        // await verifyAuthStateChange();
+    } catch (e) {
+        dispatch(loginError(e));
+    }
 };
 
-export const startCreateUserWithEmailAndPassword = (email, password) => dispatch => {
+export const startCreateUserWithEmailAndPassword = (email, password) => async (dispatch) => {
     console.log('startCreateUserWithEmailAndPassword is called');
     dispatch(requestSignup());
-    firebase
-        .auth()
-        .createUserWithEmailAndPassword(email, password)
-        .then((result) => {
-            const user = result.user;
-            dispatch(receiveSignup(user));
-        })
-        .catch((e) => {
-            dispatch(signupError(e));
-        })
+    try {
+        const res = await firebase.auth().createUserWithEmailAndPassword(email, password);
+        const user = res.user;
+        dispatch(receiveSignup(user));
+        const userDoc = {
+            about: '',
+            avaliability: {},
+            // creation_time: '',
+            display_name: '',
+            email: '',
+            interests: [],
+            is_anonymous: false,
+            is_email_verfied: false,
+            // last_sign_in_time: '',
+            learn_skill: {},
+            onboarded: 1,
+            phone_number: null,
+            photo_url: '',
+            provider_id: "Firebase",
+            teach_skill: {},
+            time_zone: null,
+            title: ''
+        };
+        await startAddUserDocument(userDoc);
+        // await verifyAuthStateChange();
+    } catch (e) {
+        dispatch(signupError(e));
+    }
 }
 
-export const startLogout = () => dispatch => {
+export const startLogout = () => async (dispatch) => {
     console.log('startLogout is called');
     dispatch(requestLogout());
-    firebase
-        .auth()
-        .signOut()
-        .catch((e) => {
-            dispatch(logoutError(e))
-        });
+    try {
+        await firebase.auth().signOut();
+        dispatch(receiveLogout());
+        // await verifyAuthStateChange();
+    } catch (e) {
+        dispatch(logoutError(e))
+    }
 };
 
+// export const verifyAuthStateChange = () => async (dispatch) => {
+//     console.log("verifyAuthStateChange is called");
+//     try {
+//         const user = firebase.auth().onAuthStateChanged();
+//         if (user) { // User is signed in.
+//             console.log('log in');
+//             const uid = user.uid;
+//             dispatch(receiveLogin(user)) // Lets redux know user is now authenticated and stores uid of currently authenticated user
+//             dispatch(startFetchUserDocument(uid)) // Fetch user document from firestore using uid and set to store
+//             await renderApp();
+//             if (history.location.pathname === '/' || history.location.pathname === '/signup') { 
+//                 history.push('/profile'); // Redirect to profile page
+//             }
+//         } else {
+//             console.log('log out');
+//             dispatch(receiveLogout());
+//             renderApp();
+//             history.push('/'); // Redirect to login page
+//         }
+//     } catch (e) {
+//         dispatch(loginError(e));
+//     }
+// }
 
-export const startSendPasswordResetEmail = (email) => dispatch => {
+export const startSendPasswordResetEmail = (email) => async (dispatch) => {
     console.log('startSendPasswordResetEmail is called');
-    firebase
-        .auth()
-        .sendPasswordResetEmail(email)
-        .then(() => {
-            dispatch(sendPasswordResetEmail());
-        })
-        .catch((e) => {
-            dispatch(loginError(e));
-        });
+    try {
+        await firebase.auth().sendPasswordResetEmail(email);
+        dispatch(sendPasswordResetEmail());
+    } catch (e) {
+        dispatch(loginError(e));
+    }
 };
 
