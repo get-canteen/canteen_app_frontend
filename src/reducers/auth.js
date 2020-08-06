@@ -11,7 +11,6 @@ import {
     SEND_PASSWORD_RESET_EMAIL
 } from '../actions/types';
 
-
 const authReducersDefaultState = {
     user: null,
     isSigningUp: false,

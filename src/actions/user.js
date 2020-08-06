@@ -22,7 +22,6 @@ export const startFetchUserDocument = (uid) => async (dispatch) => {
 // When new user is created, we need to add a new user document to the users collection within firestore.
 export const startAddUserDocument = async (uid, userDoc) => {
     console.log('startAddUserDocument is called');
-    // const uid = firebase.auth().currentUser.uid; 
     try {
         await database.collection("users").doc(uid).set(userDoc)
         console.log('User doc is successfully added to firestore');
