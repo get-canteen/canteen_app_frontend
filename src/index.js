@@ -48,6 +48,8 @@ firebase.auth().onAuthStateChanged( async (user) => {
                     onboarded: 1,
                     teach_skill: {},
                     time_zone: null,
+                    // created_on: null,
+                    // last_updated: null
                 };
                 await startAddUserDocument(user.uid, userDoc);
             } 

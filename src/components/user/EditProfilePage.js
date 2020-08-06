@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { startEditUserDocument } from '../../actions/user';
+import { startEditUserDocument, startDeleteLearnSkill, startDeleteTeachSkill } from '../../actions/user';
 import { history } from '../../routers/AppRouter';
 
 class EditProfilePage extends React.Component {
@@ -24,9 +24,14 @@ class EditProfilePage extends React.Component {
     }
     onSubmit = async (e) => {
         e.preventDefault();
-        console.log('onSubmit is called...')
         await startEditUserDocument(this.state);
         history.push("/profile");
+    }
+    onDeleteTeachSkill = (i) => {
+        startDeleteTeachSkill(i);
+    }
+    onDeleteLearnSkill = (i) => {
+        startDeleteLearnSkill(i);
     }
     render() {
         return (
@@ -83,6 +88,7 @@ class EditProfilePage extends React.Component {
                                     <p> {skill.description} </p>
                                     <p> ${skill.price} / {skill.duration} minutes </p>
                                 </Link>
+                                <button type="button" onClick={() => this.onDeleteTeachSkill(i)}> X </button>
                             </div>
                         ))}
                         <Link to="/profile/add/teach-skill"> <h3> Add Offering </h3> </Link>
@@ -98,13 +104,14 @@ class EditProfilePage extends React.Component {
                                     <p> {skill.description} </p>
                                     <p> ${skill.price} / {skill.duration} minutes </p>
                                 </Link>
+                                <button type="button" onClick={() => this.onDeleteLearnSkill(i)}> X </button>
                             </div>
                         ))}
                         <Link to="/profile/add/learn-skill"> <h3> Add Ask </h3> </Link>
                     </div>
                 </div>
                 <br></br>
-                <button> Save </button>
+                <button type="submit"> Save </button>
             </form>
         </div>
         );

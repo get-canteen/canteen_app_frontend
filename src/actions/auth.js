@@ -11,9 +11,6 @@ import {
     LOGOUT_ERROR,
     SEND_PASSWORD_RESET_EMAIL
 } from './types';
-import { renderApp } from '../index';
-import { history } from '../routers/AppRouter';
-import { startAddUserDocument, startFetchUserDocument } from './user';
 
 export const requestSignup = () => ({
     type: SIGNUP_REQUEST
@@ -89,11 +86,12 @@ export const startLogout = () => (dispatch) => {
 
 export const startSendPasswordResetEmail = (email) => async (dispatch) => {
     console.log('startSendPasswordResetEmail is called');
-    try {
-        await firebase.auth().sendPasswordResetEmail(email);
-        dispatch(sendPasswordResetEmail());
-    } catch (e) {
-        dispatch(loginError(e));
-    }
+    firebase.auth().sendPasswordResetEmail(email)
+        .then(() => {
+            dispatch(sendPasswordResetEmail());
+        })
+        .catch((e) => {
+            dispatch(loginError(e));
+        })
 };
 

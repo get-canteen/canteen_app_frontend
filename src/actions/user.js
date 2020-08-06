@@ -113,12 +113,12 @@ export const startAddLearnSkill = async (skill) => {
 }
 
 // Updates currently authenticated user's user document's teach_skill field at given index in firestore
-export const startUpdateTeachSkill = async (skill, index) => {
+export const startUpdateTeachSkill = async (skillData, index) => {
     console.log('startUpdateTeachSkill is called');
     const uid = firebase.auth().currentUser.uid; 
     try {
         await database.collection("users").doc(uid).update({
-            [`teach_skill.${index}`]: { ...skill }
+            [`teach_skill.${index}`]: { ...skillData }
         });
     } catch (e) {
         console.log("Error updating teach_skill", e);
@@ -126,14 +126,38 @@ export const startUpdateTeachSkill = async (skill, index) => {
 }
 
 // Updates currently authenticated user's user document's learn_skill field at input index in firestore
-export const startUpdateLearnSkill = async (skill, index) => {
+export const startUpdateLearnSkill = async (skillData, index) => {
     console.log('startUpdateLearnSkill is called');
     const uid = firebase.auth().currentUser.uid; 
     try {
         await database.collection("users").doc(uid).update({
-            [`learn_skill.${index}`]: { ...skill }
+            [`learn_skill.${index}`]: { ...skillData }
         });
     } catch (e) {
-        console.log("Error updating learn_skill", e);
+        console.log("Error updating learn skill", e);
     }
+}
+
+export const startDeleteTeachSkill = async (index) => {
+    console.log('startDeleteTeachSkill is called');
+    // const uid = firebase.auth().currentUser.uid; 
+    // try {
+    //     await database.collection("users").doc(uid).update({
+    //         [`teach_skill.${index}`]: FieldValue.delete()
+    //     });
+    // } catch (e) {
+    //     console.log("Error deleting teach skill");
+    // }
+}
+
+export const startDeleteLearnSkill = async (index) => {
+    console.log('startDeleteLearnSkill is called');
+    // const uid = firebase.auth().currentUser.uid; 
+    // try {
+    //     await database.collection("users").doc(uid).update({
+    //         [`learn_skill.${index}`]: FieldValue.delete()
+    //     })
+    // } catch (e) {
+    //     console.log("Error deleting learn skill");
+    // }
 }
