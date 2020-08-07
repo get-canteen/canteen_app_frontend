@@ -1,4 +1,5 @@
 import React from 'react';
+import Modal from 'react-modal';
 import { connect } from 'react-redux';
 import { firebase } from '../../../firebase/firebase';
 import styled from 'styled-components';
@@ -15,7 +16,9 @@ const StyledLabel = styled.label`
     cursor: pointer;
 `;
 
-class EditPhotoPage extends React.Component {
+const StyledModal = styled(Modal)``;
+
+class EditPhotoModal extends React.Component {
     state = {
         image: null,
         url: "" 
@@ -29,7 +32,6 @@ class EditPhotoPage extends React.Component {
     onClickUpload = () => {
         console.log("onClickUpload is called");
         const { image } = this.state;
-        console.log("image", image);
         const uid = firebase.auth().currentUser.uid;
         const storageRef = firebase.storage().ref();
         const uploadTask = storageRef.child(`profile_image/${uid}/${image.name}`).put(image);
@@ -58,9 +60,23 @@ class EditPhotoPage extends React.Component {
     }
     render() {
         return (
-            <div>
-                <h1> Edit Photo Page </h1>
-                <img src={this.props.user.photo_url || "https://www.timeshighereducation.com/sites/default/files/default_images/default-avatar_1.png"} alt="uploaded profile pic" height="100" width="80"/>
+            <Modal
+                isOpen={this.props.showModal}
+                contentLabel="Edit Photo Modal"
+                portalClassName={"ReactModalPortal"}
+                overlayClassName={"ReactModal__Overlay"}
+                bodyOpenClassName={"ReactModal__Body--open"}
+                shouldFocusAfterRender={true}
+                style={{
+                    overlay: {},
+                    content: {}
+                }}
+                shouldCloseOnOverlayClick={true}
+                shouldCloseOnEsc={true}
+            >
+                <button onClick={this.props.handleCloseModal}> X </button>
+                <h1> Edit Photo Modal </h1>
+                <img src={this.props.user.photo_url} alt="uploaded profile pic" height="100" width="80"/>
                 <br/>
                 <StyledLabel>
                     <StyledInput type="file" onChange={this.onChangeFile}/>
@@ -68,7 +84,7 @@ class EditPhotoPage extends React.Component {
                 </StyledLabel>
                 <br/>
                 <button onClick={this.onClickUpload}> Apply </button>
-            </div>
+            </Modal>
         )
     }
 }
@@ -77,4 +93,4 @@ const mapStateToProps = state => ({
     user: state.user
 });
 
-export default connect(mapStateToProps)(EditPhotoPage);
+export default connect(mapStateToProps)(EditPhotoModal);

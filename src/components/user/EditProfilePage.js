@@ -3,16 +3,21 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { startEditUserDocument, startDeleteLearnSkill, startDeleteTeachSkill } from '../../actions/user';
 import { history } from '../../routers/AppRouter';
+import EditPhotoModal from './EditPhotoModal';
 
 class EditProfilePage extends React.Component {
     state = {
         display_name: this.props.user.display_name ? this.props.user.display_name : '',
         title: this.props.user.title ? this.props.user.title : '',
-        about: this.props.user.about ? this.props.user.about : ''
+        about: this.props.user.about ? this.props.user.about : '',
+        showModal: false
     }
-    onClickPlus = () => {
-        console.log('redirect to EditPhotoPage');
-        history.push("/profile/edit/photo");
+    handleOpenModal = () => {
+        console.log('open EditPhotoModal');
+        this.setState({ showModal: true });
+    }
+    handleCloseModal = () => {
+        this.setState({ showModal: false });
     }
     onNameChange = (e) => {
         const display_name = e.target.value;
@@ -28,7 +33,12 @@ class EditProfilePage extends React.Component {
     }
     onSubmit = async (e) => {
         e.preventDefault();
-        await startEditUserDocument(this.state);
+        const { display_name, title, about } = this.state;
+        await startEditUserDocument({
+            display_name,
+            title,
+            about
+        });
         history.push("/profile");
     }
     onDeleteTeachSkill = (i) => {
@@ -44,7 +54,7 @@ class EditProfilePage extends React.Component {
             <form onSubmit={this.onSubmit}>
                 <div>
                     <img src={this.props.user.photo_url} alt="user-photo" width="80px" height="100px"/>
-                    <button type="button" onClick={this.onClickPlus}> + </button>
+                    <button type="button" onClick={this.handleOpenModal}> + </button>
                 </div>
                 <div>
                     <h3> Name </h3>
@@ -121,6 +131,10 @@ class EditProfilePage extends React.Component {
                 <br></br>
                 <button type="submit"> Save </button>
             </form>
+            <EditPhotoModal
+                showModal={this.state.showModal}
+                handleCloseModal={this.handleCloseModal}
+            />
         </div>
         );
     };
