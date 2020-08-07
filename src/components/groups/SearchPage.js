@@ -1,10 +1,10 @@
 import React from 'react';
-import GroupList from './GroupsList';
+import GroupsList from './GroupsList';
 
 const SearchPage = () => (
     <div>
         <h1> Search Page </h1>
-        <GroupList/>
+        <GroupsList/>
     </div>
 );
 

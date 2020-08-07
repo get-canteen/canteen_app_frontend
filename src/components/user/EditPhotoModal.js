@@ -67,6 +67,7 @@ class EditPhotoModal extends React.Component {
                 overlayClassName={"ReactModal__Overlay"}
                 bodyOpenClassName={"ReactModal__Body--open"}
                 shouldFocusAfterRender={true}
+                ariaHideApp={false}
                 style={{
                     overlay: {},
                     content: {}
