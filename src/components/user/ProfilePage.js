@@ -6,10 +6,10 @@ const ProfilePage = ({ user }) => {
     return (
     <div>
         <h1> Profile Page </h1>
-        <Link to="/profile/edit"> <h3> Edit </h3> </Link>
         { user ? 
             <div>
-                <img src={user.photo_url} alt="user-photo" width="50px" height="60px"/>
+                <Link to="/profile/edit"> <h3> Edit Profile </h3> </Link>
+                <img src={user.photo_url} alt="user-photo" width="80px" height="100px"/>
                 <h3> {user.display_name} </h3> 
                 <h4> {user.title} </h4>
                 <p> {user.about} </p>

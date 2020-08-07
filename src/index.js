@@ -1,5 +1,3 @@
-// Provider - allows us to provide the store to all of the components that make up my app
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux'; 

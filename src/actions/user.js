@@ -1,7 +1,7 @@
 import database, { firebase } from '../../firebase/firebase';
 import { SET_USER_DOCUMENT } from './types';
 
-// This will be our only user redux action object that gets dispatched to the user reducer 
+// This is our only redux action object within user file that gets dispatched to the user reducer 
 export const setUserDocument = (data) => ({
     type: SET_USER_DOCUMENT,
     userData: data
@@ -161,6 +161,18 @@ export const startDeleteLearnSkill = async (index) => {
     try {
         await database.collection("users").doc(uid).update({
             [`learn_skill.${index}`]: firebase.firestore.FieldValue.delete()
+        })
+    } catch (e) {
+        console.log("Error deleting learn skill");
+    }
+}
+
+export const startUpdateProfilePhoto = async (url) => {
+    console.log('startUpdateUserProfilePhoto is called');
+    const uid = firebase.auth().currentUser.uid; 
+    try {
+        await database.collection("users").doc(uid).update({
+            photo_url: url
         })
     } catch (e) {
         console.log("Error deleting learn skill");

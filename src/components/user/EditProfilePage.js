@@ -10,6 +10,10 @@ class EditProfilePage extends React.Component {
         title: this.props.user.title ? this.props.user.title : '',
         about: this.props.user.about ? this.props.user.about : ''
     }
+    onClickPlus = () => {
+        console.log('redirect to EditPhotoPage');
+        history.push("/profile/edit/photo");
+    }
     onNameChange = (e) => {
         const display_name = e.target.value;
         this.setState(() => ({ display_name }));
@@ -38,6 +42,10 @@ class EditProfilePage extends React.Component {
         <div>
             <h1> Edit Profile Page </h1>
             <form onSubmit={this.onSubmit}>
+                <div>
+                    <img src={this.props.user.photo_url} alt="user-photo" width="80px" height="100px"/>
+                    <button type="button" onClick={this.onClickPlus}> + </button>
+                </div>
                 <div>
                     <h3> Name </h3>
                     <input
