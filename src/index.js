@@ -6,7 +6,6 @@ import AppRouter, { history } from './routers/AppRouter';
 import { firebase } from '../firebase/firebase';
 import { receiveLogin, receiveLogout, receiveSignup } from './actions/auth';
 import { startFetchUserDocument, startAddUserDocument } from './actions/user';
-// import { startFetchMatches, startFetchMessages } from './actions/matches';
 
 const store = configureStore(); 
 
@@ -61,7 +60,7 @@ firebase.auth().onAuthStateChanged( async (user) => {
             // Fetch user document from firestore and set to redux store
             await store.dispatch(startFetchUserDocument());
             // Fetch groups subcollection in user document from firestore and set to store
-            
+
             // Render app with newly fetched user document data
             renderApp();
             // Redirect to profile page

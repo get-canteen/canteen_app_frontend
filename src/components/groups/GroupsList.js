@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { startFetchGroups } from '../../actions/groups';
+import { startFetchAllGroups } from '../../actions/groups';
 
 class GroupsList extends React.Component {
     componentDidMount() {
-        this.props.startFetchGroups();
+        this.props.startFetchAllGroups();
     }
     render() {
         console.log("groups: ", this.props.groups);
@@ -46,7 +46,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    startFetchGroups: () => dispatch(startFetchGroups())
+    startFetchAllGroups: () => dispatch(startFetchAllGroups())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(GroupsList);
