@@ -6,6 +6,7 @@ import AppRouter, { history } from './routers/AppRouter';
 import { firebase } from '../firebase/firebase';
 import { receiveLogin, receiveLogout, receiveSignup } from './actions/auth';
 import { startFetchUserDocument, startAddUserDocument } from './actions/user';
+// import { startFetchMatches, startFetchMessages } from './actions/matches';
 
 const store = configureStore(); 
 
@@ -37,7 +38,7 @@ firebase.auth().onAuthStateChanged( async (user) => {
                 const userDoc = {
                     email: user.email,
                     display_name: user.displayName,
-                    photo_url: user.photoURL,
+                    photo_url: user.photoURL || "../public/images/anonymous.png",
                     is_anonymous: user.isAnonymous,
                     is_email_verfied: user.emailVerified,
                     phone_number: user.phoneNumber,
@@ -52,13 +53,15 @@ firebase.auth().onAuthStateChanged( async (user) => {
                     time_zone: null
                 };
                 // Add user document to users collection in firestore
-                await startAddUserDocument(user.uid, userDoc);
+                await startAddUserDocument(userDoc);
             } 
             console.log('log in');
             // Let redux store know user was able to successfully login
             store.dispatch(receiveLogin(user)) 
-            // Fetch user document from firestore using input uid and set to redux store
-            await store.dispatch(startFetchUserDocument(uid))
+            // Fetch user document from firestore and set to redux store
+            await store.dispatch(startFetchUserDocument());
+            // Fetch groups subcollection in user document from firestore and set to store
+            
             // Render app with newly fetched user document data
             renderApp();
             // Redirect to profile page

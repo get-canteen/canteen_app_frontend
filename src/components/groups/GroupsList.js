@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { startFetchGroups } from '../../actions/groups';
 
 class GroupsList extends React.Component {
@@ -15,14 +16,21 @@ class GroupsList extends React.Component {
                 <div>
                     <h3> Popular Groups </h3>
                     {this.props.groups.map((group, i) => (
-                        <div key={i}>
-                            <img src={group.photo_url} width="80px" height="80px"/>
-                            <p> {i+1}. {group.name} </p>
-                            <p> {group.type.charAt(0).toUpperCase() + group.type.slice(1) + " Group"} </p>
-                            <p> {group.description} </p>
-                            <p> {group.members + " members"} </p>
+                        <Link 
+                            key={group[0]} 
+                            to={{
+                                pathname: `/group/${group[0]}`,
+                                state: { group }
+                            }} 
+                            style={{ textDecoration: 'none' }}
+                        >
+                            <img src={group[1].photo_url} width="80px" height="80px"/>
+                            <p> {i+1}. {group[1].name} </p>
+                            <p> {group[1].type.charAt(0).toUpperCase() + group[1].type.slice(1) + " Group"} </p>
+                            <p> {group[1].description} </p>
+                            <p> {group[1].members + " members"} </p>
                             <p> </p>
-                        </div>
+                        </Link>
                     ))}
                 </div>
                 <div>

@@ -85,7 +85,10 @@ class EditProfilePage extends React.Component {
                 </div>
                 <div>
                     <h3> Interests </h3>
-                    <Link to="/profile/edit/interest"> 
+                    <Link 
+                        to="/profile/edit/interest" 
+                        style={{ textDecoration: 'none' }}
+                    > 
                     {
                         this.props.user.interests.length ? 
                         <div>
@@ -101,7 +104,10 @@ class EditProfilePage extends React.Component {
                     <div>
                         {Object.values(this.props.user.teach_skill).map((skill, i) => (
                             <div key={i}>
-                                <Link to={`/profile/edit/teach-skill/${i}`}>
+                                <Link 
+                                    to={`/profile/edit/teach-skill/${i}`}
+                                    style={{ textDecoration: 'none' }}
+                                >
                                     <p> {i+1}. {skill.name} </p>
                                     <p> {skill.description} </p>
                                     <p> ${skill.price} / {skill.duration} minutes </p>
@@ -109,7 +115,12 @@ class EditProfilePage extends React.Component {
                                 <button type="button" onClick={() => this.onDeleteTeachSkill(i)}> X </button>
                             </div>
                         ))}
-                        <Link to="/profile/add/teach-skill"> <h3> Add Offering </h3> </Link>
+                        <Link 
+                            to="/profile/add/teach-skill" 
+                            style={{ textDecoration: 'none' }}
+                        > 
+                            <h3> Add Offering </h3> 
+                        </Link>
                     </div>
                 </div>
                 <div>
@@ -117,7 +128,10 @@ class EditProfilePage extends React.Component {
                     <div>
                         {Object.values(this.props.user.learn_skill).map((skill, i) => (
                             <div key={i}>
-                                <Link to={`/profile/edit/learn-skill/${i}`}>
+                                <Link 
+                                    to={`/profile/edit/learn-skill/${i}`}
+                                    style={{ textDecoration: 'none' }}
+                                >
                                     <p> {i+1}. {skill.name} </p>
                                     <p> {skill.description} </p>
                                     <p> ${skill.price} / {skill.duration} minutes </p>
@@ -125,7 +139,12 @@ class EditProfilePage extends React.Component {
                                 <button type="button" onClick={() => this.onDeleteLearnSkill(i)}> X </button>
                             </div>
                         ))}
-                        <Link to="/profile/add/learn-skill"> <h3> Add Ask </h3> </Link>
+                        <Link 
+                            to="/profile/add/learn-skill" 
+                            style={{ textDecoration: 'none' }}
+                        > 
+                            <h3> Add Ask </h3> 
+                        </Link>
                     </div>
                 </div>
                 <br></br>

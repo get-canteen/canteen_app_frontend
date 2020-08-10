@@ -16,8 +16,6 @@ const StyledLabel = styled.label`
     cursor: pointer;
 `;
 
-const StyledModal = styled(Modal)``;
-
 class EditPhotoModal extends React.Component {
     state = {
         image: null,

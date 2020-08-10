@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Router, Route, Switch } from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 
 import PublicRoute from '../routers/PublicRoute';
@@ -14,6 +14,7 @@ import EditInterestPage from '../components/user/EditInterestPage';
 import AddSkillPage from '../components/user/AddSkillPage';
 import EditSkillPage from '../components/user/EditSkillPage';
 import SearchPage from '../components/groups/SearchPage';
+import GroupPage from '../components/groups/GroupPage';
 import MessagesPage from '../components/messages/MessagesPage';
 import NotificationsPage from '../components/notifications/NotificationsPage';
 
@@ -32,6 +33,7 @@ const AppRouter = () => (
             <PrivateRoute path="/profile/add/:type" component={AddSkillPage}/> 
             <PrivateRoute path="/profile/edit/:type/:index" component={EditSkillPage}/> 
             <PrivateRoute path="/search" component={SearchPage}/>
+            <PrivateRoute path="/group/:id" component={GroupPage}/>
             <PrivateRoute path="/messages" component={MessagesPage}/>
             <PrivateRoute path="/notifications" component={NotificationsPage}/>
             <Route component={NotFoundPage}/>

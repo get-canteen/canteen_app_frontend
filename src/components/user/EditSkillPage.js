@@ -46,7 +46,7 @@ class EditSkillPage extends React.Component {
         history.push("/profile/edit");
     }
     render() {
-        const { type } = this.props.match.params.type;
+        const { type } = this.props.match.params;
         const type_name = type === "teach-skill" ? "Offering" : "Ask";
         return (
             <form onSubmit={this.onSubmit}>

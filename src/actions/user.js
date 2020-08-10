@@ -8,8 +8,9 @@ export const setUserDocument = (data) => ({
 })
 
 // Listens to realtime updates on user's users document. Every time user document is updated in firestore, set updated data to redux store  
-export const startFetchUserDocument = (uid) => async (dispatch) => {
+export const startFetchUserDocument = () => async (dispatch) => {
     console.log('startFetchUserDocument is called');
+    const uid = firebase.auth().currentUser.uid; 
     try {
         await database.collection("users").doc(uid).onSnapshot((doc) => {
             console.log("Current user document: ", doc.data());
@@ -21,8 +22,9 @@ export const startFetchUserDocument = (uid) => async (dispatch) => {
 }
 
 // When new user is created, we need to add a new user document to the users collection within firestore.
-export const startAddUserDocument = async (uid, userDoc) => {
+export const startAddUserDocument = async (userDoc) => {
     console.log('startAddUserDocument is called');
+    const uid = firebase.auth().currentUser.uid; 
     try {
         await database.collection("users").doc(uid).set(userDoc)
         console.log('User doc is successfully added to firestore');
