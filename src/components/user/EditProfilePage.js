@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { startEditUserDocument, startDeleteLearnSkill, startDeleteTeachSkill } from '../../actions/user';
+import { startEditUserDocument, startUpdateUserDetails, startDeleteLearnSkill, startDeleteTeachSkill } from '../../actions/user';
 import { history } from '../../routers/AppRouter';
 import EditPhotoModal from './EditPhotoModal';
 
@@ -34,7 +34,12 @@ class EditProfilePage extends React.Component {
     onSubmit = async (e) => {
         e.preventDefault();
         const { display_name, title, about } = this.state;
-        await startEditUserDocument({
+        // await startEditUserDocument({
+        //     display_name,
+        //     title,
+        //     about
+        // });
+        await startUpdateUserDetails({
             display_name,
             title,
             about

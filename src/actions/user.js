@@ -180,3 +180,15 @@ export const startUpdateProfilePhoto = async (url) => {
         console.log("Error deleting learn skill");
     }
 }
+
+// example firestore cloud function 
+export const startUpdateUserDetails = (details) => {
+    let updateUserDetails = firebase.functions().httpsCallable('updateUserDetails');
+    updateUserDetails(details)
+    .then((result) => {
+        console.log(result.data, "is successfully updated in firestore");
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+}
