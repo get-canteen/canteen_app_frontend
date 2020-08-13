@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { startUpdateTeachSkill, startUpdateLearnSkill } from '../../actions/user';
+import { updateTeachSkill, updateLearnSkill } from '../../actions/user';
 import { history } from '../../routers/AppRouter';
 
 class EditSkillPage extends React.Component {
@@ -38,10 +38,10 @@ class EditSkillPage extends React.Component {
         e.preventDefault();
         const { type, index } = this.props.match.params;
         if (type === 'teach-skill') {
-            await startUpdateTeachSkill(this.state, index);
+            await updateTeachSkill(this.state, index);
         } 
         else if (type === 'learn-skill') {
-            await startUpdateLearnSkill(this.state, index);
+            await updateLearnSkill(this.state, index);
         }
         history.push("/profile/edit");
     }

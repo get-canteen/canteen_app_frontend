@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { startAddInterest, startDeleteInterest } from '../../actions/user';
+import { addInterest, deleteInterest } from '../../actions/user';
 import { history } from '../../routers/AppRouter';
 
 class EditInterestPage extends React.Component {
@@ -13,10 +13,10 @@ class EditInterestPage extends React.Component {
     }
     onClickAdd = (e) => {
         e.preventDefault();
-        startAddInterest(this.state.interest);
+        addInterest(this.state.interest);
     }
     onClickX = (interest) => {
-        startDeleteInterest(interest);
+        deleteInterest(interest);
     }
     onClickDone = () => {
         history.push("/profile/edit");

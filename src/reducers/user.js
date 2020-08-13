@@ -1,5 +1,6 @@
 import {
-    SET_USER_DOCUMENT
+    SET_USER_DOCUMENT,
+    SET_USER_GROUPS
 } from '../actions/types';
 
 const defaultUserState = {
@@ -10,7 +11,8 @@ const defaultUserState = {
     interests: [],
     learn_skill: {},
     teach_skill : {},
-    avaliability: {}
+    avaliability: {},
+    groups: {}
 }
 
 export default (state = defaultUserState, action) => {
@@ -19,6 +21,11 @@ export default (state = defaultUserState, action) => {
             return {
                 ...state,
                 ...action.userData
+            }
+        case SET_USER_GROUPS:
+            return {
+                ...state,
+                groups: action.groups
             }
         default:
             return state;

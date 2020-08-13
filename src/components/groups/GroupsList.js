@@ -6,16 +6,16 @@ import { startFetchAllGroups } from '../../actions/groups';
 class GroupsList extends React.Component {
     componentDidMount() {
         this.props.startFetchAllGroups();
+        console.log("all groups: ", this.props.allGroups);
     }
     render() {
-        console.log("groups: ", this.props.groups);
         return (
             <div>
                 <h3> Groups List </h3>
                 <input placeholder="Search Canteen"/>
                 <div>
                     <h3> Popular Groups </h3>
-                    {this.props.groups.map((group, i) => (
+                    {this.props.allGroups.map((group, i) => (
                         <Link 
                             key={group[0]} 
                             to={{
@@ -42,7 +42,7 @@ class GroupsList extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    groups: state.groups
+    allGroups: state.groups
 });
 
 const mapDispatchToProps = (dispatch) => ({

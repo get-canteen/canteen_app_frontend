@@ -1,10 +1,14 @@
 import database, { firebase } from '../../firebase/firebase';
-import { SET_USER_DOCUMENT } from './types';
+import { SET_USER_DOCUMENT, SET_USER_GROUPS } from './types';
 
-// This is our only redux action object within user file that gets dispatched to the user reducer 
 export const setUserDocument = (data) => ({
     type: SET_USER_DOCUMENT,
     userData: data
+})
+
+export const setUserGroups = (groups) => ({
+    type: SET_USER_GROUPS,
+    groups
 })
 
 // Listens to realtime updates on user's users document. Every time user document is updated in firestore, set updated data to redux store  
@@ -21,8 +25,22 @@ export const startFetchUserDocument = () => async (dispatch) => {
     }
 }
 
+export const startFetchUserGroups = () => async (dispatch) => {
+    console.log("startFetchUserGroups is called");
+    const uid = firebase.auth().currentUser.uid; 
+    try {
+        await database.collection("users").doc(uid).collection("groups").onSnapshot((snapshot) => {
+            const userGroups = [];
+            snapshot.docs.map((doc) => userGroups.push([doc.id, doc.data()]));
+            dispatch(setUserGroups(userGroups));
+        });
+    } catch (e) {
+        console.error("Error fetching user", e);
+    }
+}
+
 // When new user is created, we need to add a new user document to the users collection within firestore.
-export const startAddUserDocument = async (userDoc) => {
+export const addUserDocument = async (userDoc) => {
     console.log('startAddUserDocument is called');
     const uid = firebase.auth().currentUser.uid; 
     try {
@@ -34,7 +52,7 @@ export const startAddUserDocument = async (userDoc) => {
 }
 
 // Updates currently authenticated user's user document in firestore
-export const startEditUserDocument = async (updates) => {
+export const editUserDocument = async (updates) => {
     console.log('startEditUserDocument is called');
     const uid = firebase.auth().currentUser.uid; 
     try {
@@ -47,7 +65,7 @@ export const startEditUserDocument = async (updates) => {
 }
 
 // Deletes currently authenticated user's user document from firestore
-export const startDeleteUserDocument = async () => {
+export const deleteUserDocument = async () => {
     console.log('startDeleteUserDocument is called');
     const uid = firebase.auth().currentUser.uid; 
     try {
@@ -58,7 +76,7 @@ export const startDeleteUserDocument = async () => {
 }
 
 // Adds an interest to currently authenticated user in firstore
-export const startAddInterest = async (interest) => {
+export const addInterest = async (interest) => {
     console.log('startAddInterest is called');
     const uid = firebase.auth().currentUser.uid;
     try {
@@ -72,7 +90,7 @@ export const startAddInterest = async (interest) => {
 }
 
 // Deletes an interest from currently authenticated user in firstore
-export const startDeleteInterest = async (interest) => {
+export const deleteInterest = async (interest) => {
      console.log('startDeleteInterest is called');
      const uid = firebase.auth().currentUser.uid;
      try {
@@ -86,7 +104,7 @@ export const startDeleteInterest = async (interest) => {
 }
 
 // Adds to currently authenticated user's user document's teach_skill field in firestore
-export const startAddTeachSkill = async (skill) => {
+export const addTeachSkill = async (skill) => {
     console.log('startAddTeachSkill is called');
     const uid = firebase.auth().currentUser.uid;
     try {
@@ -101,7 +119,7 @@ export const startAddTeachSkill = async (skill) => {
 } 
 
 // Adds to currently authenticated user's user document's learn_skill field in firestore
-export const startAddLearnSkill = async (skill) => {
+export const addLearnSkill = async (skill) => {
     console.log('startAddLearnSkill is called');
     const uid = firebase.auth().currentUser.uid;
     try {
@@ -118,7 +136,7 @@ export const startAddLearnSkill = async (skill) => {
 }
 
 // Updates currently authenticated user's user document's teach_skill field at given index in firestore
-export const startUpdateTeachSkill = async (skillData, index) => {
+export const updateTeachSkill = async (skillData, index) => {
     console.log('startUpdateTeachSkill is called');
     const uid = firebase.auth().currentUser.uid; 
     try {
@@ -131,7 +149,7 @@ export const startUpdateTeachSkill = async (skillData, index) => {
 }
 
 // Updates currently authenticated user's user document's learn_skill field at input index in firestore
-export const startUpdateLearnSkill = async (skillData, index) => {
+export const updateLearnSkill = async (skillData, index) => {
     console.log('startUpdateLearnSkill is called');
     const uid = firebase.auth().currentUser.uid; 
     try {
@@ -144,7 +162,7 @@ export const startUpdateLearnSkill = async (skillData, index) => {
 }
 
 // Deletes currently autherntiated user's user document's teach_skill field at input index in firestore
-export const startDeleteTeachSkill = async (index) => {
+export const deleteTeachSkill = async (index) => {
     console.log('startDeleteTeachSkill is called');
     const uid = firebase.auth().currentUser.uid; 
     try {
@@ -152,12 +170,12 @@ export const startDeleteTeachSkill = async (index) => {
             [`teach_skill.${index}`]: firebase.firestore.FieldValue.delete()
         });
     } catch (e) {
-        console.log("Error deleting teach skill");
+        console.log("Error deleting teach skill", e);
     }
 }
 
 // Deletes currently autherntiated user's user document's learn_skill field at input index in firestore
-export const startDeleteLearnSkill = async (index) => {
+export const deleteLearnSkill = async (index) => {
     console.log('startDeleteLearnSkill is called');
     const uid = firebase.auth().currentUser.uid; 
     try {
@@ -165,11 +183,11 @@ export const startDeleteLearnSkill = async (index) => {
             [`learn_skill.${index}`]: firebase.firestore.FieldValue.delete()
         })
     } catch (e) {
-        console.log("Error deleting learn skill");
+        console.log("Error deleting learn skill", e);
     }
 }
 
-export const startUpdateProfilePhoto = async (url) => {
+export const updateProfilePhoto = async (url) => {
     console.log('startUpdateUserProfilePhoto is called');
     const uid = firebase.auth().currentUser.uid; 
     try {
@@ -177,18 +195,21 @@ export const startUpdateProfilePhoto = async (url) => {
             photo_url: url
         })
     } catch (e) {
-        console.log("Error deleting learn skill");
+        console.log("Error deleting learn skill", e);
     }
 }
 
-// example firestore cloud function 
-export const startUpdateUserDetails = (details) => {
-    let updateUserDetails = firebase.functions().httpsCallable('updateUserDetails');
-    updateUserDetails(details)
-    .then((result) => {
-        console.log(result.data, "is successfully updated in firestore");
-    })
-    .catch((error) => {
-        console.log(error);
-    });
+// Check if currently authenticated user is a member of group 
+export const fetchMemberStatus = async (groupId) => {
+    console.log("verifyMemberStatus is called");
+    const uid = firebase.auth().currentUser.uid; 
+    try {
+        const snapshot = await database.collection("user").doc(uid).collection("groups").doc(groupId).get()
+        if (!snapshot.exists) {
+            return false;
+        }
+        return true;
+    } catch (e) {
+        console.log("Error verifying member status", e);
+    }
 }

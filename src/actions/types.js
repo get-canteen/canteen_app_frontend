@@ -10,7 +10,9 @@ export const LOGOUT_ERROR = 'LOGOUT_ERROR';
 export const SEND_PASSWORD_RESET_EMAIL = 'SEND_PASSWORD_RESET_EMAIL';
 
 export const SET_USER_DOCUMENT = 'SET_USER_DOCUMENT';
-export const SET_GROUPS = 'SET_GROUPS';
+export const SET_USER_GROUPS = 'SET_USER_GROUPS';
+
+export const SET_ALL_GROUPS = 'SET_ALL_GROUPS';
+
 export const SET_MATCHES = 'SET_MATCHES';
 export const SET_MESSAGES = 'SET_MESSAGES';
-export const SET_REQUESTS = 'SET_REQUESTS';

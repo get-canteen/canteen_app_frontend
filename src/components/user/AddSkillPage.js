@@ -1,5 +1,5 @@
 import React from 'react';
-import { startAddTeachSkill, startAddLearnSkill } from '../../actions/user';
+import { addTeachSkill, addLearnSkill } from '../../actions/user';
 import { history } from '../../routers/AppRouter';
 
 class AddSkillPage extends React.Component {
@@ -28,9 +28,9 @@ class AddSkillPage extends React.Component {
     onSubmit = async (e) => {
         e.preventDefault();
         if (this.props.match.params.type === 'teach-skill') {
-            await startAddTeachSkill(this.state);
+            await addTeachSkill(this.state);
         } else if (this.props.match.params.type === 'learn-skill') {
-            await startAddLearnSkill(this.state);
+            await addLearnSkill(this.state);
         }
         history.push("/profile/edit");
     }

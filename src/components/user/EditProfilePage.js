@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { startEditUserDocument, startUpdateUserDetails, startDeleteLearnSkill, startDeleteTeachSkill } from '../../actions/user';
+import { editUserDocument, deleteLearnSkill, deleteTeachSkill } from '../../actions/user';
 import { history } from '../../routers/AppRouter';
 import EditPhotoModal from './EditPhotoModal';
+import { CloudFunctionManager } from '../../functions/functions';
 
 class EditProfilePage extends React.Component {
     state = {
@@ -34,23 +35,23 @@ class EditProfilePage extends React.Component {
     onSubmit = async (e) => {
         e.preventDefault();
         const { display_name, title, about } = this.state;
-        // await startEditUserDocument({
+        // await editUserDocument({
         //     display_name,
         //     title,
         //     about
         // });
-        await startUpdateUserDetails({
-            display_name,
-            title,
-            about
+        await CloudFunctionManager.updateUserDetails({ 
+            display_name, 
+            title, 
+            about 
         });
         history.push("/profile");
     }
     onDeleteTeachSkill = (i) => {
-        startDeleteTeachSkill(i);
+        deleteTeachSkill(i);
     }
     onDeleteLearnSkill = (i) => {
-        startDeleteLearnSkill(i);
+        deleteLearnSkill(i);
     }
     render() {
         return (

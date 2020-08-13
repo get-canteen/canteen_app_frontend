@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 import { connect } from 'react-redux';
 import { firebase } from '../../../firebase/firebase';
 import styled from 'styled-components';
-import { startUpdateProfilePhoto } from '../../actions/user';
+import { updateProfilePhoto } from '../../actions/user';
 
 const StyledInput = styled.input`
     display: none;
@@ -49,7 +49,7 @@ class EditPhotoModal extends React.Component {
                 .getDownloadURL()
                 .then((downloadURL) => {
                     console.log('File available at', downloadURL);
-                    startUpdateProfilePhoto(downloadURL);
+                    updateProfilePhoto(downloadURL);
                 })
                 .catch((e) => {
                     console.log("Error in profile photo upload: ", e);
@@ -61,15 +61,8 @@ class EditPhotoModal extends React.Component {
             <Modal
                 isOpen={this.props.showModal}
                 contentLabel="Edit Photo Modal"
-                portalClassName={"ReactModalPortal"}
-                overlayClassName={"ReactModal__Overlay"}
-                bodyOpenClassName={"ReactModal__Body--open"}
                 shouldFocusAfterRender={true}
                 ariaHideApp={false}
-                style={{
-                    overlay: {},
-                    content: {}
-                }}
                 shouldCloseOnOverlayClick={true}
                 shouldCloseOnEsc={true}
             >
