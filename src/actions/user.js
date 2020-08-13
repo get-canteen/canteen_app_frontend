@@ -199,17 +199,36 @@ export const updateProfilePhoto = async (url) => {
     }
 }
 
-// Check if currently authenticated user is a member of group 
-export const fetchMemberStatus = async (groupId) => {
-    console.log("verifyMemberStatus is called");
-    const uid = firebase.auth().currentUser.uid; 
+export const fetchGroupPosts = async (groupId) => {
+    console.log("fetchGroupPosts is called");
     try {
-        const snapshot = await database.collection("user").doc(uid).collection("groups").doc(groupId).get()
-        if (!snapshot.exists) {
-            return false;
-        }
-        return true;
+        const snapshot = await database.collection("groups").doc(groupId).collection("posts").get()
+        // return snapshot.docs.map(doc => {
+        //     return { id: doc.id, ...doc.data() }
+        // })
+        const posts = {};
+        snapshot.forEach(doc => {
+            posts[doc.id] = doc.data();
+        });
+        return posts;
     } catch (e) {
-        console.log("Error verifying member status", e);
+        console.log("Error fetching group posts", e);
+    }
+}
+
+export const fetchGroupMembers = async (groupId) => {
+    console.log("fetchGroupMembers is called");
+    try {
+        const snapshot = await database.collection("groups").doc(groupId).collection("members").get()
+        // return snapshot.docs.map(doc => {
+        //     return { id: doc.id, ...doc.data() }
+        // })
+        const members = {};
+        snapshot.forEach(doc => {
+            members[doc.id] = doc.data();
+        });
+        return members;
+    } catch (e) {
+        console.log("Error fetching group members", e);
     }
 }
