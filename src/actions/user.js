@@ -40,6 +40,16 @@ export const startSetUserGroups = () => async (dispatch) => {
             dispatch(setUserGroups(userGroups));
         });
     } catch (e) {
+        console.error("Error fetching user groupsr", e);
+    }
+}
+
+export const fetchUserDocument = async (uid) => {
+    console.log('fetchUserDocument is called');
+    try {
+        const snapshot = await database.collection("users").doc(uid).get();
+        return snapshot.data();
+    } catch (e) {
         console.error("Error fetching user", e);
     }
 }

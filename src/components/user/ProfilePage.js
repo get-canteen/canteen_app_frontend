@@ -10,9 +10,14 @@ const ProfilePage = (props) => {
         <div>
             <h1> Profile Page </h1>
             { user &&
-                <div>
-                    <Link to={`/profile/${id}/edit`}> <h3> Edit Profile </h3> </Link>
-                    <img src={user.photo_url} alt="profile photo" width="80px" height="100px"/>
+                <div> 
+                    {   
+                        props.authUid === id &&
+                        <Link to={`/profile/${id}/edit`}> 
+                            <h3> Edit Profile </h3> 
+                        </Link>
+                    }
+                    <img src={user.photo_url || "/images/anonymous.png"} alt="profile photo" width="80px" height="100px"/>
                     <h3> {user.display_name} </h3> 
                     <h4> {user.title} </h4>
                     <p> {user.about} </p>
@@ -50,5 +55,8 @@ const ProfilePage = (props) => {
     )
 };
 
+const mapStateToProps = (state) => ({
+    authUid: state.auth.user.uid
+})
 
-export default ProfilePage;
+export default connect(mapStateToProps)(ProfilePage);

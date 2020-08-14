@@ -1,7 +1,8 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { history } from '../../routers/AppRouter';
 import Modal from 'react-modal';
 import { CloudFunctionManager } from '../../functions/functions';
+import { fetchUserDocument } from '../../actions/user';
 
 class GroupPage extends React.Component {
     state = {
@@ -56,10 +57,6 @@ class GroupPage extends React.Component {
     render() {
         const { id } = this.props.match.params;
         const { group, posts, members, joined } = this.props.location.state;
-        console.log("group: ", group);
-        console.log("posts: ", posts);
-        console.log("members: ", members);
-        console.log("joined: ", joined);
         return (
             <div>
                 <div>
@@ -80,12 +77,10 @@ class GroupPage extends React.Component {
                         }
                     </div>
                     <br/>
-                    <div>
-                        { 
-                            (this.state.message && !this.state.showModal) &&
-                            <p style={{color: "red"}}> {this.state.message} </p> 
-                        }
-                    </div>
+                    { 
+                        (this.state.message && !this.state.showModal) &&
+                        <p style={{color: "red"}}> {this.state.message} </p> 
+                    }
                     <br/>
                     <div>
                         <div>
@@ -96,10 +91,20 @@ class GroupPage extends React.Component {
                         <div>
                             {
                                 this.state.showPosts && 
-                                <div>
+                                <div style={{listStyle: "none"}}>
                                     {Object.entries(posts).map(([id, post]) => 
                                         <div key={id}>
-                                            <img src={[members[post.from].photo_url || "/images/anonymous.png"]} alt="member profile photo" width="80px" height="100px"/>
+                                            <li
+                                                onClick={ async () => {
+                                                    const user = await fetchUserDocument(post.from);
+                                                    history.push({
+                                                        pathname: `/profile/${post.from}`,
+                                                        state: { user: user }
+                                                    })
+                                                }}
+                                            >
+                                                <img src={[members[post.from].photo_url || "/images/anonymous.png"]} alt="member profile photo" width="80px" height="100px"/>
+                                            </li>
                                             <p> {[members[post.from].display_name]} </p>
                                             <p> {[members[post.from].title]} </p>
                                             <p> {post.message} </p>
@@ -119,10 +124,20 @@ class GroupPage extends React.Component {
                                 this.state.showMembers &&
                                 <div>
                                     {Object.entries(members).map(([id, member]) => 
-                                        <div key={id}>
-                                            <img src={[member.photo_url || "/images/anonymous.png"]} alt="member profile photo" width="80px" height="100px"/>
-                                            <p> {member.display_name} </p>
-                                            <p> {member.title} </p>
+                                        <div key={id} style={{listStyle: "none"}}>
+                                            <li
+                                                onClick={ async () => {
+                                                    const user = await fetchUserDocument(id);
+                                                    history.push({
+                                                        pathname: `/profile/${id}`,
+                                                        state: { user: user }
+                                                    })
+                                                }}
+                                            >
+                                                <img src={[member.photo_url || "/images/anonymous.png"]} alt="member profile photo" width="80px" height="100px"/>
+                                                <p> {member.display_name} </p>
+                                                <p> {member.title} </p>
+                                            </li>
                                         </div>
                                     )}
                                 </div>
@@ -142,20 +157,14 @@ class GroupPage extends React.Component {
                     <label> Enter access code </label>
                     <input type="text" value={this.state.accessCode} onChange={this.onChangeAccessCode}/>
                     <button onClick={() => this.handleJoinPrivateGroup(id, this.state.accessCode)}> Join </button>
-                    <div>
-                        { 
-                            (this.state.message && this.state.showModal) &&
-                            <p style={{color: "red"}}> {this.state.message} </p> 
-                        }
-                    </div>
+                    { 
+                        (this.state.message && this.state.showModal) &&
+                        <p style={{color: "red"}}> {this.state.message} </p> 
+                    }
                 </Modal>
             </div>
         )
     }
 };
 
-const mapStateToProps = (state) => ({
-    user: state.auth.user
-})
-
-export default connect(mapStateToProps)(GroupPage);
+export default GroupPage;
