@@ -16,7 +16,7 @@ class GroupsList extends React.Component {
                 <input placeholder="Search Canteen"/>
                 <div style={{listStyle: "none"}}>
                     <h3> Popular Groups </h3>
-                    {Object.entries(this.props.allGroups).map(([id, group], i) => (
+                    {Object.entries(this.props.allGroups).map(([id, group]) => (
                         <li
                             key={id}
                             onClick={ async () => {
@@ -29,8 +29,8 @@ class GroupsList extends React.Component {
                                 })
                             }}
                         >
-                            <img src={group.photo_url} width="80px" height="80px"/>
-                            <p> {i+1}. {group.name} </p>
+                            <img src={[group.photo_url || "/images/anonymous.png"]} width="80px" height="80px"/>
+                            <p> {group.name} </p>
                             <p> {group.type.charAt(0).toUpperCase() + group.type.slice(1) + " Group"} </p>
                             <p> {group.description} </p>
                             <p> {group.members + " members"} </p>

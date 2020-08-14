@@ -64,10 +64,10 @@ class GroupPage extends React.Component {
                 <div>
                     <h1> Group Page </h1>
                     <div> 
-                        <img src={group[1].photo_url} width="80px" height="80px"/>
-                        <p> {group[1].name} </p>
-                        <p> {group[1].description} </p>
-                        <p> {group[1].members + " members"} </p>
+                        <img src={group.photo_url} width="80px" height="80px"/>
+                        <p> {group.name} </p>
+                        <p> {group.description} </p>
+                        <p> {group.members + " members"} </p>
                         {
                             joined ? 
                             <button> Joined </button> :
