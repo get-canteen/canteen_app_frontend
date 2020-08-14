@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import configureStore from './store/configureStore';
 import AppRouter, { history } from './routers/AppRouter';
 import { firebase } from '../firebase/firebase';
+import LoadingPage from './components/shared/LoadingPage';
 import { receiveLogin, receiveLogout, receiveSignup } from './actions/auth';
 import { startSetUserDocument, addUserDocument } from './actions/user';
 
@@ -20,7 +21,8 @@ export const renderApp = () => {
         hasRendered = true;
     }
 }
-renderApp();
+
+ReactDOM.render(<LoadingPage/>, document.getElementById('app'));
 
 firebase.auth().onAuthStateChanged( async (user) => {
     try {
@@ -34,7 +36,7 @@ firebase.auth().onAuthStateChanged( async (user) => {
                 // Let redux store know user was able to successfully signup 
                 store.dispatch(receiveSignup(user));
                 // Initialize user document
-                const userDoc = {
+                const doc = {
                     email: user.email,
                     display_name: user.displayName,
                     photo_url: user.photoURL || "../public/images/anonymous.png",
@@ -52,27 +54,20 @@ firebase.auth().onAuthStateChanged( async (user) => {
                     time_zone: null
                 };
                 // Add user document to users collection in firestore
-                await addUserDocument(userDoc);
+                await addUserDocument(doc);
             } 
             console.log('log in');
             // Let redux store know user was able to successfully login
-            store.dispatch(receiveLogin(user)) 
+            store.dispatch(receiveLogin(user)); 
             // Fetch user document from firestore and set to redux store
             await store.dispatch(startSetUserDocument());
-            // Fetch groups subcollection in user document from firestore and set to store
-
             // Render app with newly fetched user document data
             renderApp();
-            // Redirect to profile page
-            if (history.location.pathname === '/' || history.location.pathname === '/signup') { 
-                history.push('/profile');
-            }
         } else { // User is not signed in
             console.log('log out');
             // Let redux store know user was able to successfully logout
             store.dispatch(receiveLogout());
             renderApp();
-            history.push('/');
         }
     } catch (e) {
         console.log(e);

@@ -13,7 +13,7 @@ import EditProfilePage from '../components/user/EditProfilePage';
 import EditInterestPage from '../components/user/EditInterestPage';
 import AddSkillPage from '../components/user/AddSkillPage';
 import EditSkillPage from '../components/user/EditSkillPage';
-import SearchPage from '../components/groups/SearchPage';
+import HomePage from '../components/shared/HomePage';
 import GroupPage from '../components/groups/GroupPage';
 import MessagesPage from '../components/messages/MessagesPage';
 import NotificationsPage from '../components/notifications/NotificationsPage';
@@ -26,12 +26,12 @@ const AppRouter = () => (
             <PublicRoute exact path="/" component={LoginPage}/>
             <PublicRoute path="/signup" component={SignupPage}/>
             <PublicRoute path="/forgot" component={ForgotPasswordPage}/>
-            <PrivateRoute exact path="/profile" component={ProfilePage}/>
-            <PrivateRoute exact path="/profile/edit" component={EditProfilePage}/>
-            <PrivateRoute path="/profile/edit/interest" component={EditInterestPage}/>
-            <PrivateRoute path="/profile/add/:type" component={AddSkillPage}/> 
-            <PrivateRoute path="/profile/edit/:type/:index" component={EditSkillPage}/> 
-            <PrivateRoute path="/search" component={SearchPage}/>
+            <PrivateRoute path="/search" component={HomePage}/>
+            <PrivateRoute exact path="/profile/:id" component={ProfilePage}/>
+            <PrivateRoute exact path="/profile/:id/edit" component={EditProfilePage}/>
+            <PrivateRoute path="/profile/:id/edit/interest" component={EditInterestPage}/>
+            <PrivateRoute path="/profile/:id/add/:type" component={AddSkillPage}/> 
+            <PrivateRoute path="/profile/:id/edit/:type/:index" component={EditSkillPage}/> 
             <PrivateRoute path="/group/:id" component={GroupPage}/>
             <PrivateRoute path="/messages" component={MessagesPage}/>
             <PrivateRoute path="/notifications" component={NotificationsPage}/>

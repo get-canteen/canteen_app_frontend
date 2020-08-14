@@ -3,18 +3,23 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { startLogout } from '../../actions/auth';
 
-export const Navbar = ({ startLogout }) => (
+export const Navbar = ({ id, user, startLogout }) => (
     <div>
-        <Link to="/profile"> Home </Link>
-        <Link to="/search"> Search </Link>
+        <Link to="/search"> Home </Link>
+        <Link to={{ pathname: `/profile/${id}`, state: { user: user } }}> Profile </Link>
         <Link to="/messages"> Messages </Link>
         <Link to="/notifications"> Notifications </Link>
         <button onClick={startLogout}> Logout </button>
     </div>
 )
 
+const mapStateToProps = (state) => ({
+    id: state.auth.user.uid,
+    user: state.user
+})
+
 const mapDispatchToProps = (dispatch) => ({
     startLogout: () => dispatch(startLogout())
 })
 
-export default connect(undefined, mapDispatchToProps)(Navbar);
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

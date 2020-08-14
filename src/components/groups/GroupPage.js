@@ -54,6 +54,7 @@ class GroupPage extends React.Component {
         this.setState({ showMembers: true, showPosts: false });
     }
     render() {
+        const { id } = this.props.match.params;
         const { group, posts, members, joined } = this.props.location.state;
         console.log("group: ", group);
         console.log("posts: ", posts);
@@ -72,7 +73,7 @@ class GroupPage extends React.Component {
                             joined ? 
                             <button> Joined </button> :
                             <button 
-                                onClick={() => this.onClickJoin(group[1].type, group[0])}
+                                onClick={() => this.onClickJoin(group.type, id)}
                             > 
                                 Join 
                             </button>
@@ -140,7 +141,7 @@ class GroupPage extends React.Component {
                     <button onClick={this.handleCloseModal}> X </button>
                     <label> Enter access code </label>
                     <input type="text" value={this.state.accessCode} onChange={this.onChangeAccessCode}/>
-                    <button onClick={() => this.handleJoinPrivateGroup(group[0], this.state.accessCode)}> Join </button>
+                    <button onClick={() => this.handleJoinPrivateGroup(id, this.state.accessCode)}> Join </button>
                     <div>
                         { 
                             (this.state.message && this.state.showModal) &&

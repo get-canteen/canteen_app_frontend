@@ -12,7 +12,11 @@ const defaultUserState = {
     learn_skill: {},
     teach_skill : {},
     avaliability: {},
-    groups: {}
+    groups: {}, 
+    email: '',
+    phone_number: null,
+    is_anonymous: false,
+    is_email_verfied: false
 }
 
 export default (state = defaultUserState, action) => {

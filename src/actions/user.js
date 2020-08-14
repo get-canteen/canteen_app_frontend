@@ -15,14 +15,16 @@ export const setUserGroups = (groups) => ({
 export const startSetUserDocument = () => async (dispatch) => {
     console.log('startSetUserDocument is called');
     const uid = firebase.auth().currentUser.uid; 
-    try {
-        await database.collection("users").doc(uid).onSnapshot((doc) => {
+    return new Promise((resolve, reject) => {
+        var resolveOnce = (doc) => {
+            resolve(doc);
+        };
+        database.collection("users").doc(uid).onSnapshot((doc) => {
             console.log("Current user document: ", doc.data());
             dispatch(setUserDocument(doc.data()));
-        });
-    } catch (e) {
-        console.error("Error fetching user", e);
-    }
+            resolveOnce(doc.data());
+        })
+    })
 }
 
 export const startSetUserGroups = () => async (dispatch) => {
@@ -49,6 +51,7 @@ export const addUserDocument = async (userDoc) => {
     try {
         await database.collection("users").doc(uid).set(userDoc)
         console.log('User doc is successfully added to firestore');
+
     } catch (e) {
         console.log('Error creating user document', e);
     }

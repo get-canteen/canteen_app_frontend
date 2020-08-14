@@ -15,7 +15,7 @@ export const startSetAllGroups = () => async (dispatch) => {
             allGroups[doc.id] = doc.data();
         });
         dispatch(setAllGroups(allGroups));
-        console.log("All groups: ", this.props.allGroups);
+        console.log("All groups: ", allGroups);
     } catch (e) {
         console.error("Error fetching groups", e);
     }

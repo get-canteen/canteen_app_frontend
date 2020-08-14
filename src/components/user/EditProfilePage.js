@@ -35,16 +35,16 @@ class EditProfilePage extends React.Component {
     onSubmit = async (e) => {
         e.preventDefault();
         const { display_name, title, about } = this.state;
-        // await editUserDocument({
-        //     display_name,
-        //     title,
-        //     about
-        // });
-        await CloudFunctionManager.updateUserDetails({ 
-            display_name, 
-            title, 
-            about 
+        await editUserDocument({
+            display_name,
+            title,
+            about
         });
+        // await CloudFunctionManager.updateUserDetails({ 
+        //     display_name, 
+        //     title, 
+        //     about 
+        // });
         history.push("/profile");
     }
     onDeleteTeachSkill = (i) => {
@@ -59,7 +59,7 @@ class EditProfilePage extends React.Component {
             <h1> Edit Profile Page </h1>
             <form onSubmit={this.onSubmit}>
                 <div>
-                    <img src={this.props.user.photo_url} alt="user-photo" width="80px" height="100px"/>
+                    <img src={this.props.user.photo_url} alt="user photo" width="80px" height="100px"/>
                     <button type="button" onClick={this.handleOpenModal}> + </button>
                 </div>
                 <div>
@@ -92,7 +92,7 @@ class EditProfilePage extends React.Component {
                 <div>
                     <h3> Interests </h3>
                     <Link 
-                        to="/profile/edit/interest" 
+                        to={`/profile/${this.props.id}/edit/interest`} 
                         style={{ textDecoration: 'none' }}
                     > 
                     {
@@ -111,7 +111,7 @@ class EditProfilePage extends React.Component {
                         {Object.values(this.props.user.teach_skill).map((skill, i) => (
                             <div key={i}>
                                 <Link 
-                                    to={`/profile/edit/teach-skill/${i}`}
+                                    to={`/profile/${this.props.id}/edit/teach-skill/${i}`}
                                     style={{ textDecoration: 'none' }}
                                 >
                                     <p> {i+1}. {skill.name} </p>
@@ -122,7 +122,7 @@ class EditProfilePage extends React.Component {
                             </div>
                         ))}
                         <Link 
-                            to="/profile/add/teach-skill" 
+                            to={`/profile/${this.props.id}/add/teach-skill`} 
                             style={{ textDecoration: 'none' }}
                         > 
                             <h3> Add Offering </h3> 
@@ -135,7 +135,7 @@ class EditProfilePage extends React.Component {
                         {Object.values(this.props.user.learn_skill).map((skill, i) => (
                             <div key={i}>
                                 <Link 
-                                    to={`/profile/edit/learn-skill/${i}`}
+                                    to={`/profile/${this.props.id}/edit/learn-skill/${i}`}
                                     style={{ textDecoration: 'none' }}
                                 >
                                     <p> {i+1}. {skill.name} </p>
@@ -146,7 +146,7 @@ class EditProfilePage extends React.Component {
                             </div>
                         ))}
                         <Link 
-                            to="/profile/add/learn-skill" 
+                            to={`/profile/${this.props.id}/add/learn-skill`} 
                             style={{ textDecoration: 'none' }}
                         > 
                             <h3> Add Ask </h3> 
@@ -166,6 +166,7 @@ class EditProfilePage extends React.Component {
 };
 
 const mapStateToProps = (state) => ({
+    id: state.auth.user.uid,
     user: state.user
 })
 
