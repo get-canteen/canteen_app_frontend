@@ -2,13 +2,13 @@ import {
     SET_ALL_GROUPS
 } from '../actions/types';
 
-
-export default (state = [], action) => {
+export default (state = { allGroups: {} }, action) => {
     switch (action.type) {
         case SET_ALL_GROUPS:
-            return [
-                ...action.groups
-            ]
+            return {
+                ...state,
+                allGroups: action.allGroups
+            }
         default:
             return state;
     }

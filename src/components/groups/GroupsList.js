@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { history } from '../../routers/AppRouter';
-import { startFetchAllGroups } from '../../actions/groups';
+import { startSetAllGroups } from '../../actions/groups';
 import { fetchGroupMembers, fetchGroupPosts } from '../../actions/user';
 
 class GroupsList extends React.Component {
-    componentDidMount() {
-        this.props.startFetchAllGroups();
-        console.log("all groups: ", this.props.allGroups);
+    async componentDidMount() {
+        await this.props.startSetAllGroups();
+        console.log("All groups: ", this.props.allGroups);
     }
     render() {
         return (
@@ -16,24 +16,24 @@ class GroupsList extends React.Component {
                 <input placeholder="Search Canteen"/>
                 <div style={{listStyle: "none"}}>
                     <h3> Popular Groups </h3>
-                    {this.props.allGroups.map((group, i) => (
+                    {Object.entries(this.props.allGroups).map(([id, group], i) => (
                         <li
-                            key={group[0]}
+                            key={id}
                             onClick={ async () => {
-                                const posts = await fetchGroupPosts(group[0]);
-                                const members = await fetchGroupMembers(group[0]);
+                                const posts = await fetchGroupPosts(id);
+                                const members = await fetchGroupMembers(id);
                                 const joined = !!members[this.props.user.uid];
                                 history.push({
-                                    pathname: `group/${group[0]}`,
+                                    pathname: `group/${id}`,
                                     state: { group, posts, members, joined }
                                 })
                             }}
                         >
-                            <img src={group[1].photo_url} width="80px" height="80px"/>
-                            <p> {i+1}. {group[1].name} </p>
-                            <p> {group[1].type.charAt(0).toUpperCase() + group[1].type.slice(1) + " Group"} </p>
-                            <p> {group[1].description} </p>
-                            <p> {group[1].members + " members"} </p>
+                            <img src={group.photo_url} width="80px" height="80px"/>
+                            <p> {i+1}. {group.name} </p>
+                            <p> {group.type.charAt(0).toUpperCase() + group.type.slice(1) + " Group"} </p>
+                            <p> {group.description} </p>
+                            <p> {group.members + " members"} </p>
                         </li>
                     ))}
                 </div>
@@ -47,11 +47,11 @@ class GroupsList extends React.Component {
 
 const mapStateToProps = (state) => ({
     user: state.auth.user,
-    allGroups: state.groups
+    allGroups: state.groups.allGroups
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    startFetchAllGroups: () => dispatch(startFetchAllGroups())
+    startSetAllGroups: () => dispatch(startSetAllGroups())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(GroupsList);

@@ -1,18 +1,23 @@
 import database from '../../firebase/firebase';
 import { SET_ALL_GROUPS } from './types';
 
-export const setAllGroups = (groups) => ({
+export const setAllGroups = (allGroups) => ({
     type: SET_ALL_GROUPS,
-    groups
+    allGroups
 })
 
-export const startFetchAllGroups = () => async (dispatch) => {
-    console.log('startFetchAllGroups is called');
+export const startSetAllGroups = () => async (dispatch) => {
+    console.log('startSetAllGroups is called');
     try {
         const snapshot = await database.collection("groups").get();
-        const groups = [];
-        snapshot.docs.map((doc) => groups.push([doc.id, doc.data()]));
-        dispatch(setAllGroups(groups));  
+        // const groups = [];
+        // snapshot.docs.map((doc) => groups.push([doc.id, doc.data()]));
+        // dispatch(setAllGroups(groups));  
+        const allGroups = {};
+        snapshot.forEach(doc => {
+            allGroups[doc.id] = doc.data();
+        });
+        dispatch(setAllGroups(allGroups));
     } catch (e) {
         console.error("Error fetching groups", e);
     }
