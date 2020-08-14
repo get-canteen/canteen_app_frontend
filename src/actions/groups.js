@@ -10,14 +10,12 @@ export const startSetAllGroups = () => async (dispatch) => {
     console.log('startSetAllGroups is called');
     try {
         const snapshot = await database.collection("groups").get();
-        // const groups = [];
-        // snapshot.docs.map((doc) => groups.push([doc.id, doc.data()]));
-        // dispatch(setAllGroups(groups));  
         const allGroups = {};
         snapshot.forEach(doc => {
             allGroups[doc.id] = doc.data();
         });
         dispatch(setAllGroups(allGroups));
+        console.log("All groups: ", this.props.allGroups);
     } catch (e) {
         console.error("Error fetching groups", e);
     }

@@ -7,7 +7,6 @@ import { fetchGroupMembers, fetchGroupPosts } from '../../actions/user';
 class GroupsList extends React.Component {
     async componentDidMount() {
         await this.props.startSetAllGroups();
-        console.log("All groups: ", this.props.allGroups);
     }
     render() {
         return (

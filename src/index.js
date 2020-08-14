@@ -5,7 +5,7 @@ import configureStore from './store/configureStore';
 import AppRouter, { history } from './routers/AppRouter';
 import { firebase } from '../firebase/firebase';
 import { receiveLogin, receiveLogout, receiveSignup } from './actions/auth';
-import { startFetchUserDocument, startAddUserDocument } from './actions/user';
+import { startSetUserDocument, addUserDocument } from './actions/user';
 
 const store = configureStore(); 
 
@@ -52,13 +52,13 @@ firebase.auth().onAuthStateChanged( async (user) => {
                     time_zone: null
                 };
                 // Add user document to users collection in firestore
-                await startAddUserDocument(userDoc);
+                await addUserDocument(userDoc);
             } 
             console.log('log in');
             // Let redux store know user was able to successfully login
             store.dispatch(receiveLogin(user)) 
             // Fetch user document from firestore and set to redux store
-            await store.dispatch(startFetchUserDocument());
+            await store.dispatch(startSetUserDocument());
             // Fetch groups subcollection in user document from firestore and set to store
 
             // Render app with newly fetched user document data

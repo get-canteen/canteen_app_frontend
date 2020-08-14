@@ -12,8 +12,8 @@ export const setUserGroups = (groups) => ({
 })
 
 // Listens to realtime updates on user's users document. Every time user document is updated in firestore, set updated data to redux store  
-export const startFetchUserDocument = () => async (dispatch) => {
-    console.log('startFetchUserDocument is called');
+export const startSetUserDocument = () => async (dispatch) => {
+    console.log('startSetUserDocument is called');
     const uid = firebase.auth().currentUser.uid; 
     try {
         await database.collection("users").doc(uid).onSnapshot((doc) => {
@@ -25,13 +25,16 @@ export const startFetchUserDocument = () => async (dispatch) => {
     }
 }
 
-export const startFetchUserGroups = () => async (dispatch) => {
+export const startSetUserGroups = () => async (dispatch) => {
     console.log("startFetchUserGroups is called");
     const uid = firebase.auth().currentUser.uid; 
     try {
         await database.collection("users").doc(uid).collection("groups").onSnapshot((snapshot) => {
-            const userGroups = [];
-            snapshot.docs.map((doc) => userGroups.push([doc.id, doc.data()]));
+            const userGroups = {};
+            snapshot.forEach(doc => {
+                userGroups[doc.id] = doc.data();
+            });
+            console.log("Current user groups: ", userGroups);
             dispatch(setUserGroups(userGroups));
         });
     } catch (e) {
