@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { history } from '../../routers/AppRouter';
 import { startFetchAllGroups } from '../../actions/groups';
+import { fetchGroupMembers, fetchGroupPosts } from '../../actions/user';
 
 class GroupsList extends React.Component {
     componentDidMount() {
@@ -13,24 +14,27 @@ class GroupsList extends React.Component {
             <div>
                 <h3> Groups List </h3>
                 <input placeholder="Search Canteen"/>
-                <div>
+                <div style={{listStyle: "none"}}>
                     <h3> Popular Groups </h3>
                     {this.props.allGroups.map((group, i) => (
-                        <Link 
-                            key={group[0]} 
-                            to={{
-                                pathname: `/group/${group[0]}`,
-                                state: { group }
-                            }} 
-                            style={{ textDecoration: 'none' }}
+                        <li
+                            key={group[0]}
+                            onClick={ async () => {
+                                const posts = await fetchGroupPosts(group[0]);
+                                const members = await fetchGroupMembers(group[0]);
+                                const joined = !!members[this.props.user.uid];
+                                history.push({
+                                    pathname: `group/${group[0]}`,
+                                    state: { group, posts, members, joined }
+                                })
+                            }}
                         >
                             <img src={group[1].photo_url} width="80px" height="80px"/>
                             <p> {i+1}. {group[1].name} </p>
                             <p> {group[1].type.charAt(0).toUpperCase() + group[1].type.slice(1) + " Group"} </p>
                             <p> {group[1].description} </p>
                             <p> {group[1].members + " members"} </p>
-                            <p> </p>
-                        </Link>
+                        </li>
                     ))}
                 </div>
                 <div>
@@ -42,6 +46,7 @@ class GroupsList extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
+    user: state.auth.user,
     allGroups: state.groups
 });
 

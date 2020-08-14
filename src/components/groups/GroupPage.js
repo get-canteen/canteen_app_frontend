@@ -2,27 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Modal from 'react-modal';
 import { CloudFunctionManager } from '../../functions/functions';
-import { fetchGroupMembers, fetchGroupPosts } from '../../actions/user';
 
 class GroupPage extends React.Component {
     state = {
         accessCode: "",
         showModal: false,
         message: "",
-        joined: false,
-        posts: [],
-        members: [],
         showPosts: true,
         showMembers: false
-    }
-    async componentDidMount() {
-        const { group } = this.props.location.state;
-        const posts = await fetchGroupPosts(group[0]);
-        const members = await fetchGroupMembers(group[0]);
-        const joined = !!members[this.props.user.uid];
-        this.setState({ posts, members, joined });
-        console.log("posts: ", posts);
-        console.log("members: ", members);
     }
     onClickJoin = async (type, group_id) => {
         if (type === "private") {
@@ -67,7 +54,11 @@ class GroupPage extends React.Component {
         this.setState({ showMembers: true, showPosts: false });
     }
     render() {
-        const { group } = this.props.location.state;
+        const { group, posts, members, joined } = this.props.location.state;
+        console.log("group: ", group);
+        console.log("posts: ", posts);
+        console.log("members: ", members);
+        console.log("joined: ", joined);
         return (
             <div>
                 <div>
@@ -78,7 +69,7 @@ class GroupPage extends React.Component {
                         <p> {group[1].description} </p>
                         <p> {group[1].members + " members"} </p>
                         {
-                            this.state.joined ? 
+                            joined ? 
                             <button> Joined </button> :
                             <button 
                                 onClick={() => this.onClickJoin(group[1].type, group[0])}
@@ -105,11 +96,11 @@ class GroupPage extends React.Component {
                             {
                                 this.state.showPosts && 
                                 <div>
-                                    {Object.entries(this.state.posts).map(([id, post]) => 
+                                    {Object.entries(posts).map(([id, post]) => 
                                         <div key={id}>
-                                            <img src={[this.state.members[post.from].photo_url || "/images/anonymous.png"]} alt="member profile photo" width="80px" height="100px"/>
-                                            <p> {[this.state.members[post.from].display_name]} </p>
-                                            <p> {[this.state.members[post.from].title]} </p>
+                                            <img src={[members[post.from].photo_url || "/images/anonymous.png"]} alt="member profile photo" width="80px" height="100px"/>
+                                            <p> {[members[post.from].display_name]} </p>
+                                            <p> {[members[post.from].title]} </p>
                                             <p> {post.message} </p>
                                             <div>
                                                 <p> {post.like_count} </p>
@@ -126,7 +117,7 @@ class GroupPage extends React.Component {
                             {
                                 this.state.showMembers &&
                                 <div>
-                                    {Object.entries(this.state.members).map(([id, member]) => 
+                                    {Object.entries(members).map(([id, member]) => 
                                         <div key={id}>
                                             <img src={[member.photo_url || "/images/anonymous.png"]} alt="member profile photo" width="80px" height="100px"/>
                                             <p> {member.display_name} </p>
