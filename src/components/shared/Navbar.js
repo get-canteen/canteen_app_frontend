@@ -6,7 +6,7 @@ import { startLogout } from '../../actions/auth';
 export const Navbar = ({ id, user, startLogout }) => (
     <div>
         <Link to="/search"> Home </Link>
-        <Link to={{ pathname: `/profile/${id}`, state: { user: user } }}> Profile </Link>
+        <Link to={{ pathname: `/profile/${id}`, state: { user } }}> Profile </Link>
         <Link to="/messages"> Messages </Link>
         <Link to="/notifications"> Notifications </Link>
         <button onClick={startLogout}> Logout </button>

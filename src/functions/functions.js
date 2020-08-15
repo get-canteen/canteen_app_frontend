@@ -1,8 +1,6 @@
 import { firebase } from '../../firebase/firebase';
 
 export class CloudFunctionManager {
-    static updateUserDetails = firebase.functions().httpsCallable('updateUserDetails')
-
     static addRequest = firebase.functions().httpsCallable('addRequest')
 
     static getRecommendations = firebase.functions().httpsCallable('joinGroup')

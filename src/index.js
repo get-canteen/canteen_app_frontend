@@ -7,6 +7,7 @@ import { firebase } from '../firebase/firebase';
 import LoadingPage from './components/shared/LoadingPage';
 import { receiveLogin, receiveLogout, receiveSignup } from './actions/auth';
 import { startSetUserDocument, addUserDocument } from './actions/user';
+import { startSetUserGroups } from './actions/groups';
 
 const store = configureStore(); 
 
@@ -61,7 +62,10 @@ firebase.auth().onAuthStateChanged( async (user) => {
             store.dispatch(receiveLogin(user)); 
             // Fetch user document from firestore and set to redux store
             await store.dispatch(startSetUserDocument());
-            // Render app with newly fetched user document data
+            // Fetch user document groups subcollection from firestore and set to redux store
+            await store.dispatch(startSetUserGroups());
+            console.log("render app")
+            // Render app with newly fetched data
             renderApp();
         } else { // User is not signed in
             console.log('log out');

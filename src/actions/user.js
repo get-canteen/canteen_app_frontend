@@ -1,14 +1,9 @@
 import database, { firebase } from '../../firebase/firebase';
-import { SET_USER_DOCUMENT, SET_USER_GROUPS } from './types';
+import { SET_USER_DOCUMENT } from './types';
 
 export const setUserDocument = (data) => ({
     type: SET_USER_DOCUMENT,
     userData: data
-})
-
-export const setUserGroups = (groups) => ({
-    type: SET_USER_GROUPS,
-    groups
 })
 
 // Listens to realtime updates on user's users document. Every time user document is updated in firestore, set updated data to redux store  
@@ -23,25 +18,8 @@ export const startSetUserDocument = () => async (dispatch) => {
             console.log("Current user document: ", doc.data());
             dispatch(setUserDocument(doc.data()));
             resolveOnce(doc.data());
-        })
+        }, reject)
     })
-}
-
-export const startSetUserGroups = () => async (dispatch) => {
-    console.log("startFetchUserGroups is called");
-    const uid = firebase.auth().currentUser.uid; 
-    try {
-        await database.collection("users").doc(uid).collection("groups").onSnapshot((snapshot) => {
-            const userGroups = {};
-            snapshot.forEach(doc => {
-                userGroups[doc.id] = doc.data();
-            });
-            console.log("Current user groups: ", userGroups);
-            dispatch(setUserGroups(userGroups));
-        });
-    } catch (e) {
-        console.error("Error fetching user groupsr", e);
-    }
 }
 
 export const fetchUserDocument = async (uid) => {
@@ -212,39 +190,5 @@ export const updateProfilePhoto = async (url) => {
         })
     } catch (e) {
         console.log("Error deleting learn skill", e);
-    }
-}
-
-export const fetchGroupPosts = async (groupId) => {
-    console.log("fetchGroupPosts is called");
-    try {
-        const snapshot = await database.collection("groups").doc(groupId).collection("posts").get()
-        // return snapshot.docs.map(doc => {
-        //     return { id: doc.id, ...doc.data() }
-        // })
-        const posts = {};
-        snapshot.forEach(doc => {
-            posts[doc.id] = doc.data();
-        });
-        return posts;
-    } catch (e) {
-        console.log("Error fetching group posts", e);
-    }
-}
-
-export const fetchGroupMembers = async (groupId) => {
-    console.log("fetchGroupMembers is called");
-    try {
-        const snapshot = await database.collection("groups").doc(groupId).collection("members").get()
-        // return snapshot.docs.map(doc => {
-        //     return { id: doc.id, ...doc.data() }
-        // })
-        const members = {};
-        snapshot.forEach(doc => {
-            members[doc.id] = doc.data();
-        });
-        return members;
-    } catch (e) {
-        console.log("Error fetching group members", e);
     }
 }

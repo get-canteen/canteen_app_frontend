@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 const ProfilePage = (props) => {
-    console.log("props:", props);
     const { id } = props.match.params;
     const { user } = props.location.state;
     return (

@@ -1,13 +1,17 @@
 import {
-    SET_ALL_GROUPS
+    SET_USER_GROUPS
 } from '../actions/types';
 
-export default (state = { allGroups: {} }, action) => {
+const defaultGroupState = { 
+    userGroups: {} 
+};
+
+export default (state = defaultGroupState, action) => {
     switch (action.type) {
-        case SET_ALL_GROUPS:
+        case SET_USER_GROUPS:
             return {
                 ...state,
-                allGroups: action.allGroups
+                userGroups: action.groups
             }
         default:
             return state;

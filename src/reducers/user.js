@@ -1,6 +1,5 @@
 import {
-    SET_USER_DOCUMENT,
-    SET_USER_GROUPS
+    SET_USER_DOCUMENT
 } from '../actions/types';
 
 const defaultUserState = {
@@ -25,11 +24,6 @@ export default (state = defaultUserState, action) => {
             return {
                 ...state,
                 ...action.userData
-            }
-        case SET_USER_GROUPS:
-            return {
-                ...state,
-                groups: action.groups
             }
         default:
             return state;

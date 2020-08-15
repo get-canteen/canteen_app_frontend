@@ -1,0 +1,9 @@
+export const REQUEST_COLLECTION = 'requests';
+export const GROUPS_COLLECTION = 'groups';
+export const MATCH_COLLECTION = 'matches';
+export const DISCOVER_COLLECTION = 'discover';
+export const RECOMMENDATION_COLLECTION = 'recommendations';
+export const NOTIFICATION_COLLECTION = 'notifications';
+export const USER_COLLECTION = 'users';
+export const QUERY_COLLECTION = 'queries';
+export const ALGOLIA_API_KEY_COLLECTION = 'algolia_api_keys';
