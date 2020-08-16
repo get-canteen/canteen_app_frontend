@@ -19,7 +19,7 @@ class EditInterestPage extends React.Component {
         deleteInterest(interest);
     }
     onClickDone = () => {
-        history.push("/profile/edit");
+        history.push(`/profile/${this.props.authUid}/edit`);
     }
     render() {
         return (
@@ -48,6 +48,7 @@ class EditInterestPage extends React.Component {
 };
 
 const mapStateToProps = (state) => ({
+    authUid: state.auth.user.uid,
     interests: state.user.interests
 })
 

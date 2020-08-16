@@ -30,9 +30,8 @@ class EditPhotoModal extends React.Component {
     onClickUpload = () => {
         console.log("onClickUpload is called");
         const { image } = this.state;
-        const uid = firebase.auth().currentUser.uid;
         const storageRef = firebase.storage().ref();
-        const uploadTask = storageRef.child(`profile_image/${uid}/${image.name}`).put(image);
+        const uploadTask = storageRef.child(`profile_image/${this.props.authUid}/${image.name}`).put(image);
         uploadTask.on('state_changed', 
         (snapshot) => { 
             // progress function...
@@ -45,7 +44,7 @@ class EditPhotoModal extends React.Component {
             // handle successful uploads on complete...
             firebase.storage()
                 .ref('profile_image')
-                .child(`${uid}/${image.name}`)
+                .child(`${this.props.authUid}/${image.name}`)
                 .getDownloadURL()
                 .then((downloadURL) => {
                     console.log('File available at', downloadURL);
@@ -82,6 +81,7 @@ class EditPhotoModal extends React.Component {
 }
 
 const mapStateToProps = state => ({
+    authUid: state.auth.user.uid,
     user: state.user
 });
 

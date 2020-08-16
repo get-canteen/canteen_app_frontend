@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { addTeachSkill, addLearnSkill } from '../../actions/user';
 import { history } from '../../routers/AppRouter';
 
@@ -32,7 +33,7 @@ class AddSkillPage extends React.Component {
         } else if (this.props.match.params.type === 'learn-skill') {
             await addLearnSkill(this.state);
         }
-        history.push("/profile/edit");
+        history.push(`/profile/${this.props.authUid}/edit`);
     }
     render() {
         const { type } = this.props.match.params;
@@ -84,4 +85,8 @@ class AddSkillPage extends React.Component {
     };
 };
 
-export default AddSkillPage;
+const mapStateToProps = (state) => ({
+    authUid: state.auth.user.uid
+})
+
+export default connect(mapStateToProps)(AddSkillPage);
