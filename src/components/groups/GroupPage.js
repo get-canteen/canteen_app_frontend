@@ -1,10 +1,9 @@
 import React from 'react';
-import database, { firebase } from '../../../firebase/firebase';
+import database from '../../../firebase/firebase';
 import { connect } from 'react-redux';
 import Modal from 'react-modal';
 import { GroupPosts } from './GroupPosts';
 import { GroupMembers } from './GroupMembers';
-import { fetchGroupPosts, fetchGroupMembers } from '../../actions/groups';
 import { CloudFunctionManager } from '../../functions/functions';
 
 class GroupPage extends React.Component {

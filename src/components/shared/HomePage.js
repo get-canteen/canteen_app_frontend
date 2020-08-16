@@ -4,7 +4,11 @@ import GroupsList from '../groups/GroupsList';
 const HomePage = () => (
     <div>
         <h1> Home Page </h1>
+        <input placeholder="Search Canteen"/>
         <GroupsList/>
+        <div>
+            <h3> Most Popular Users </h3>
+        </div>
     </div>
 );
 

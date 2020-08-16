@@ -6,31 +6,33 @@ export const GroupPosts = ({ posts, members }) => (
     <div>
         { 
             typeof posts === 'object' ? 
-            Object.entries(posts).map(([id, post]) => 
-                <div key={id} style={{listStyle: "none"}}>
-                    <li
-                        onClick={ async () => {
-                            const user = await fetchUserDocument(post.from);
-                            history.push({
-                                pathname: `/profile/${post.from}`,
-                                state: { user }
-                            })
-                        }}
-                    >
-                        <img src={[members[post.from].photo_url || "/images/anonymous.png"]} alt="member profile photo" width="80px" height="100px"/>
-                    </li>
-                    <p> {[members[post.from].display_name]} </p>
-                    <p> {[members[post.from].title]} </p>
-                    <p> {post.message} </p>
-                    <div>
-                        <p> {post.like_count} </p>
+            Object.entries(posts).map(([id, post]) => {
+                const { from, created_on, message, like_count, comment_count } = post;
+                const { photo_url, display_name, title } = members[from];
+                return (
+                    <div key={id} style={{ listStyle: "none" }}>
+                        <li
+                            onClick={ async () => {
+                                const user = await fetchUserDocument(from);
+                                history.push({
+                                    pathname: `/profile/${from}`,
+                                    state: { user }
+                                })
+                            }}
+                        >
+                            <img src={photo_url || "/images/anonymous.png"} alt="member profile photo" width="80px" height="100px"/>
+                        </li>
+                        <p> {display_name} </p>
+                        <p> {created_on.toDate().toISOString()} </p>
+                        <p> {title} </p>
+                        <p> {message} </p>
+                        <span>
+                            <p> {like_count} </p> <p> ~ {comment_count} Comments </p>
+                        </span>
                     </div>
-                    <div>
-                        <p> {post.comment_count} </p>
-                    </div>
-                </div>
-            ) : 
-            <p style={{color: "red"}}> {posts} </p>
+                )
+            }) : 
+            <p style={{ color: "red" }}> {posts} </p>
         }
     </div>
 )

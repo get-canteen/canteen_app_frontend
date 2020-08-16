@@ -5,14 +5,15 @@ import { Link } from 'react-router-dom';
 const ProfilePage = (props) => {
     const { id } = props.match.params;
     const { user } = props.location.state;
+    const isAuthUser = id === props.authUid;
     return (
         <div>
             <h1> Profile Page </h1>
             { user &&
                 <div> 
                     {   
-                        props.authUid === id &&
-                        <Link to={`/profile/${id}/edit`}> 
+                        isAuthUser &&
+                        <Link to={`/profile/${id}/edit`} style={{ textDecoration: 'none' }}> 
                             <h3> Edit Profile </h3> 
                         </Link>
                     }
@@ -35,6 +36,18 @@ const ProfilePage = (props) => {
                                 <p> {i+1}. {skill.name} </p>
                                 <p> {skill.description} </p>
                                 <p> ${skill.price} / {skill.duration} minutes </p>
+                                <div>
+                                    { 
+                                        !isAuthUser 
+                                        && 
+                                        <Link 
+                                            to={{ pathname: `/profile/${id}/request`, user, skill }}
+                                            style={{ textDecoration: 'none' }}
+                                        >
+                                            Connect
+                                        </Link>
+                                    }
+                                </div>
                             </div>
                         ))}
                     </div>
@@ -45,6 +58,15 @@ const ProfilePage = (props) => {
                                 <p> {i+1}. {skill.name} </p>
                                 <p> {skill.description} </p>
                                 <p> ${skill.price} / {skill.duration} minutes </p>
+                                { 
+                                    !isAuthUser && 
+                                    <Link 
+                                        to={{ pathname: `/profile/${id}/request`, user, skill }}
+                                        style={{ textDecoration: 'none' }}
+                                    > 
+                                        Connect 
+                                    </Link> 
+                                }
                             </div>
                         ))}
                     </div>

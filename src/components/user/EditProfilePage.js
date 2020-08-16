@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { editUserDocument, deleteLearnSkill, deleteTeachSkill } from '../../actions/user';
 import { history } from '../../routers/AppRouter';
 import EditPhotoModal from './EditPhotoModal';
-import { CloudFunctionManager } from '../../functions/functions';
 
 class EditProfilePage extends React.Component {
     state = {
@@ -40,11 +39,6 @@ class EditProfilePage extends React.Component {
             title,
             about
         });
-        // await CloudFunctionManager.updateUserDetails({ 
-        //     display_name, 
-        //     title, 
-        //     about 
-        // });
         history.push("/profile");
     }
     onDeleteTeachSkill = (i) => {

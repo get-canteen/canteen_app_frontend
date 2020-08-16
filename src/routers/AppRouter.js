@@ -13,6 +13,7 @@ import EditProfilePage from '../components/user/EditProfilePage';
 import EditInterestPage from '../components/user/EditInterestPage';
 import AddSkillPage from '../components/user/AddSkillPage';
 import EditSkillPage from '../components/user/EditSkillPage';
+import RequestForm from '../components/matches/RequestForm';
 import HomePage from '../components/shared/HomePage';
 import GroupPage from '../components/groups/GroupPage';
 import MessagesPage from '../components/messages/MessagesPage';
@@ -32,6 +33,7 @@ const AppRouter = () => (
             <PrivateRoute path="/profile/:id/edit/interest" component={EditInterestPage}/>
             <PrivateRoute path="/profile/:id/add/:type" component={AddSkillPage}/> 
             <PrivateRoute path="/profile/:id/edit/:type/:index" component={EditSkillPage}/> 
+            <PrivateRoute path="/profile/:id/request" component={RequestForm}/> 
             <PrivateRoute path="/group/:id" component={GroupPage}/>
             <PrivateRoute path="/messages" component={MessagesPage}/>
             <PrivateRoute path="/notifications" component={NotificationsPage}/>

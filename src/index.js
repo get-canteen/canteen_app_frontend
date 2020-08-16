@@ -8,6 +8,7 @@ import LoadingPage from './components/shared/LoadingPage';
 import { receiveLogin, receiveLogout, receiveSignup } from './actions/auth';
 import { startSetUserDocument, addUserDocument } from './actions/user';
 import { startSetUserGroups } from './actions/groups';
+import 'react-dates/lib/css/_datepicker.css';
 
 const store = configureStore(); 
 
