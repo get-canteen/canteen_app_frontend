@@ -15,12 +15,14 @@ class RequestForm extends React.Component {
     onFocusChange = ({ focused }) => {
         this.setState({ focused });
     }
-    isDayBlocked = (day) => {
+    isOutsideRange = (day) => {
+        const today = moment();
         const { availability } = this.props.location.user;
         if (availability) {
             const availableDOWs = Object.keys(availability);
             return !availableDOWs.some(dow => {
-                return moment(day).day() === parseInt(dow)
+                return moment(day).day() === parseInt(dow) 
+                    && moment(day).isAfter(today)
             });
         } 
         return true;
@@ -31,10 +33,10 @@ class RequestForm extends React.Component {
     // create an array of all duration intervals between the two time stamps  
     // generateTimeSlots = (dow, duration) => {
     //     const { availability } = this.props.location.user;
-    //     const endTime = moment.duration(availability[dow].end_time, 'seconds');
-    //     const startTime = moment.duration(availability[dow].start_time, 'seconds');
-    //     const formattedEnd = endTime.format("hh:mm");
-    //     const formattedStart = startTime.format("hh:mm");
+    //     const endTime = moment().second(availability[dow].end_time).format("hh:mm");
+    //     const startTime = moment().second(availability[dow].start_time).format("hh:mm");
+    //     console.log("endTime: ", endTime);
+    //     console.log("startTime: ", startTime);
     //     const result = [];
     //     const current = moment(startTime);
     //     while (current <= endTime) {
@@ -70,10 +72,12 @@ class RequestForm extends React.Component {
                     onFocusChange={this.onFocusChange} 
                     id={id} 
                     numberOfMonths={1}
-                    isDayBlocked={this.isDayBlocked}
-                    // openDirection={OPEN_UP}
+                    isOutsideRange={this.isOutsideRange}
                     keepOpenOnDateSelect={true}
                 />
+                <div>
+                    <div> </div>
+                </div>
                 <form>
                     <h3> Select a time </h3>
                     <h4> Duration: {duration} </h4>

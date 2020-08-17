@@ -39,7 +39,10 @@ class EditProfilePage extends React.Component {
             title,
             about
         });
-        history.push(`/profile/${this.props.authUid}`);
+        history.push({
+            pathname: `/profile/${this.props.authUid}`,
+            state: { user: this.props.user }
+        });
     }
     onDeleteTeachSkill = (i) => {
         deleteTeachSkill(i);
@@ -102,19 +105,21 @@ class EditProfilePage extends React.Component {
                 <div>
                     <h3> Offerings </h3>
                     <div>
-                        {Object.values(this.props.user.teach_skill).map((skill, i) => (
-                            <div key={i}>
-                                <Link 
-                                    to={`/profile/${this.props.authUid}/edit/teach-skill/${i}`}
-                                    style={{ textDecoration: 'none' }}
-                                >
-                                    <p> {i+1}. {skill.name} </p>
-                                    <p> {skill.description} </p>
-                                    <p> ${skill.price} / {skill.duration} minutes </p>
-                                </Link>
-                                <button type="button" onClick={() => this.onDeleteTeachSkill(i)}> X </button>
-                            </div>
-                        ))}
+                        <div>
+                            {Object.values(this.props.user.teach_skill).map((skill, i) => (
+                                <div key={i}>
+                                    <Link 
+                                        to={`/profile/${this.props.authUid}/edit/teach-skill/${i}`}
+                                        style={{ textDecoration: 'none' }}
+                                    >
+                                        <p> {i+1}. {skill.name} </p>
+                                        <p> {skill.description} </p>
+                                        <p> ${skill.price} / {skill.duration} minutes </p>
+                                    </Link>
+                                    <button type="button" onClick={() => this.onDeleteTeachSkill(i)}> X </button>
+                                </div>
+                            ))}
+                        </div>
                         <Link 
                             to={`/profile/${this.props.authUid}/add/teach-skill`} 
                             style={{ textDecoration: 'none' }}
@@ -126,19 +131,21 @@ class EditProfilePage extends React.Component {
                 <div>
                     <h3> Asks </h3>
                     <div>
-                        {Object.values(this.props.user.learn_skill).map((skill, i) => (
-                            <div key={i}>
-                                <Link 
-                                    to={`/profile/${this.props.authUid}/edit/learn-skill/${i}`}
-                                    style={{ textDecoration: 'none' }}
-                                >
-                                    <p> {i+1}. {skill.name} </p>
-                                    <p> {skill.description} </p>
-                                    <p> ${skill.price} / {skill.duration} minutes </p>
-                                </Link>
-                                <button type="button" onClick={() => this.onDeleteLearnSkill(i)}> X </button>
-                            </div>
-                        ))}
+                        <div>
+                            {Object.values(this.props.user.learn_skill).map((skill, i) => (
+                                <div key={i}>
+                                    <Link 
+                                        to={`/profile/${this.props.authUid}/edit/learn-skill/${i}`}
+                                        style={{ textDecoration: 'none' }}
+                                    >
+                                        <p> {i+1}. {skill.name} </p>
+                                        <p> {skill.description} </p>
+                                        <p> ${skill.price} / {skill.duration} minutes </p>
+                                    </Link>
+                                    <button type="button" onClick={() => this.onDeleteLearnSkill(i)}> X </button>
+                                </div>
+                            ))}
+                        </div>
                         <Link 
                             to={`/profile/${this.props.authUid}/add/learn-skill`} 
                             style={{ textDecoration: 'none' }}

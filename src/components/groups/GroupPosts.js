@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import { history } from '../../routers/AppRouter';
 import { fetchUserDocument } from '../../actions/user';
 
@@ -23,11 +24,12 @@ export const GroupPosts = ({ posts, members }) => (
                             <img src={photo_url || "/images/anonymous.png"} alt="member profile photo" width="80px" height="100px"/>
                         </li>
                         <p> {display_name} </p>
-                        <p> {created_on.toDate().toISOString()} </p>
                         <p> {title} </p>
                         <p> {message} </p>
+                        <p> {moment(created_on.toDate().toISOString()).format('LLL')} </p>
                         <span>
-                            <p> {like_count} </p> <p> ~ {comment_count} Comments </p>
+                            <p> {like_count} </p> 
+                            <p> ~ {comment_count} Comments </p>
                         </span>
                     </div>
                 )

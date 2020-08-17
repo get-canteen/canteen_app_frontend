@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 const ProfilePage = (props) => {
     const { id } = props.match.params;
     const { user } = props.location.state;
+    const { display_name, photo_url, title, about, interests, teach_skill, learn_skill } = user;
     const isAuthUser = id === props.authUid;
     return (
         <div>
@@ -17,60 +18,77 @@ const ProfilePage = (props) => {
                             <h3> Edit Profile </h3> 
                         </Link>
                     }
-                    <img src={user.photo_url || "/images/anonymous.png"} alt="profile photo" width="80px" height="100px"/>
-                    <h3> {user.display_name} </h3> 
-                    <h4> {user.title} </h4>
-                    <p> {user.about} </p>
+                    <img src={photo_url || "/images/anonymous.png"} alt="profile photo" width="80px" height="100px"/>
+                    <h3> {display_name} </h3> 
+                    <h4> {title} </h4>
+                    <p> {about} </p>
                     <div>
                         <h3> Interests </h3>
-                        {user.interests.map((interest, i) => (
-                            <div key={i}>
-                                <p> #{interest.toLowerCase()} </p> 
-                            </div>    
-                        ))}
+                        <div>
+                            {interests.map((interest, i) => (
+                                <div key={i}>
+                                    <p> #{interest.toLowerCase()} </p> 
+                                </div>    
+                            ))}
+                        </div>
                     </div>
                     <div>
                         <h3> Offerings </h3>
-                        {Object.values(user.teach_skill).map((skill, i) => (
-                            <div key={i}>
-                                <p> {i+1}. {skill.name} </p>
-                                <p> {skill.description} </p>
-                                <p> ${skill.price} / {skill.duration} minutes </p>
-                                <div>
-                                    { 
-                                        !isAuthUser 
-                                        && 
-                                        <Link 
-                                            to={{ pathname: `/profile/${id}/request`, user, skill }}
-                                            style={{ textDecoration: 'none' }}
-                                        >
-                                            Connect
-                                        </Link>
-                                    }
-                                </div>
+                        { 
+                            (!isAuthUser && Object.entries(teach_skill).length === 0) ? 
+                            <div style={{ color: "red" }}>
+                                <p> {display_name} hasn't posted any offerings </p>
+                                <p> When they do, they will show up here </p>
+                            </div> :
+                            <div> 
+                                {Object.values(teach_skill).map((skill, i) => (
+                                    <div key={i}>
+                                        <p> {i+1}. {skill.name} </p>
+                                        <p> {skill.description} </p>
+                                        <p> ${skill.price} / {skill.duration} minutes </p>
+                                        { 
+                                            !isAuthUser && 
+                                            <Link 
+                                                to={{ pathname: `/profile/${id}/request`, user, skill }}
+                                                style={{ textDecoration: 'none' }}
+                                            >
+                                                Connect
+                                            </Link>
+                                        }
+                                    </div>
+                                ))} 
                             </div>
-                        ))}
+                        }
                     </div>
                     <div>
                         <h3> Asks </h3>
-                        {Object.values(user.learn_skill).map((skill, i) => (
-                            <div key={i}>
-                                <p> {i+1}. {skill.name} </p>
-                                <p> {skill.description} </p>
-                                <p> ${skill.price} / {skill.duration} minutes </p>
-                                { 
-                                    !isAuthUser && 
-                                    <Link 
-                                        to={{ pathname: `/profile/${id}/request`, user, skill }}
-                                        style={{ textDecoration: 'none' }}
-                                    > 
-                                        Connect 
-                                    </Link> 
-                                }
+                        { 
+                            (!isAuthUser && Object.entries(learn_skill).length === 0) ? 
+                            <div style={{ color: "red" }}>
+                                <p> {display_name} hasn't posted any asks </p>
+                                <p> When they do, they will show up here </p>
+                            </div> :
+                            <div>
+                                {Object.values(learn_skill).map((skill, i) => (
+                                    <div key={i}>
+                                        <p> {i+1}. {skill.name} </p>
+                                        <p> {skill.description} </p>
+                                        <p> ${skill.price} / {skill.duration} minutes </p>
+                                        { 
+                                            !isAuthUser && 
+                                            <Link 
+                                                to={{ pathname: `/profile/${id}/request`, user, skill }}
+                                                style={{ textDecoration: 'none' }}
+                                            > 
+                                                Connect 
+                                            </Link> 
+                                        }
+                                    </div>
+                                ))} 
                             </div>
-                        ))}
+                        }
                     </div>
-                </div>    
+                </div>  
             }
         </div>
     )
