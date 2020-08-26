@@ -1,23 +1,30 @@
 import React from 'react';
 import moment from 'moment';
 import 'react-dates/initialize';
-// import 'react-dates/lib/css/_datepicker.css';
 import { SingleDatePicker } from 'react-dates';
 
 class RequestForm extends React.Component {
     state = {
         date: moment().startOf('month'),
-        focused: false
+        focused: false,
+        availableTimes: [],
+        time: null
     };
     onDateChange = (date) => {
         this.setState({ date });
+        let availableTimes = this.generateAvailableTimes(date);
+        this.setState({ availableTimes });
     }
     onFocusChange = ({ focused }) => {
         this.setState({ focused });
     }
+    onTimeClick = (time) => {
+        this.setState({ time });
+        console.log(time);
+    }
     isOutsideRange = (day) => {
         const today = moment();
-        const { availability } = this.props.location.user;
+        const { availability } = this.props.location.state.user;
         if (availability) {
             const availableDOWs = Object.keys(availability);
             return !availableDOWs.some(dow => {
@@ -27,33 +34,46 @@ class RequestForm extends React.Component {
         } 
         return true;
     }
+    generateAvailableTimes = (date) => {
+        const { availability, time_zone } = this.props.location.state.user;
+        const { duration } = this.props.location.state.skill;
+        const dow = moment(date._d).weekday();
 
-    // input is the dow property object within availability object of selected day
-    // change endtime and starttime in (seconds) to the hour timestamp
-    // create an array of all duration intervals between the two time stamps  
-    // generateTimeSlots = (dow, duration) => {
-    //     const { availability } = this.props.location.user;
-    //     const endTime = moment().second(availability[dow].end_time).format("hh:mm");
-    //     const startTime = moment().second(availability[dow].start_time).format("hh:mm");
-    //     console.log("endTime: ", endTime);
-    //     console.log("startTime: ", startTime);
-    //     const result = [];
-    //     const current = moment(startTime);
-    //     while (current <= endTime) {
-    //         result.push(current.format("hh:mm"))
-    //         current.add(duration, 'minutes');
-    //         console.log(current);
-    //     }
-    //     console.log("RESULT: ", result);
-    //     return result;
-    // }
+        const now = new Date();
+        const localOffset = now.getTimezoneOffset() * 60;
+        const startTime = availability[dow].start_time - time_zone + localOffset;
+        const endTime = availability[dow].end_time - time_zone + localOffset;
+
+        const availableTimes = [];
+        let current = startTime;
+        while (current <= endTime) {
+            let hours; 
+            let minutes;
+            let suffix;
+            if (current >= 86400) { // >24 hrs
+                hours = Math.floor((current - 86400) / 3600); // convert to 0 - 23 hrs
+                minutes = Math.floor(((current - 86400) % 3600) / 60);
+            } else {
+                hours = Math.floor((current / 3600)); // already 0 to 23 hrs
+                minutes = Math.floor(((current) % 3600) / 60);
+            }
+            suffix = (hours >= 12) ? "PM" : "AM";
+            hours = (hours > 12) ? hours - 12 : hours; // convert to 1 - 12 hrs
+            hours = (hours === 0) ? 12 : hours; // if 0 then it is 12 AM 
+            const time = hours + ":" + ((minutes < 10) ? "0" + minutes : minutes) + " " + suffix; 
+            availableTimes.push(time);
+            current += (duration * 60);
+        }
+        console.log("availableTimeslots: ", availableTimes);
+        return availableTimes;
+    }
+
     render() {
         const { id } = this.props.match.params;
-        const { user, skill } = this.props.location;
-        const { photo_url, display_name, title, availability } = user;
+        const { user, skill } = this.props.location.state;
+        const { photo_url, display_name, title } = user;
         const { name, description, price, duration } = skill;
         console.log("user: ", user);
-        // this.generateTimeSlots(2, 30);
         return (
             <div>
                 <h1> Request Form Page </h1>
@@ -73,17 +93,22 @@ class RequestForm extends React.Component {
                     id={id} 
                     numberOfMonths={1}
                     isOutsideRange={this.isOutsideRange}
-                    keepOpenOnDateSelect={true}
+                    // keepOpenOnDateSelect={true}
                 />
                 <div>
-                    <div> </div>
-                </div>
-                <form>
                     <h3> Select a time </h3>
                     <h4> Duration: {duration} </h4>
-
-                </form>
-
+                    {
+                        this.state.availableTimes.map(time => (
+                            <button style={{display: "block"}}
+                                type="button"
+                                onClick={() => this.onTimeClick(time)}
+                            >
+                                {time}
+                            </button>
+                        ))
+                    }
+                </div>
             </div>
         )
     }

@@ -28,8 +28,7 @@ export const GroupPosts = ({ posts, members }) => (
                         <p> {message} </p>
                         <p> {moment(created_on.toDate().toISOString()).format('LLL')} </p>
                         <span>
-                            <p> {like_count} </p> 
-                            <p> ~ {comment_count} Comments </p>
+                            <p> {like_count} Likes </p> <p> ~ {comment_count} Comments </p>
                         </span>
                     </div>
                 )

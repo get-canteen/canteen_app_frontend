@@ -43,13 +43,13 @@ const ProfilePage = (props) => {
                             <div> 
                                 {Object.values(teach_skill).map((skill, i) => (
                                     <div key={i}>
-                                        <p> {i+1}. {skill.name} </p>
+                                        <p> {skill.name} </p>
                                         <p> {skill.description} </p>
                                         <p> ${skill.price} / {skill.duration} minutes </p>
                                         { 
                                             !isAuthUser && 
                                             <Link 
-                                                to={{ pathname: `/profile/${id}/request`, user, skill }}
+                                                to={{ pathname: `/profile/${id}/request`, state: { user, skill }}}
                                                 style={{ textDecoration: 'none' }}
                                             >
                                                 Connect
@@ -77,7 +77,7 @@ const ProfilePage = (props) => {
                                         { 
                                             !isAuthUser && 
                                             <Link 
-                                                to={{ pathname: `/profile/${id}/request`, user, skill }}
+                                                to={{ pathname: `/profile/${id}/request`, state: { user, skill }}}
                                                 style={{ textDecoration: 'none' }}
                                             > 
                                                 Connect 

@@ -13,7 +13,6 @@ class EditProfilePage extends React.Component {
         showModal: false
     }
     handleOpenModal = () => {
-        console.log('open EditPhotoModal');
         this.setState({ showModal: true });
     }
     handleCloseModal = () => {
