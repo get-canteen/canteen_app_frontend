@@ -118,11 +118,9 @@ export const addLearnSkill = async (skill) => {
     const uid = firebase.auth().currentUser.uid;
     try {
         const user = await database.collection("users").doc(uid).get();
-        const length = Object.keys(user.data().learn_skill).length;
-        const indexArr = Object.keys(user.data().learn_skill);
-        const lastIndex = indexArr[length - 1];
+        const index = Object.keys(user.data().learn_skill).length;
         await database.collection("users").doc(uid).update({
-            [`learn_skill.${lastIndex + 1}`]: { ...skill }
+            [`learn_skill.${index}`]: { ...skill }
         })
     } catch (e) {
         console.log("Error in adding learn skill", e);
