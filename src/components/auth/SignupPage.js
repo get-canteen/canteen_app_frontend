@@ -56,6 +56,21 @@ class SignupPage extends React.Component {
                             {this.props.signupError && <ErrorMessage>{this.props.signupError.message}</ErrorMessage>}
                             <SubmitButton type="submit" onSubmit={this.onSubmit}> Next </SubmitButton>
                         </Form>
+                        <Line/>
+                        <ButtonContainer>
+                            <FacebookButton onClick={this.props.startLoginWithFacebook}> 
+                                <img src="/images/facebook.svg" alt="facebook-logo" width="20" height="30"/>
+                                <ButtonText>
+                                    Continue
+                                </ButtonText>
+                            </FacebookButton>
+                            <GoogleButton onClick={this.props.startLoginWithGoogle}> 
+                                <img src="/images/google.svg" alt="google-logo" width="20" height="30"/>
+                                <ButtonText>
+                                    Continue
+                                </ButtonText>
+                            </GoogleButton>
+                        </ButtonContainer>
                         <Footer>
                             <FooterText> Already have an account? </FooterText>
                             <LoginLink to="/"> Login </LoginLink>

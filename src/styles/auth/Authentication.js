@@ -3,13 +3,13 @@ import { Colors, FontSize, Spacing } from '../../constants/constants';
 import { Link } from 'react-router-dom';
 
 export const BoxLayout = styled.div`
+    align-items: center;
     background-image: linear-gradient(180deg, #1a6edb, #618bff);
     background-size: cover;
-    height: 100vh;
-    width: 100vw;
     display: flex;
-    align-items: center;
+    height: 100vh;
     justify-content: center;
+    width: 100vw;
 `; 
 
 export const BoxLayoutBox = styled.div`
@@ -23,10 +23,10 @@ export const BoxLayoutBox = styled.div`
 `;
 
 export const Title = styled.h2`
-    margin: ${Spacing.s_size} 0;
     font-size: ${FontSize.large};
     font-weight: 600;
     line-height: 1;
+    margin: ${Spacing.s_size} 0;
 `; 
 
 export const Form = styled.form`
@@ -42,60 +42,71 @@ export const Input = styled.input`
 `;
 
 export const ForgotLink = styled(Link)`
-    font-size: ${FontSize.small};
     align-self: flex-start;
-    margin: 0 ${Spacing.xs_size} ${Spacing.s_size} ${Spacing.xs_size};
     color: #1a6edb;
+    font-size: ${FontSize.small};
+    margin: 0 ${Spacing.xs_size} ${Spacing.s_size} ${Spacing.xs_size};
 `;
 
 export const SubmitButton = styled.button`
     background-image: linear-gradient(180deg, #1a6edb, #618bff);
     border: none;
     color: white;
+    cursor: pointer;
     font-size: ${FontSize.large};
     font-weight: 300;
     margin: 0 ${Spacing.xs_size} ${Spacing.s_size} ${Spacing.xs_size};
     padding: ${Spacing.xs_size} ${Spacing.xs_size};
-    cursor: pointer;
+    &:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 1rem 2rem rgba(0,0,0,.2); 
+    }
 `;
 
 export const Line = styled.hr`
+    border-top: 1px solid #ccc;
     display: block;
     height: 1px;
-    border-top: 1px solid #ccc;
 `;
 
 export const ButtonContainer = styled.div`
-    display: flex;
     align-items: center;
+    display: flex;
     justify-content: space-between;
     margin: ${Spacing.m_size};
 `;
 
 export const GoogleButton = styled.button`
-    display: flex;
     align-items: center;
-    justify-content: space-evenly;
     background-image: linear-gradient(180deg, #1a6edb, #618bff);
     border: none;
     color: white;
+    cursor: pointer;
+    display: flex;
     font-size: ${FontSize.large};
     font-weight: 300;
     padding: ${Spacing.xs_size};
-    cursor: pointer;
+    &:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 1rem 2rem rgba(0,0,0,.2); 
+    }
 `;
 
 export const FacebookButton = styled.button`
-    display: flex;
     align-items: center;
-    justify-content: space-evenly;
     background-image: linear-gradient(180deg, #1a6edb, #618bff);
     border: none;
     color: white;
+    cursor: pointer;
+    display: flex;
     font-size: ${FontSize.large};
     font-weight: 300;
+    justify-content: space-evenly;
     padding: ${Spacing.xs_size};
-    cursor: pointer;
+    &:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 1rem 2rem rgba(0,0,0,.2); 
+    }
 `;
 
 export const ButtonText = styled.span`
@@ -103,30 +114,30 @@ export const ButtonText = styled.span`
 `;
 
 export const SignupLink = styled(Link)`
+    color: #1a6edb;
     font-size: ${FontSize.small};
     font-weight: 300;
     margin-bottom: ${Spacing.xs_size};
-    color: #1a6edb;
 `;
 
 export const LoginLink = styled(Link)`
+    color: #1a6edb;
     font-size: ${FontSize.small};
     font-weight: 300;
     margin-bottom: ${Spacing.xs_size};
-    color: #1a6edb;
 `;
 
 export const Footer = styled.div`
-    display: flex;
     align-items: center;
-    justify-content: center;
     font-size: ${FontSize.small};
+    display: flex;
+    justify-content: center;
 `;
 
 export const FooterText = styled.span`
-    margin: 0 ${Spacing.s_size} ${Spacing.xs_size} 0;
     color: ${Colors.grey};
     font-weight: 700;
+    margin: 0 ${Spacing.s_size} ${Spacing.xs_size} 0;
 `;
 
 export const ErrorMessage = styled.span`
