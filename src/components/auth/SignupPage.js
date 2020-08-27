@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { startCreateUserWithEmailAndPassword } from '../../actions/auth';
+import { BoxLayout, BoxLayoutBox, Title, Form, Input, SubmitButton, LoginLink, ButtonContainer, FacebookButton, GoogleButton, ButtonText, Footer, FooterText, ErrorMessage, Line } from '../../styles/auth/Authentication';
 
 class SignupPage extends React.Component {
     state = {
@@ -27,38 +27,41 @@ class SignupPage extends React.Component {
     }
     render() {
         return (
-                <div>
-                    <h1> Signup </h1>
-                    <form onSubmit={this.onSubmit}>
-                        <input
-                            placeholder="Name" 
-                            type="text"
-                            autoFocus
-                            value={this.state.name}
-                            onChange={this.onNameChange}
-                        />
-                        <input
-                            placeholder="Email" 
-                            type="email"
-                            autoFocus
-                            value={this.state.email}
-                            onChange={this.onEmailChange}
-                        />
-                        <input
-                            placeholder="Password" 
-                            type="text"
-                            autoFocus
-                            value={this.state.password}
-                            onChange={this.onPasswordChange}
-                        />
-                        {this.props.signupError && <h5>{this.props.signupError.message}</h5>}
-                        <button type="submit" onSubmit={this.onSubmit}> Next </button>
-                    </form>
-                    <div>
-                        <h3> Already have an account? </h3>
-                        <Link to="/"> Login </Link>
-                    </div>
-                </div>
+                <BoxLayout>
+                    <BoxLayoutBox>
+                        <img src="/images/logo.png" alt="logo" height="40px"/>
+                        <Title> Sign up </Title>
+                        <Form onSubmit={this.onSubmit}>
+                            <Input
+                                placeholder="Name" 
+                                type="text"
+                                autoFocus
+                                value={this.state.name}
+                                onChange={this.onNameChange}
+                            />
+                            <Input
+                                placeholder="Email" 
+                                type="email"
+                                autoFocus
+                                value={this.state.email}
+                                onChange={this.onEmailChange}
+                            />
+                            <Input
+                                placeholder="Password" 
+                                type="text"
+                                autoFocus
+                                value={this.state.password}
+                                onChange={this.onPasswordChange}
+                            />
+                            {this.props.signupError && <ErrorMessage>{this.props.signupError.message}</ErrorMessage>}
+                            <SubmitButton type="submit" onSubmit={this.onSubmit}> Next </SubmitButton>
+                        </Form>
+                        <Footer>
+                            <FooterText> Already have an account? </FooterText>
+                            <LoginLink to="/"> Login </LoginLink>
+                        </Footer>
+                    </BoxLayoutBox>
+                </BoxLayout>
         )
     }
 }

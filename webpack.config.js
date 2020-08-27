@@ -1,13 +1,8 @@
 const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-// const SplitByPathPlugin = require('webpack-split-by-path');
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
-
-if (process.env.NODE_ENV === 'development') {
-  require('dotenv').config({ path: '.env.development' });
-}
 
 if (process.env.NODE_ENV === 'test') {
   require('dotenv').config({ path: '.env.test' });
@@ -15,8 +10,8 @@ if (process.env.NODE_ENV === 'test') {
   require('dotenv').config({ path: '.env.development' });
 }
 
-module.exports = (env) => {
-  const isProduction = env === 'production';
+module.exports = () => {
+  // const isProduction = env === 'production';
   const CSSExtract = new ExtractTextPlugin('styles.css');
   return {
     entry: ['@babel/polyfill', './src/index.js' ],
@@ -63,7 +58,7 @@ module.exports = (env) => {
         'process.env.FIREBASE_MEASUREMENT_ID': JSON.stringify(process.env.FIREBASE_MEASUREMENT_ID)
       })
     ],
-    devtool: isProduction ? 'source-map' : 'inline-source-map',
+    devtool: 'inline-source-map',
     devServer: {
       contentBase: path.join(__dirname, 'public'),
       historyApiFallback: true,

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { startLoginWithEmailAndPassword } from '../../actions/auth';
+import { BoxLayout, BoxLayoutBox, Title, Form, Input, SubmitButton, ForgotLink, SignupLink, ButtonContainer, FacebookButton, GoogleButton, ButtonText, Footer, FooterText, ErrorMessage, Line } from '../../styles/auth/Authentication';
 
 class LoginPage extends React.Component {
     state = {
@@ -22,32 +22,50 @@ class LoginPage extends React.Component {
     }
     render() {
         return (
-                <div>
-                    <h1> Log In </h1>
-                    <form onSubmit={this.onSubmit}>
-                        <input
-                            placeholder="Email" 
-                            type="email"
-                            autoFocus
-                            value={this.state.email}
-                            onChange={this.onEmailChange}
-                        />
-                        <input
-                            placeholder="Password" 
-                            type="text"
-                            autoFocus
-                            value={this.state.password}
-                            onChange={this.onPasswordChange}
-                        />
-                        {this.props.loginError && <h5>{this.props.loginError.message}</h5>}
-                        <button type="submit" onSubmit={this.onSubmit}> Next</button>
-                    </form>
-                    <div>
-                        <Link to='/forgot'> Forgot password? </Link>
-                        <h3> Don't have an account? </h3>
-                        <Link to="/signup"> Sign Up </Link>
-                    </div>
-                </div>
+                <BoxLayout>
+                    <BoxLayoutBox>
+                        <img src="/images/logo.png" alt="logo" height="40px"/>
+                        <Title> Sign in </Title>
+                        <Form onSubmit={this.onSubmit}>
+                            <Input
+                                placeholder="Email" 
+                                type="email"
+                                autoFocus
+                                value={this.state.email}
+                                onChange={this.onEmailChange}
+                            />
+                            <Input
+                                placeholder="Password" 
+                                type="text"
+                                autoFocus
+                                value={this.state.password}
+                                onChange={this.onPasswordChange}
+                            />
+                            {this.props.loginError && <ErrorMessage>{this.props.loginError.message}</ErrorMessage>}
+                            <ForgotLink to="/forgot"> Forgot password? </ForgotLink>
+                            <SubmitButton type="submit" onSubmit={this.onSubmit}> Continue </SubmitButton>
+                        </Form>
+                        <Line/>
+                        <ButtonContainer>
+                            <FacebookButton onClick={this.props.startLoginWithFacebook}> 
+                                <img src="/images/facebook.svg" alt="facebook-logo" width="20" height="30"/>
+                                <ButtonText>
+                                    Continue
+                                </ButtonText>
+                            </FacebookButton>
+                            <GoogleButton onClick={this.props.startLoginWithGoogle}> 
+                                <img src="/images/google.svg" alt="google-logo" width="20" height="30"/>
+                                <ButtonText>
+                                    Continue
+                                </ButtonText>
+                            </GoogleButton>
+                        </ButtonContainer>
+                        <Footer>
+                            <FooterText> Don't have an account? </FooterText>
+                            <SignupLink to="/signup"> Sign Up </SignupLink>
+                        </Footer>
+                    </BoxLayoutBox>
+                </BoxLayout>
         )
     }
 }

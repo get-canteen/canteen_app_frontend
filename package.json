@@ -6,7 +6,7 @@
   "author": "Donald Chen",
   "license": "ISC",
   "scripts": {
-    "build:dev": "webpack --watch ",
+    "build:dev": "webpack --w",
     "build:prod": "webpack -p --env production",
     "start": "node server/server",
     "devStart": "nodemon server/server"
@@ -23,6 +23,7 @@
     "css-loader": "0.28.4",
     "express": "^4.17.1",
     "firebase": "^7.17.1",
+    "live-server": "^1.2.1",
     "moment": "^2.27.0",
     "moment-duration-format": "^2.3.2",
     "momentjs": "^2.0.0",

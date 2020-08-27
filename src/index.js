@@ -64,7 +64,7 @@ firebase.auth().onAuthStateChanged( async (user) => {
             // Fetch user document from firestore and set to redux store
             await store.dispatch(startSetUserDocument());
             // Fetch user document groups subcollection from firestore and set to redux store
-            await store.dispatch(startSetUserGroups());
+            store.dispatch(startSetUserGroups());
             console.log("render app")
             // Render app with newly fetched data
             renderApp();

@@ -58,7 +58,8 @@ class GroupPage extends React.Component {
         if (type === "public") {
             try {
                 const res = await CloudFunctionManager.joinGroup({ group_id });
-                const { status, message } = res.data;
+                console.log("res:", res);
+                const { status, message, data } = res.data;
                 if (status === "success") {
                     this.setState({ showModal: false });
                     console.log("successfully join public group");
@@ -113,12 +114,10 @@ class GroupPage extends React.Component {
                         </button>
                     }
                 </div>
-                <br/>
                 { 
                     (this.state.message && !this.state.showModal) &&
                     <p style={{color: "red"}}> {this.state.message} </p> 
                 }
-                <br/>
                 <div>
                     <div>
                         <button onClick={this.handleShowPosts}> Posts </button>

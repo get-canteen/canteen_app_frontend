@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { startSendPasswordResetEmail } from '../../actions/auth';
+import { BoxLayout, BoxLayoutBox, Title, Form, Input, SubmitButton, Footer, FooterText, SignupLink, Line, Message } from '../../styles/auth/Authentication';
 
 export class ForgotPasswordPage extends React.Component {
     state = {
@@ -16,23 +16,26 @@ export class ForgotPasswordPage extends React.Component {
     }
     render() {
         return (
-            <div>
-                <h1> Forgot Password </h1>
-                <form onSubmit={this.onSubmit}>
-                    <input 
-                        placeholder="Email"
-                        type="input"
-                        onChange={this.onEmailChange}
-                        value={this.state.email}
-                    />
-                    {this.props.sendPasswordReset && <p> Please check your email. You can reset your password in provided link. </p>}
-                    <button> Next </button>
-                </form>
-                <div>
-                    <h3> Don't have an account? </h3>
-                    <Link to="/signup"> Sign Up </Link>
-                </div>
-            </div>
+            <BoxLayout>
+                <BoxLayoutBox>
+                    <img src="/images/logo.png" alt="logo" height="40px"/>
+                    <Title> Forgot Password </Title>
+                    <Form onSubmit={this.onSubmit}>
+                        <Input 
+                            placeholder="Email"
+                            type="input"
+                            onChange={this.onEmailChange}
+                            value={this.state.email}
+                        />
+                        {this.props.sendPasswordReset && <Message> Please check your email. You can reset your password in provided link. </Message>}
+                        <SubmitButton> Next </SubmitButton>
+                    </Form>
+                    <Footer>
+                        <FooterText> Don't have an account? </FooterText>
+                        <SignupLink to="/signup"> Sign Up </SignupLink>
+                    </Footer>
+                </BoxLayoutBox>
+            </BoxLayout>
 
         )
     }
