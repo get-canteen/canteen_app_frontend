@@ -61,10 +61,10 @@ firebase.auth().onAuthStateChanged( async (user) => {
             console.log('log in');
             // Let redux store know user was able to successfully login
             store.dispatch(receiveLogin(user)); 
+            // Fetch user document groups subcollection from firestore and set to redux store
+            await store.dispatch(startSetUserGroups());
             // Fetch user document from firestore and set to redux store
             await store.dispatch(startSetUserDocument());
-            // Fetch user document groups subcollection from firestore and set to redux store
-            store.dispatch(startSetUserGroups());
             console.log("render app")
             // Render app with newly fetched data
             renderApp();

@@ -24,7 +24,7 @@ class LoginPage extends React.Component {
         return (
                 <BoxLayout>
                     <BoxLayoutBox>
-                        <img src="/images/logo.png" alt="logo" height="40px"/>
+                        <img src="/images/canteen/logo.png" alt="logo" height="40px"/>
                         <Title> Sign in </Title>
                         <Form onSubmit={this.onSubmit}>
                             <Input
@@ -48,13 +48,13 @@ class LoginPage extends React.Component {
                         <Line/>
                         <ButtonContainer>
                             <FacebookButton onClick={this.props.startLoginWithFacebook}> 
-                                <img src="/images/facebook.svg" alt="facebook-logo" width="20" height="30"/>
+                                <img src="/images/provider/facebook.svg" alt="facebook-logo" width="20" height="30"/>
                                 <ButtonText>
                                     Continue
                                 </ButtonText>
                             </FacebookButton>
                             <GoogleButton onClick={this.props.startLoginWithGoogle}> 
-                                <img src="/images/google.svg" alt="google-logo" width="20" height="30"/>
+                                <img src="/images/provider/google.svg" alt="google-logo" width="20" height="30"/>
                                 <ButtonText>
                                     Continue
                                 </ButtonText>

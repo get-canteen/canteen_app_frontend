@@ -5,22 +5,19 @@ import { SingleDatePicker } from 'react-dates';
 
 class RequestForm extends React.Component {
     state = {
+        skill: null,
+        duration: 0,
         date: moment().startOf('month'),
+        time: null,
+        message: '',
         focused: false,
-        availableTimes: [],
-        time: null
+        availableTimes: []
     };
     onDateChange = (date) => {
-        this.setState({ date });
-        let availableTimes = this.generateAvailableTimes(date);
-        this.setState({ availableTimes });
-    }
-    onFocusChange = ({ focused }) => {
-        this.setState({ focused });
-    }
-    onTimeClick = (time) => {
-        this.setState({ time });
-        console.log(time);
+        this.setState({ 
+            date, 
+            availableTimes: this.generateAvailableTimes(date)
+        });
     }
     isOutsideRange = (day) => {
         const today = moment();
@@ -36,13 +33,13 @@ class RequestForm extends React.Component {
     }
     generateAvailableTimes = (date) => {
         const { availability, time_zone } = this.props.location.state.user;
-        const { duration } = this.props.location.state.skill;
+        const { duration } = this.state;
         const dow = moment(date._d).weekday();
 
         const now = new Date();
         const localOffset = now.getTimezoneOffset() * 60;
-        const startTime = availability[dow].start_time - time_zone + localOffset;
-        const endTime = availability[dow].end_time - time_zone + localOffset;
+        const startTime = availability[[dow]].start_time - time_zone + localOffset;
+        const endTime = availability[[dow]].end_time - time_zone + localOffset;
 
         const availableTimes = [];
         let current = startTime;
@@ -70,10 +67,7 @@ class RequestForm extends React.Component {
 
     render() {
         const { id } = this.props.match.params;
-        const { user, skill } = this.props.location.state;
-        const { photo_url, display_name, title } = user;
-        const { name, description, price, duration } = skill;
-        console.log("user: ", user);
+        const { photo_url, display_name, title, teach_skill, learn_skill } = this.props.location.state.user;
         return (
             <div>
                 <h1> Request Form Page </h1>
@@ -81,34 +75,79 @@ class RequestForm extends React.Component {
                     <img src={photo_url || "/images/anonymous.png"} alt="profile photo" width="80px" height="100px"/>
                     <h3> {display_name} </h3> 
                     <h4> {title} </h4>
-                    <p> {name} </p>
-                    <p> {description} </p>
-                    <p> ${price} / {duration} minutes </p>
                 </div>
+                <form>
+                    <h2> Select a skill: </h2>
+                    <h3> Offerings </h3>
+                    { Object.entries(teach_skill).map(([index, skill]) => (
+                        <div>
+                            <button key={index} 
+                                onClick={(e) => { 
+                                    e.preventDefault(); 
+                                    const { duration } = skill;
+                                    this.setState({ skill, duration });
+                                }}
+                            > 
+                                {skill.name}
+                            </button>
+                        </div>
+                    ))}
+                    <h3> Asks </h3>
+                    { Object.entries(learn_skill).map(([index, skill]) => (
+                        <div>
+                            <button key={index} 
+                                onClick={(e) => { 
+                                    e.preventDefault();
+                                    const { duration } = skill;
+                                    this.setState({ skill, duration });
+                                }}
+                            > 
+                                {skill.name}
+                            </button>
+                        </div>
+                    ))}
+                </form>
+                <h2> Select an available date: </h2>
                 <SingleDatePicker
                     date={this.state.date} 
                     onDateChange={this.onDateChange} 
                     focused={this.state.focused}
-                    onFocusChange={this.onFocusChange} 
+                    onFocusChange={({ focused }) => this.setState({ focused })} 
                     id={id} 
                     numberOfMonths={1}
                     isOutsideRange={this.isOutsideRange}
-                    // keepOpenOnDateSelect={true}
                 />
                 <div>
-                    <h3> Select a time </h3>
-                    <h4> Duration: {duration} </h4>
+                    <h2> Select an available time: </h2>
+                    <h4> Duration: {this.state.duration} </h4>
                     {
                         this.state.availableTimes.map(time => (
-                            <button style={{display: "block"}}
-                                type="button"
-                                onClick={() => this.onTimeClick(time)}
-                            >
-                                {time}
-                            </button>
+                            <div>
+                                <button 
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        this.setState({ time });
+                                    }}
+                                >
+                                    {time}
+                                </button>
+                            </div>
                         ))
                     }
                 </div>
+                <div> 
+                    <h2> Add a message: </h2>
+                    <textarea
+                        placeholder="Add a message"
+                        value={this.state.message}
+                        onChange={(e) => {
+                            const { message } = e.target.value;
+                            this.setState({ message });
+                        }}
+                    > 
+                    </textarea>
+                </div>
+                <button> Submit </button>
             </div>
         )
     }

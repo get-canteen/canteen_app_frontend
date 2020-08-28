@@ -23,6 +23,8 @@ export const Spacing = {
 };
 
 export const Colors = {
+    canteen_light_blue: '#1a6edb',
+    canteen_dark_blue: '#618bff',
     dark_grey: '#333',
     grey: '#666',
     red: '#d43f3a',

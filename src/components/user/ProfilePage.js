@@ -32,6 +32,15 @@ const ProfilePage = (props) => {
                             ))}
                         </div>
                     </div>
+                    { 
+                        !isAuthUser && 
+                        <Link 
+                            to={{ pathname: `/profile/${id}/request`, state: { user }}}
+                            style={{ textDecoration: 'none' }}
+                        > 
+                            Connect 
+                        </Link> 
+                    }
                     <div>
                         <h3> Offerings </h3>
                         { 
@@ -46,15 +55,6 @@ const ProfilePage = (props) => {
                                         <p> {skill.name} </p>
                                         <p> {skill.description} </p>
                                         <p> ${skill.price} / {skill.duration} minutes </p>
-                                        { 
-                                            !isAuthUser && 
-                                            <Link 
-                                                to={{ pathname: `/profile/${id}/request`, state: { user, skill }}}
-                                                style={{ textDecoration: 'none' }}
-                                            >
-                                                Connect
-                                            </Link>
-                                        }
                                     </div>
                                 ))} 
                             </div>
@@ -74,15 +74,6 @@ const ProfilePage = (props) => {
                                         <p> {i+1}. {skill.name} </p>
                                         <p> {skill.description} </p>
                                         <p> ${skill.price} / {skill.duration} minutes </p>
-                                        { 
-                                            !isAuthUser && 
-                                            <Link 
-                                                to={{ pathname: `/profile/${id}/request`, state: { user, skill }}}
-                                                style={{ textDecoration: 'none' }}
-                                            > 
-                                                Connect 
-                                            </Link> 
-                                        }
                                     </div>
                                 ))} 
                             </div>
@@ -95,7 +86,8 @@ const ProfilePage = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-    authUid: state.auth.user.uid
+    authUid: state.auth.user.uid,
+    user: state.user
 })
 
 export default connect(mapStateToProps)(ProfilePage);

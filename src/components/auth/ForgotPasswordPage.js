@@ -18,7 +18,7 @@ export class ForgotPasswordPage extends React.Component {
         return (
             <BoxLayout>
                 <BoxLayoutBox>
-                    <img src="/images/logo.png" alt="logo" height="40px"/>
+                    <img src="/images/canteen/logo.png" alt="logo" height="40px"/>
                     <Title> Forgot Password </Title>
                     <Form onSubmit={this.onSubmit}>
                         <Input 

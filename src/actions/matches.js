@@ -54,3 +54,4 @@ export const startFetchMessages = () => async (dispatch) => {
         console.error("Error fetching messages", e);
     }
 }
+
