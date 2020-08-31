@@ -1,6 +1,6 @@
 import React from 'react';
 import { history } from '../../routers/AppRouter';
-import { fetchUserDocument } from '../../actions/user';
+// import { fetchUserDocument } from '../../actions/user';
 
 export const GroupMembers = ({ members }) => (
     <div>
@@ -9,11 +9,11 @@ export const GroupMembers = ({ members }) => (
             Object.entries(members).map(([id, member]) => 
                 <div key={id} style={{listStyle: "none"}}>
                     <li
-                        onClick={ async () => {
-                            const user = await fetchUserDocument(id);
+                        onClick={ () => {
+                            // const user = await fetchUserDocument(id);
                             history.push({
                                 pathname: `/profile/${id}`,
-                                state: { user }
+                                // state: { user }
                             })
                         }}
                     >

@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import { history } from '../../routers/AppRouter';
-import { fetchUserDocument } from '../../actions/user';
+// import { fetchUserDocument } from '../../actions/user';
 
 export const GroupPosts = ({ posts, members }) => (
     <div>
@@ -13,11 +13,11 @@ export const GroupPosts = ({ posts, members }) => (
                 return (
                     <div key={id} style={{ listStyle: "none" }}>
                         <li
-                            onClick={ async () => {
-                                const user = await fetchUserDocument(from);
+                            onClick={ () => {
+                                // const user = await fetchUserDocument(from);
                                 history.push({
                                     pathname: `/profile/${from}`,
-                                    state: { user }
+                                    // state: { user }
                                 })
                             }}
                         >

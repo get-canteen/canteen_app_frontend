@@ -39,8 +39,8 @@ class EditProfilePage extends React.Component {
             about
         });
         history.push({
-            pathname: `/profile/${this.props.authUid}`,
-            state: { user: this.props.user }
+            pathname: `/profile/${this.props.authUid}`
+            // state: { user: this.props.user }
         });
     }
     onDeleteTeachSkill = (i) => {
