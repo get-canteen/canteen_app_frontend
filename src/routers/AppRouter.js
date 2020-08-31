@@ -4,7 +4,6 @@ import { createBrowserHistory } from 'history';
 
 import PublicRoute from '../routers/PublicRoute';
 import PrivateRoute from '../routers/PrivateRoute';
-// import LandingPage from '../components/shared/LandingPage';
 import LoginPage from '../components/auth/LoginPage';
 import SignupPage from '../components/auth/SignupPage';
 import ForgotPasswordPage from '../components/auth/ForgotPasswordPage';
@@ -25,7 +24,6 @@ export const history = createBrowserHistory();
 const AppRouter = () => (
     <Router history={history}>
         <Switch>
-            {/* <PublicRoute path="/" component={LandingPage}/>  */}
             <PublicRoute exact path="/" component={LoginPage}/>
             <PublicRoute path="/signup" component={SignupPage}/>
             <PublicRoute path="/forgot" component={ForgotPasswordPage}/>

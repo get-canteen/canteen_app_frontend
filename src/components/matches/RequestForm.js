@@ -32,7 +32,10 @@ class RequestForm extends React.Component {
         return true;
     }
     generateAvailableTimes = (date) => {
+        console.log("date", date);
         const { availability, time_zone } = this.props.location.state.user;
+        console.log("availability", availability);
+        console.log("time_zone", time_zone);
         const { duration } = this.state;
         const dow = moment(date._d).weekday();
 
@@ -41,7 +44,7 @@ class RequestForm extends React.Component {
         const startTime = availability[[dow]].start_time - time_zone + localOffset;
         const endTime = availability[[dow]].end_time - time_zone + localOffset;
 
-        const availableTimes = [];
+        let availableTimes = [];
         let current = startTime;
         while (current <= endTime) {
             let hours; 

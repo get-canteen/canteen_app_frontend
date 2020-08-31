@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { startLogout } from '../../actions/auth';
 
 export const Navbar = ({ id, user, startLogout }) => (
     <div>
-        <Link to="/search"> Home </Link>
-        <Link to={{ pathname: `/profile/${id}`, state: { user } }}> Profile </Link>
-        <Link to="/messages"> Messages </Link>
-        <Link to="/notifications"> Notifications </Link>
+        <NavLink activeClassName="active" to="/search"> Home </NavLink>
+        <NavLink activeClassName="active" to={{ pathname: `/profile/${id}`, state: { user } }}> Profile </NavLink>
+        <NavLink activeClassName="active" to="/messages"> Messages </NavLink>
+        <NavLink activeClassName="active" to="/notifications"> Notifications </NavLink>
         <button onClick={startLogout}> Logout </button>
     </div>
 )
