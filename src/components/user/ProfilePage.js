@@ -55,7 +55,7 @@ class ProfilePage extends React.Component {
                         { 
                             !isAuthUser && 
                             <Link 
-                                to={`${this.props.match.url}/request`}
+                                to={`${this.props.match.url}/connect`}
                                 style={{ textDecoration: 'none' }}
                             > 
                                 <h3> Connect </h3>

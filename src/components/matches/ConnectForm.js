@@ -84,6 +84,7 @@ class ConnectForm extends React.Component {
     render() {
         const { id } = this.props.match.params;
         const { photo_url, display_name, title, teach_skill, learn_skill } = {...this.state.user};
+        console.log("this.state.user", this.state.user);
         return (
             <div>
                 <h1> Connect Form Page </h1>
