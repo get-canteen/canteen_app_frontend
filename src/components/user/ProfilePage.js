@@ -30,8 +30,11 @@ class ProfilePage extends React.Component {
                         {   
                             isAuthUser &&
                             <div>
-                                <Link to={`/profile/${id}/edit`} style={{ textDecoration: 'none' }}> 
-                                    <h3> Edit Profile </h3> 
+                                <Link 
+                                    to={`${this.props.match.url}/edit`} 
+                                    style={{ textDecoration: 'none' }}
+                                > 
+                                    <h3> Edit Profile </h3>
                                 </Link>
                             </div>
                         }
@@ -52,10 +55,10 @@ class ProfilePage extends React.Component {
                         { 
                             !isAuthUser && 
                             <Link 
-                                to={{ pathname: `/profile/${id}/request`, state: { user: this.state.user }}}
+                                to={`${this.props.match.url}/request`}
                                 style={{ textDecoration: 'none' }}
                             > 
-                                Connect 
+                                <h3> Connect </h3>
                             </Link> 
                         }
                         <div>

@@ -5,17 +5,6 @@ import { firebase } from '../../../firebase/firebase';
 import styled from 'styled-components';
 import { updateProfilePhoto } from '../../actions/user';
 
-const StyledInput = styled.input`
-    display: none;
-`;
-
-const StyledLabel = styled.label`
-    border: 1px solid #ccc;
-    display: inline-block;
-    padding: 3px 5px;
-    cursor: pointer;
-`;
-
 class EditPhotoModal extends React.Component {
     state = {
         image: null,
@@ -86,3 +75,14 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps)(EditPhotoModal);
+
+const StyledInput = styled.input`
+    display: none;
+`;
+
+const StyledLabel = styled.label`
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 3px 5px;
+    cursor: pointer;
+`;

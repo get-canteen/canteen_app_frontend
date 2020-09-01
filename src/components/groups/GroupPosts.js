@@ -16,7 +16,7 @@ export const GroupPosts = ({ posts, members }) => (
                             onClick={ () => {
                                 // const user = await fetchUserDocument(from);
                                 history.push({
-                                    pathname: `/profile/${from}`,
+                                    pathname: `/${from}`
                                     // state: { user }
                                 })
                             }}

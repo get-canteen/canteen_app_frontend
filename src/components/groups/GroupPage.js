@@ -96,6 +96,7 @@ class GroupPage extends React.Component {
     render() {
         const groupId = this.props.match.params.id;
         const { group } = this.props.location.state;
+        console.log("group:", group);
         return (
             <div>
                 <h1> Group Page </h1>

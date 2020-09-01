@@ -33,7 +33,7 @@ class AddSkillPage extends React.Component {
         } else if (this.props.match.params.type === 'learn-skill') {
             await addLearnSkill(this.state);
         }
-        history.push(`/profile/${this.props.authUid}/edit`);
+        history.push(`/${this.props.authUid}/edit`);
     }
     render() {
         const { type } = this.props.match.params;

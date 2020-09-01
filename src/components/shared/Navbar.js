@@ -5,8 +5,8 @@ import { startLogout } from '../../actions/auth';
 
 export const Navbar = ({ id, startLogout }) => (
     <div>
-        <NavLink activeClassName="active" to="/search"> Home </NavLink>
-        <NavLink activeClassName="active" to={{ pathname: `/profile/${id}`}}> Profile </NavLink>
+        <NavLink activeClassName="active" to="/home"> Home </NavLink>
+        <NavLink activeClassName="active" to={`/${id}`}> Profile </NavLink>
         <NavLink activeClassName="active" to="/messages"> Messages </NavLink>
         <NavLink activeClassName="active" to="/notifications"> Notifications </NavLink>
         <button onClick={startLogout}> Logout </button>

@@ -6,17 +6,17 @@ import { history } from '../../routers/AppRouter';
 class EditSkillPage extends React.Component {
     state = {
         name: this.props.match.params.type === "teach-skill" 
-            ? this.props.teach_skill[this.props.match.params.index]["name"] 
-            : this.props.learn_skill[this.props.match.params.index]["name"],
+            ? this.props.teach_skill[[this.props.match.params.index]]["name"] 
+            : this.props.learn_skill[[this.props.match.params.index]]["name"],
         description: this.props.match.params.type === "teach-skill"
-            ? this.props.teach_skill[this.props.match.params.index]["description"] 
-            : this.props.learn_skill[this.props.match.params.index]["description"],
+            ? this.props.teach_skill[[this.props.match.params.index]]["description"] 
+            : this.props.learn_skill[[this.props.match.params.index]]["description"],
         duration: this.props.match.params.type === "teach-skill"
-            ? this.props.teach_skill[this.props.match.params.index]["duration"] 
-            : this.props.learn_skill[this.props.match.params.index]["duration"],
+            ? this.props.teach_skill[[this.props.match.params.index]]["duration"] 
+            : this.props.learn_skill[[this.props.match.params.index]]["duration"],
         price: this.props.match.params.type === "teach-skill"
-            ? this.props.teach_skill[this.props.match.params.index]["price"] 
-            : this.props.learn_skill[this.props.match.params.index]["price"],
+            ? this.props.teach_skill[[this.props.match.params.index]]["price"] 
+            : this.props.learn_skill[[this.props.match.params.index]]["price"],
     }
     onNameChange = (e) => {
         const name = e.target.value;
@@ -43,7 +43,7 @@ class EditSkillPage extends React.Component {
         else if (type === 'learn-skill') {
             await updateLearnSkill(this.state, index);
         }
-        history.push(`/profile/${this.props.authUid}/edit`);
+        history.push(`/${this.props.authUid}/edit`);
     }
     render() {
         const { type } = this.props.match.params;

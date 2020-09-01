@@ -40,7 +40,6 @@ class EditProfilePage extends React.Component {
         });
         history.push({
             pathname: `/profile/${this.props.authUid}`
-            // state: { user: this.props.user }
         });
     }
     onDeleteTeachSkill = (i) => {
@@ -88,7 +87,7 @@ class EditProfilePage extends React.Component {
                 <div>
                     <h3> Interests </h3>
                     <Link 
-                        to={`/profile/${this.props.authUid}/edit/interest`} 
+                        to={`${this.props.match.url}/interest`} 
                         style={{ textDecoration: 'none' }}
                     > 
                     {
@@ -108,7 +107,7 @@ class EditProfilePage extends React.Component {
                             {Object.values(this.props.user.teach_skill).map((skill, i) => (
                                 <div key={i}>
                                     <Link 
-                                        to={`/profile/${this.props.authUid}/edit/teach-skill/${i}`}
+                                        to={`${this.props.match.url}/teach-skill/${i}`}
                                         style={{ textDecoration: 'none' }}
                                     >
                                         <p> {i+1}. {skill.name} </p>
@@ -120,7 +119,7 @@ class EditProfilePage extends React.Component {
                             ))}
                         </div>
                         <Link 
-                            to={`/profile/${this.props.authUid}/add/teach-skill`} 
+                            to={`/${this.props.authUid}/add/teach-skill`} 
                             style={{ textDecoration: 'none' }}
                         > 
                             <h3> Add Offering </h3> 
@@ -134,7 +133,7 @@ class EditProfilePage extends React.Component {
                             {Object.values(this.props.user.learn_skill).map((skill, i) => (
                                 <div key={i}>
                                     <Link 
-                                        to={`/profile/${this.props.authUid}/edit/learn-skill/${i}`}
+                                        to={`${this.props.match.url}/learn-skill/${i}`}
                                         style={{ textDecoration: 'none' }}
                                     >
                                         <p> {i+1}. {skill.name} </p>
@@ -146,7 +145,7 @@ class EditProfilePage extends React.Component {
                             ))}
                         </div>
                         <Link 
-                            to={`/profile/${this.props.authUid}/add/learn-skill`} 
+                            to={`/${this.props.authUid}/add/learn-skill`} 
                             style={{ textDecoration: 'none' }}
                         > 
                             <h3> Add Ask </h3> 
