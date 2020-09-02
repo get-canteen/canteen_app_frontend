@@ -53,7 +53,7 @@ firebase.auth().onAuthStateChanged( async (user) => {
                     learn_skill: {},
                     onboarded: 1,
                     teach_skill: {},
-                    time_zone: null
+                    time_zone: now.getTimeZoneOffset() * 60
                 };
                 // Add user document to users collection in firestore
                 await addUserDocument(doc);

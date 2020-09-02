@@ -1,4 +1,4 @@
-import { firebase } from '../../firebase/firebase';
+import { firebase, googleAuthProvider, facebookAuthProvider } from '../../firebase/firebase';
 import {
     SIGNUP_SUCCESS,
     SIGNUP_ERROR,
@@ -66,7 +66,7 @@ export const startLogout = () => (dispatch) => {
         })
 };
 
-export const startSendPasswordResetEmail = (email) => async (dispatch) => {
+export const startSendPasswordResetEmail = (email) => (dispatch) => {
     console.log('startSendPasswordResetEmail is called');
     firebase.auth().sendPasswordResetEmail(email)
         .then(() => {
@@ -75,4 +75,52 @@ export const startSendPasswordResetEmail = (email) => async (dispatch) => {
         .catch((e) => {
             dispatch(loginError(e));
         })
+};
+
+export const startLoginWithGoogle = () => (dispatch) => {
+    console.log('startLoginWithGoogle called');
+    firebase.auth().signInWithPopup(googleAuthProvider)
+        .catch((error) => {
+            dispatch(loginError(error));
+            if (error.code === 'auth/popup-blocked') {
+                console.log('signInWithRedirect called');
+                firebase.auth().signInWithRedirect(provider)
+                .catch((error) => {
+                    dispatch(loginError(error));
+                })
+            } 
+            if (error.code === 'auth/account-exists-with-different-credential') { // User's email already exists.
+                console.log('fetchSignInMethodsForEmail called');
+                firebase.auth().fetchSignInMethodsForEmail(error.email)
+                .then((methods) => {
+                    // if (methods[0] === "password") {
+                    //     dispatch(loginError({ message: 'Please enter password'}));
+                    //     firebase.auth().signInWithEmailAndPassword(error.email, password)
+                    //         .then((user) => {
+                    //             return user.linkWithCredential(error.credential);
+                    //         })
+                    //         .then(() => {
+                    //             goToApp(); // Google account successfully linked to the existing Firebase user.
+                    //         });
+                    //         return;
+                    // }   
+                    // if (methods[0] === "facebook.com") {
+                    //     firebase.auth().signInWithPopup(googleAuthProvider)
+                    //     .then((result) => {
+                    //         result.user.linkAndRetrieveDataWithCredential(error.credential)
+                    //         .then((user) => {
+                    //             console.log("user", user);
+                    //             goToApp();
+                    //         })
+                    //         .catch((error) => {
+                    //             dispatch(loginError(error));
+                    //         });
+                    //     });
+                    // }; 
+                })
+                .catch((error) => {
+                    dispatch(loginError(error));
+                })
+            } 
+    });
 };

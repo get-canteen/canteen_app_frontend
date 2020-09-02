@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { startCreateUserWithEmailAndPassword } from '../../actions/auth';
+import { startCreateUserWithEmailAndPassword, startLoginWithGoogle, startLoginWithFacebook } from '../../actions/auth';
 import { BoxLayout, BoxLayoutBox, Title, Form, Input, SubmitButton, LoginLink, ButtonContainer, FacebookButton, GoogleButton, ButtonText, Footer, FooterText, ErrorMessage, Line } from '../../styles/auth/Authentication';
 
 class SignupPage extends React.Component {
@@ -86,7 +86,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    startCreateUserWithEmailAndPassword: (email, password) => dispatch(startCreateUserWithEmailAndPassword(email, password))
+    startCreateUserWithEmailAndPassword: (email, password) => dispatch(startCreateUserWithEmailAndPassword(email, password)),
+    startLoginWithGoogle: () => dispatch(startLoginWithGoogle()),
+    startLoginWithFacebook: () => dispatch(startLoginWithFacebook())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignupPage);

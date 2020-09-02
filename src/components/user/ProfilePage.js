@@ -22,6 +22,8 @@ class ProfilePage extends React.Component {
         const { match } = this.props;
         const { display_name, photo_url, title, about, interests, teach_skill, learn_skill } = { ...this.state.user };
         const isAuthUser = match.params.id === this.props.authUid;
+        console.log("isAuthUser", isAuthUser);
+        console.log("user", this.state.user);
         return (
             <div>
                 <h1> Profile Page </h1>

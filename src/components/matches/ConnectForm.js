@@ -34,7 +34,7 @@ class ConnectForm extends React.Component {
     }
     isOutsideRange = (day) => {
         const today = moment();
-        const { availability } = this.props.location.state.user;
+        const { availability } = this.state.user;
         if (availability) {
             const availableDOWs = Object.keys(availability);
             return !availableDOWs.some(dow => {
@@ -45,17 +45,18 @@ class ConnectForm extends React.Component {
         return true;
     }
     generateAvailableTimes = (date) => {
-        console.log("date", date);
-        const { availability, time_zone } = this.state.user;
-        console.log("availability", availability);
-        console.log("time_zone", time_zone);
+        const { availability, time_zone } = this.state.user; 
+        console.log("availability: ", availability); // availability contains the requested user's start and end time (in seconds) for each dow.
+        console.log("time_zone: ", time_zone); // timezone is num of seconds the requested user's time zone is behind UTC time.
         const { duration } = this.state;
         const dow = moment(date._d).weekday();
 
         const now = new Date();
-        const localOffset = now.getTimezoneOffset() * 60;
-        const startTime = availability[[dow]].start_time - time_zone + localOffset;
-        const endTime = availability[[dow]].end_time - time_zone + localOffset;
+        const daySeconds = 24 * 60 * 60;
+        const localOffset = now.getTimezoneOffset() * 60; // localOffset is num of seconds the user device's time zone is behind UTC time.
+        console.log("localOffset: ", localOffset);
+        const startTime = availability[dow].start_time - time_zone + localOffset;
+        const endTime = availability[dow].end_time - time_zone + localOffset;
 
         let availableTimes = [];
         let current = startTime;
