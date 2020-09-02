@@ -19,7 +19,7 @@ class EditInterestPage extends React.Component {
         deleteInterest(interest);
     }
     onClickDone = () => {
-        history.push(`/${this.props.authUid}/edit`);
+        history.push(`/profile/${this.props.authUid}/edit`);
     }
     render() {
         return (
