@@ -12,7 +12,7 @@ export const GroupMembers = ({ members }) => (
                         onClick={ () => {
                             // const user = await fetchUserDocument(id);
                             history.push({
-                                pathname: `/${id}`
+                                pathname: `/profile/${id}`
                                 // state: { user }
                             })
                         }}
