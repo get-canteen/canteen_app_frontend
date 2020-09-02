@@ -8,8 +8,8 @@ import NotFoundPage from '../components/shared/NotFoundPage';
 import LoginPage from '../components/auth/LoginPage';
 import SignupPage from '../components/auth/SignupPage';
 import ForgotPasswordPage from '../components/auth/ForgotPasswordPage';
-import User from './User';
 import HomePage from '../components/shared/HomePage';
+import User from './User';
 import GroupPage from '../components/groups/GroupPage';
 import MessagesPage from '../components/messages/MessagesPage';
 import NotificationsPage from '../components/notifications/NotificationsPage';
@@ -23,8 +23,8 @@ const AppRouter = () => (
             <PublicRoute path="/signup" component={SignupPage}/>
             <PublicRoute path="/forgot" component={ForgotPasswordPage}/>
             <PrivateRoute path="/home" component={HomePage}/>
+            <PrivateRoute path="/profile/:id" component={User}/> 
             <PrivateRoute path="/group/:id" component={GroupPage}/>
-            <PrivateRoute path="/:id" component={User}/> 
             <PrivateRoute path="/messages" component={MessagesPage}/>
             <PrivateRoute path="/notifications" component={NotificationsPage}/>
             <Route component={NotFoundPage}/>

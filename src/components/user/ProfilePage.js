@@ -19,9 +19,9 @@ class ProfilePage extends React.Component {
         }
     }
     render() {
-        const { id } = this.props.match.params;
+        const { match } = this.props;
         const { display_name, photo_url, title, about, interests, teach_skill, learn_skill } = { ...this.state.user };
-        const isAuthUser = id === this.props.authUid;
+        const isAuthUser = match.params.id === this.props.authUid;
         return (
             <div>
                 <h1> Profile Page </h1>
@@ -31,7 +31,7 @@ class ProfilePage extends React.Component {
                             isAuthUser &&
                             <div>
                                 <Link 
-                                    to={`${this.props.match.url}/edit`} 
+                                    to={`${match.url}/edit`} 
                                     style={{ textDecoration: 'none' }}
                                 > 
                                     <h3> Edit Profile </h3>
@@ -55,7 +55,7 @@ class ProfilePage extends React.Component {
                         { 
                             !isAuthUser && 
                             <Link 
-                                to={`${this.props.match.url}/connect`}
+                                to={`${match.url}/connect`}
                                 style={{ textDecoration: 'none' }}
                             > 
                                 <h3> Connect </h3>
