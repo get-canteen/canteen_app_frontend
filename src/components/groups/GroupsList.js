@@ -22,7 +22,7 @@ class GroupsList extends React.Component {
                     <Link
                         key={id}
                         to={{
-                            pathname: `group/${id}`,
+                            pathname: `/group/${id}`,
                             state: { group }
                         }}
                         style={{ textDecoration: 'none' }}

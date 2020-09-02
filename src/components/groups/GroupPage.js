@@ -19,7 +19,6 @@ class GroupPage extends React.Component {
     async componentDidMount() {
         const groupId = this.props.match.params.id;
         const { group } = this.props.location.state;
-        console.log("isMember:", this.props.isMember);
         if (group.type==="private" && !this.props.isMember) {
             this.setState({
                 posts: "Posts are private. Join the group to view posts.",

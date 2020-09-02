@@ -72,7 +72,7 @@ class ProfilePage extends React.Component {
                                 <div> 
                                     {Object.values(teach_skill).map((skill, i) => (
                                         <div key={i}>
-                                            <p> {skill.name} </p>
+                                            <p> {i+1}. {skill.name} </p>
                                             <p> {skill.description} </p>
                                             <p> ${skill.price} / {skill.duration} minutes </p>
                                         </div>

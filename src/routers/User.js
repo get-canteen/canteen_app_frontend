@@ -13,7 +13,7 @@ const User = ({ match }) => (
         <Route exact path={`${match.path}`} component={ProfilePage}/>
         <Route exact path={`${match.path}/edit`} component={EditProfilePage}/>
         <Route path={`${match.path}/edit/interest`} component={EditInterestPage}/>
-        <Route exact path={`${match.path}/edit/:type`} component={AddSkillPage}/> 
+        <Route exact path={`${match.path}/add/:type`} component={AddSkillPage}/> 
         <Route path={`${match.path}/edit/:type/:index`} component={EditSkillPage}/> 
         <Route path={`${match.path}/connect`} component={ConnectForm}/> 
     </Switch>

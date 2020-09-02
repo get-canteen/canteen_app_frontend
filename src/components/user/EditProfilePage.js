@@ -120,7 +120,7 @@ class EditProfilePage extends React.Component {
                             ))}
                         </div>
                         <Link 
-                            to={`/${match.url}/teach-skill`} 
+                            to={`/profile/${this.props.authUid}/add/teach-skill`} 
                             style={{ textDecoration: 'none' }}
                         > 
                             <h3> Add Offering </h3> 
@@ -146,7 +146,7 @@ class EditProfilePage extends React.Component {
                             ))}
                         </div>
                         <Link 
-                            to={`/${match.url}/learn-skill`} 
+                            to={`/profile/${this.props.authUid}/add/learn-skill`} 
                             style={{ textDecoration: 'none' }}
                         > 
                             <h3> Add Ask </h3> 
