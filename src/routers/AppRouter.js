@@ -8,7 +8,7 @@ import NotFoundPage from '../pages/shared/NotFoundPage';
 import LoginPage from '../pages/auth/LoginPage';
 import SignupPage from '../pages/auth/SignupPage';
 import ForgotPasswordPage from '../pages/auth/ForgotPasswordPage';
-import HomePage from '../pages/shared/HomePage';
+import HomePage from '../pages/home/HomePage';
 import User from './User';
 import GroupPage from '../pages/groups/GroupPage';
 import MessagesPage from '../pages/messages/MessagesPage';

@@ -3,6 +3,7 @@ import database from '../../../firebase/firebase';
 import moment from 'moment';
 import 'react-dates/initialize';
 import { SingleDatePicker } from 'react-dates';
+import PropTypes from 'prop-types';
 
 class ConnectForm extends React.Component {
     state = {
@@ -52,11 +53,32 @@ class ConnectForm extends React.Component {
         const dow = moment(date._d).weekday();
 
         const now = new Date();
-        const daySeconds = 24 * 60 * 60;
-        const localOffset = now.getTimezoneOffset() * 60; // localOffset is num of seconds the user device's time zone is behind UTC time.
+        const daySeconds = 24 * 60 * 60; // 86400
+        const localOffset = now.getTimezoneOffset() * 60; // localOffset is num of seconds the current user device's time zone is behind UTC time.
         console.log("localOffset: ", localOffset);
-        const startTime = availability[dow].start_time - time_zone + localOffset;
-        const endTime = availability[dow].end_time - time_zone + localOffset;
+        const startTime = availability[dow].start_time - time_zone + localOffset; // startTime according to user's current time zone
+        const endTime = availability[dow].end_time - time_zone + localOffset; // endTime according to user's current timezone
+
+        // if (startTime < 0 && endTime <= 0) {
+        //     startTime = daySeconds + startTime;
+        //     endTime = daySeconds + endTime;
+        // } 
+        // else if (startTime < 0 && endTime > 0) {
+        //     startTime = daySeconds + startTime;
+        // } 
+        // else if (startTime < daySeconds && endTime > daySeconds) {
+        //     endTime = endTime - daySeconds;
+        // } 
+        // else if (startTime >= daySeconds && endTime > daySeconds) {
+        //     startTime = startTime - daySeconds;
+        //     endTime = endTime - daySeconds;
+        // } 
+        // else if (startTime >= 0 &&
+        //     startTime <= daySeconds &&
+        //     endTime >= 0 &&
+        //     endTime <= daySeconds) {
+            
+        // }
 
         let availableTimes = [];
         let current = startTime;
@@ -84,7 +106,7 @@ class ConnectForm extends React.Component {
 
     render() {
         const { id } = this.props.match.params;
-        const { photo_url, display_name, title, teach_skill, learn_skill } = {...this.state.user};
+        const { photo_url, display_name, title, teach_skill, learn_skill } = { ...this.state.user };
         console.log("this.state.user", this.state.user);
         return (
             <div>
@@ -170,5 +192,9 @@ class ConnectForm extends React.Component {
         )
     }
 }
+
+ConnectForm.propTypes = {
+    match: PropTypes.object.isRequired
+};
 
 export default ConnectForm;
