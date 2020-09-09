@@ -1,6 +1,6 @@
 import React from 'react';
-import GroupsList from '../../components/groups/GroupsList';
-import PopularUsersList from '../../components/groups/PopularUsersList';
+import GroupsList from '../../components/home/GroupsList';
+import PopularUsersList from '../../components/home/PopularUsersList';
 
 const HomePage = () => (
     <div>

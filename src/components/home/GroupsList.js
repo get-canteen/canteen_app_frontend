@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { fetchAllGroups } from '../../actions/groups';
 
 class GroupsList extends React.Component {
     state = { 
@@ -8,7 +7,11 @@ class GroupsList extends React.Component {
     };
     async componentDidMount() {
         try {
-            const allGroups = await fetchAllGroups();
+            const snapshot = await database.collection("groups").get();
+            const allGroups = {};
+            snapshot.forEach(doc => {
+                allGroups[doc.id] = doc.data();
+            });
             this.setState({ allGroups });
         } catch (e) {
             console.error("Error fetching groups", e);

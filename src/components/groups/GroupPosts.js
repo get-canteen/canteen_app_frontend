@@ -3,8 +3,8 @@ import moment from 'moment';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import database from '../../../firebase/firebase';
-import { CloudFunctionManager } from '../../functions/functions';
 import { connect } from 'react-redux';
+// import { CloudFunctionManager } from '../../functions/functions';
 
 const GroupPosts = ({ groupId, posts, members, authUid }) => {
     const sortedPosts = Object.entries(posts).sort((a, b) => b[1].created_on - a[1].created_on);
