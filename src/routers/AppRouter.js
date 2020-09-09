@@ -10,7 +10,7 @@ import SignupPage from '../pages/auth/SignupPage';
 import ForgotPasswordPage from '../pages/auth/ForgotPasswordPage';
 import HomePage from '../pages/home/HomePage';
 import User from './User';
-import GroupPage from '../pages/groups/GroupPage';
+import GroupPage from '../pages/discover/GroupPage';
 import MessagesPage from '../pages/messages/MessagesPage';
 import NotificationsPage from '../pages/notifications/NotificationsPage';
 
