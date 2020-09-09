@@ -4,15 +4,15 @@ import { createBrowserHistory } from 'history';
 
 import PublicRoute from '../routers/PublicRoute';
 import PrivateRoute from '../routers/PrivateRoute';
-import NotFoundPage from '../components/shared/NotFoundPage';
-import LoginPage from '../components/auth/LoginPage';
-import SignupPage from '../components/auth/SignupPage';
-import ForgotPasswordPage from '../components/auth/ForgotPasswordPage';
-import HomePage from '../components/shared/HomePage';
+import NotFoundPage from '../pages/shared/NotFoundPage';
+import LoginPage from '../pages/auth/LoginPage';
+import SignupPage from '../pages/auth/SignupPage';
+import ForgotPasswordPage from '../pages/auth/ForgotPasswordPage';
+import HomePage from '../pages/shared/HomePage';
 import User from './User';
-import GroupPage from '../components/groups/GroupPage';
-import MessagesPage from '../components/messages/MessagesPage';
-import NotificationsPage from '../components/notifications/NotificationsPage';
+import GroupPage from '../pages/groups/GroupPage';
+import MessagesPage from '../pages/messages/MessagesPage';
+import NotificationsPage from '../pages/notifications/NotificationsPage';
 
 export const history = createBrowserHistory();
 

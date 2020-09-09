@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import { history } from '../../routers/AppRouter';
-// import { fetchUserDocument } from '../../actions/user';
+import PropTypes from 'prop-types';
 
 export const GroupPosts = ({ posts, members }) => (
     <div>
@@ -37,3 +37,7 @@ export const GroupPosts = ({ posts, members }) => (
         }
     </div>
 )
+
+GroupPosts.propTypes = {
+    posts: PropTypes.oneOfType([ PropTypes.string, PropTypes.object ]).isRequired
+};

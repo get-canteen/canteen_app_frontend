@@ -11,6 +11,6 @@ export class CloudFunctionManager {
   
     static joinGroup = firebase.functions().httpsCallable('joinGroup')
   
-    static getQueryApiKey = firebase.functions().httpsCallable('joinQueryApiKey')
+    static getQueryApiKey = firebase.functions().httpsCallable('getQueryApiKey')
 }
   

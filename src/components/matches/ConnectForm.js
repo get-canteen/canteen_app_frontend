@@ -139,9 +139,9 @@ class ConnectForm extends React.Component {
                     <h2> Select an available time: </h2>
                     <h4> Duration: {this.state.duration} </h4>
                     {
-                        this.state.availableTimes.map(time => (
+                        this.state.availableTimes.map((i, time) => (
                             <div>
-                                <button 
+                                <button key={i}
                                     onClick={(e) => {
                                         e.preventDefault();
                                         this.setState({ time });
