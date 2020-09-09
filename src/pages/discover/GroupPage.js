@@ -2,8 +2,8 @@ import React from 'react';
 import database from '../../../firebase/firebase';
 import { connect } from 'react-redux';
 import Modal from 'react-modal';
-import { GroupPosts } from '../../components/groups/GroupPosts';
-import { GroupMembers } from '../../components/groups/GroupMembers';
+import GroupPosts from '../../components/groups/GroupPosts';
+import GroupMembers from '../../components/groups/GroupMembers';
 import { CloudFunctionManager } from '../../functions/functions';
 import PropTypes from 'prop-types';
 
@@ -128,13 +128,13 @@ class GroupPage extends React.Component {
                     <div>
                         {
                             this.state.showPosts && 
-                            <GroupPosts posts={this.state.posts} members={this.state.members}/>
+                            <GroupPosts groupId={groupId} posts={this.state.posts} members={this.state.members}/>
                         } 
                     </div>
                     <div>
                         {
                             this.state.showMembers &&
-                            <GroupMembers members={this.state.members}/>
+                            <GroupMembers groupId={groupId} members={this.state.members}/>
                         }
                     </div>
                 </div>

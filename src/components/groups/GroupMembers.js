@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-export const GroupMembers = ({ members }) => (
+const GroupMembers = ({ members }) => (
     <div>
         {
             typeof members === 'object' ? 
@@ -26,3 +26,5 @@ export const GroupMembers = ({ members }) => (
 GroupMembers.propTypes = {
     members: PropTypes.oneOfType([ PropTypes.string, PropTypes.object ]).isRequired
 };
+
+export default GroupMembers;
