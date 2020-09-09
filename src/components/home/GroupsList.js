@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import database from '../../../firebase/firebase';
 
 class GroupsList extends React.Component {
     state = { 
