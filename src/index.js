@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import configureStore from './store/configureStore';
 import AppRouter, { history } from './routers/AppRouter';
 import { firebase } from '../firebase/firebase';
-import LoadingPage from './components/shared/LoadingPage';
+import LoadingPage from './pages/shared/LoadingPage';
 import { receiveLogin, receiveLogout, receiveSignup } from './actions/auth';
 import { startSetUserDocument, addUserDocument } from './actions/user';
 import { startSetUserGroups } from './actions/groups';

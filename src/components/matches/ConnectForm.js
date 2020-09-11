@@ -3,6 +3,7 @@ import database from '../../../firebase/firebase';
 import moment from 'moment';
 import 'react-dates/initialize';
 import { SingleDatePicker } from 'react-dates';
+import PropTypes from 'prop-types';
 
 class ConnectForm extends React.Component {
     state = {
@@ -205,9 +206,9 @@ class ConnectForm extends React.Component {
                     <h2> Select an available time: </h2>
                     <h4> Duration: {this.state.skill ? this.state.skill.duration + " minutes" : 0 + " minutes"} </h4>
                     {
-                        this.state.availableTimes.map(time => (
+                        this.state.availableTimes.map((i, time) => (
                             <div>
-                                <button 
+                                <button key={i}
                                     onClick={(e) => {
                                         e.preventDefault();
                                         this.setState({ time });
@@ -236,5 +237,9 @@ class ConnectForm extends React.Component {
         )
     }
 }
+
+ConnectForm.propTypes = {
+    match: PropTypes.object.isRequired
+};
 
 export default ConnectForm;

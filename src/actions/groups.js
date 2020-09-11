@@ -18,14 +18,3 @@ export const startSetUserGroups = () => async (dispatch) => {
         dispatch(setUserGroups(userGroups));
     });
 }
-
-export const fetchAllGroups = async () => {
-    console.log('fetchAllGroups is called');
-    const snapshot = await database.collection("groups").get();
-    const allGroups = {};
-    snapshot.forEach(doc => {
-        allGroups[doc.id] = doc.data();
-    });
-    console.log("All groups: ", allGroups);
-    return allGroups;
-}
