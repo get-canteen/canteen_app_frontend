@@ -1,20 +1,13 @@
-import { firebase } from '../../firebase/firebase';
+import { firebase, googleAuthProvider, facebookAuthProvider } from '../../firebase/firebase';
 import {
-    SIGNUP_REQUEST,
     SIGNUP_SUCCESS,
     SIGNUP_ERROR,
-    LOGIN_REQUEST,
     LOGIN_SUCCESS,
     LOGIN_ERROR,
-    LOGOUT_REQUEST,
     LOGOUT_SUCCESS,
     LOGOUT_ERROR,
     SEND_PASSWORD_RESET_EMAIL
 } from './types';
-
-export const requestSignup = () => ({
-    type: SIGNUP_REQUEST
-});
 
 export const receiveSignup = (user) => ({
     type: SIGNUP_SUCCESS,
@@ -26,10 +19,6 @@ export const signupError = (error) => ({
     error
 }); 
 
-export const requestLogin = () => ({
-    type: LOGIN_REQUEST
-});
-
 export const receiveLogin = (user) => ({
     type: LOGIN_SUCCESS,
     user
@@ -38,10 +27,6 @@ export const receiveLogin = (user) => ({
 export const loginError = (error) => ({
     type: LOGIN_ERROR,
     error
-});
-
-export const requestLogout = () => ({
-    type: LOGOUT_REQUEST
 });
 
 export const receiveLogout = () => ({
@@ -59,7 +44,6 @@ export const sendPasswordResetEmail = () => ({
 
 export const startLoginWithEmailAndPassword = (email, password) => (dispatch) => {
     console.log('startLoginWithEmailAndPassword is called');
-    dispatch(requestLogin());
     firebase.auth().signInWithEmailAndPassword(email, password)
         .catch((e) => {
             dispatch(loginError(e));
@@ -68,7 +52,6 @@ export const startLoginWithEmailAndPassword = (email, password) => (dispatch) =>
 
 export const startCreateUserWithEmailAndPassword = (email, password) => (dispatch) => {
     console.log('startCreateUserWithEmailAndPassword is called');
-    dispatch(requestSignup());
     firebase.auth().createUserWithEmailAndPassword(email, password)
         .catch((e) => {
             dispatch(signupError(e));
@@ -77,14 +60,13 @@ export const startCreateUserWithEmailAndPassword = (email, password) => (dispatc
 
 export const startLogout = () => (dispatch) => {
     console.log('startLogout is called');
-    dispatch(requestLogout());
     firebase.auth().signOut()
         .catch ((e) => {
             dispatch(logoutError(e));
         })
 };
 
-export const startSendPasswordResetEmail = (email) => async (dispatch) => {
+export const startSendPasswordResetEmail = (email) => (dispatch) => {
     console.log('startSendPasswordResetEmail is called');
     firebase.auth().sendPasswordResetEmail(email)
         .then(() => {
@@ -93,4 +75,13 @@ export const startSendPasswordResetEmail = (email) => async (dispatch) => {
         .catch((e) => {
             dispatch(loginError(e));
         })
+};
+
+export const startLoginWithGoogle = () => (dispatch) => {
+    console.log('startLoginWithGoogle called');
+};
+
+
+export const startLoginWithFacebook = () => (dispatch) => {
+    console.log('startLoginWithFacebook called');
 };

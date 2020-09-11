@@ -9,7 +9,7 @@ const PublicRoute = ({
 }) => (
     <Route {...rest} component={(props) => (
         isAuthenticated ? (
-            <Redirect to="/search"/>
+            <Redirect to="/home"/>
         ) : (
             <Component {...props}/>
         )
