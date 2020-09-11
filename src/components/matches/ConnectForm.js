@@ -8,13 +8,14 @@ class ConnectForm extends React.Component {
     state = {
         user: null,
         skill: null,
-        duration: 0,
         date: moment().startOf('month'),
         time: null,
         message: '',
         focused: false,
-        availableTimes: []
+        availableTimes: [],
+        timeRanges: {},
     };
+
     async componentDidMount() {
         const { id } = this.props.match.params;
         try {
@@ -22,8 +23,44 @@ class ConnectForm extends React.Component {
             this.setState({
                 user: snapshot.data()
             })
+            const { availability, time_zone } = snapshot.data(); 
+            console.log("availability:", availability)
+            const daySeconds = 24 * 60 * 60;
+            const localOffset = new Date().getTimezoneOffset() * 60;
+            availability && Object.entries(availability).map(([dow, times]) => {
+                console.log("typeof dow in availability", typeof dow);
+                dow = parseInt(dow);
+                const startTime = times.start_time - time_zone - localOffset;
+                const endTime = times.end_time - time_zone - localOffset;
+        
+                console.log('startTime', startTime);
+                console.log('endTime', endTime);
+        
+                if(startTime < 0 && endTime <= 0) {
+                    startTime += daySeconds;
+                    endTime += daySeconds;
+                    this.addToTimeRange(startTime,endTime,dow,-1);
+                } else if(startTime < 0 && endTime > 0)  {
+                    startTime += daySeconds;
+                    this.addToTimeRange(startTime,daySeconds,dow,-1);
+                    this.addToTimeRange(0, endTime, dow, 0);
+                } else if(startTime < daySeconds && endTime > daySeconds) {
+                    endTime -= daySeconds;
+                    this.addToTimeRange(startTime, daySeconds,dow,0);
+                    this.addToTimeRange(0, endTime, dow, 1)
+                } else if(startTime >= daySeconds && endTime > daySeconds){
+                    startTime -= daySeconds;
+                    endTime -= daySeconds;
+                    this.addToTimeRange(startTime, endTime, dow, 1);
+                } else if(startTime >= 0 && startTime < daySeconds 
+                    && endTime > 0 && endTime <= daySeconds) {
+                        this.addToTimeRange(startTime,endTime,dow, 0);
+                } else {
+                    console.log('error converting availability');
+                }
+            })
         } catch (e) {
-            console.error("Error fetching user", e);
+            console.error("Error fetching user or calculating time range", e);
         }
     }
     onDateChange = (date) => {
@@ -44,22 +81,53 @@ class ConnectForm extends React.Component {
         } 
         return true;
     }
-    generateAvailableTimes = (date) => {
-        const { availability, time_zone } = this.state.user; 
-        console.log("availability: ", availability); // availability contains the requested user's start and end time (in seconds) for each dow.
-        console.log("time_zone: ", time_zone); // timezone is num of seconds the requested user's time zone is behind UTC time.
-        const { duration } = this.state;
-        const dow = moment(date._d).weekday();
 
-        const now = new Date();
-        const daySeconds = 24 * 60 * 60;
-        const localOffset = now.getTimezoneOffset() * 60; // localOffset is num of seconds the user device's time zone is behind UTC time.
-        console.log("localOffset: ", localOffset);
-        const startTime = availability[dow].start_time - time_zone + localOffset;
-        const endTime = availability[dow].end_time - time_zone + localOffset;
+    addToTimeRange = (startTime, endTime, dayIndex, dayOffset) => {
+        if(dayIndex === null) {
+            console.log('Error during availbility parsing. Failed to parse day.');
+            return;
+        }
+        let newDayIndex = parseInt(dayIndex) + dayOffset;
+        let finalDayIndex;
+
+        if(newDayIndex < 0) {
+            finalDayIndex = 6;
+        } else if(newDayIndex > 6){
+            finalDayIndex = 0;
+        } else {
+            finalDayIndex = newDayIndex;
+        }
+
+        this.setState(prevState => {
+            return {
+                timeRanges: {
+                    ...prevState.timeRanges,
+                    [finalDayIndex]: [startTime, endTime]
+                }
+            }
+        })
+
+        console.log('timeRanges', this.state.timeRanges);
+    }
+    generateAvailableTimes = (date) => {
+        //brian's availability: sunday and tuesday : 9am-5pm
+        //converted to our timezone will be 6am-2pm
+        //brian's timezone is -4 hrs UTC time
+        //our local offset is 7, which means our timezone is -7 hrs UTC time
+        // console.log("what is date", date);
+        // const { availability, time_zone } = this.state.user; 
+        // console.log("availability: ", availability); // availability contains the requested user's start and end time (in seconds) for each dow.
+        // console.log("time_zone: ", time_zone); // timezone is num of seconds the requested user's time zone is behind UTC time.
+        // const { duration } = this.state;
+        const dow = moment(date._d).weekday();
+        console.log("typeof dow from moment weekday conversion", typeof dow);
+        const startTime = this.state.timeRanges[dow][0];
+        const endTime = this.state.timeRanges[dow][1];
 
         let availableTimes = [];
         let current = startTime;
+        //if current is greater than end time, ex: startTime-11pm and endTime 1am.
+        
         while (current <= endTime) {
             let hours; 
             let minutes;
@@ -76,7 +144,7 @@ class ConnectForm extends React.Component {
             hours = (hours === 0) ? 12 : hours; // if 0 then it is 12 AM 
             const time = hours + ":" + ((minutes < 10) ? "0" + minutes : minutes) + " " + suffix; 
             availableTimes.push(time);
-            current += (duration * 60);
+            current += (this.state.skill.duration * 60);
         }
         console.log("availableTimeslots: ", availableTimes);
         return availableTimes;
@@ -85,7 +153,7 @@ class ConnectForm extends React.Component {
     render() {
         const { id } = this.props.match.params;
         const { photo_url, display_name, title, teach_skill, learn_skill } = {...this.state.user};
-        console.log("this.state.user", this.state.user);
+        console.log("this.state", this.state);
         return (
             <div>
                 <h1> Connect Form Page </h1>
@@ -102,8 +170,7 @@ class ConnectForm extends React.Component {
                             <button key={index} 
                                 onClick={(e) => { 
                                     e.preventDefault(); 
-                                    const { duration } = skill;
-                                    this.setState({ skill, duration });
+                                    this.setState({ skill });
                                 }}
                             > 
                                 {skill.name}
@@ -116,8 +183,7 @@ class ConnectForm extends React.Component {
                             <button key={index} 
                                 onClick={(e) => { 
                                     e.preventDefault();
-                                    const { duration } = skill;
-                                    this.setState({ skill, duration });
+                                    this.setState({ skill });
                                 }}
                             > 
                                 {skill.name}
@@ -137,7 +203,7 @@ class ConnectForm extends React.Component {
                 />
                 <div>
                     <h2> Select an available time: </h2>
-                    <h4> Duration: {this.state.duration} </h4>
+                    <h4> Duration: {this.state.skill ? this.state.skill.duration + " minutes" : 0 + " minutes"} </h4>
                     {
                         this.state.availableTimes.map(time => (
                             <div>
