@@ -115,11 +115,7 @@ class ConnectForm extends React.Component {
         //converted to our timezone will be 6am-2pm
         //brian's timezone is -4 hrs UTC time
         //our local offset is 7, which means our timezone is -7 hrs UTC time
-        // console.log("what is date", date);
-        // const { availability, time_zone } = this.state.user; 
-        // console.log("availability: ", availability); // availability contains the requested user's start and end time (in seconds) for each dow.
-        // console.log("time_zone: ", time_zone); // timezone is num of seconds the requested user's time zone is behind UTC time.
-        // const { duration } = this.state;
+
         const dow = moment(date._d).weekday();
         console.log("typeof dow from moment weekday conversion", typeof dow);
         const startTime = this.state.timeRanges[dow][0];
@@ -145,7 +141,9 @@ class ConnectForm extends React.Component {
             hours = (hours === 0) ? 12 : hours; // if 0 then it is 12 AM 
             const time = hours + ":" + ((minutes < 10) ? "0" + minutes : minutes) + " " + suffix; 
             availableTimes.push(time);
-            current += (this.state.skill.duration * 60);
+            if(this.state.skill) {
+                current += (this.state.skill.duration * 60);
+            }
         }
         console.log("availableTimeslots: ", availableTimes);
         return availableTimes;
@@ -204,9 +202,9 @@ class ConnectForm extends React.Component {
                 />
                 <div>
                     <h2> Select an available time: </h2>
-                    <h4> Duration: {this.state.skill ? this.state.skill.duration + " minutes" : 0 + " minutes"} </h4>
+                    <h4> Duration: {this.state.skill ? this.state.skill.duration + " minutes" : "please select a skill"} </h4>
                     {
-                        this.state.availableTimes.map((i, time) => (
+                        this.state.availableTimes.map((time, i) => (
                             <div>
                                 <button key={i}
                                     onClick={(e) => {
@@ -218,7 +216,7 @@ class ConnectForm extends React.Component {
                                 </button>
                             </div>
                         ))
-                    }
+                    } 
                 </div>
                 <div> 
                     <h2> Add a message: </h2>
