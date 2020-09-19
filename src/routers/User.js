@@ -15,7 +15,7 @@ const User = ({ match }) => (
         <Route path={`${match.path}/edit/interest`} component={EditInterestPage}/>
         <Route exact path={`${match.path}/add/:type`} component={AddSkillPage}/> 
         <Route path={`${match.path}/edit/:type/:index`} component={EditSkillPage}/> 
-        <Route path={`${match.path}/connect`} component={ConnectForm}/> 
+        <Route path={`${match.path}/connect`} component={ConnectForm}/>
     </Switch>
 );
   
