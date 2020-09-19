@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 
 const ProfileInfo = ({ match, user, isAuthUser }) => {
     const { display_name, photo_url, title, about, interests, teach_skill, learn_skill } = { ...user };
+    console.log("id: ", match.params.id);
     return (
         <div> 
             {   
