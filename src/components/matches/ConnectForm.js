@@ -1,9 +1,11 @@
 import React from 'react';
+import  { connect } from 'react-redux';
 import database from '../../../firebase/firebase';
 import moment from 'moment';
 import 'react-dates/initialize';
 import { SingleDatePicker } from 'react-dates';
 import PropTypes from 'prop-types';
+import { CloudFunctionManager } from '../../functions/functions';
 
 class ConnectForm extends React.Component {
     state = {
@@ -11,7 +13,7 @@ class ConnectForm extends React.Component {
         skill: null,
         date: moment().startOf('month'),
         time: null,
-        message: '',
+        message: "",
         focused: false,
         availableTimes: [],
         timeRanges: {},
@@ -66,7 +68,7 @@ class ConnectForm extends React.Component {
     }
     onDateChange = (date) => {
         this.setState({ 
-            date, 
+            date: moment(date._d, 'DD/MM/YYYY'), 
             availableTimes: this.generateAvailableTimes(date)
         });
     }
@@ -111,11 +113,6 @@ class ConnectForm extends React.Component {
         console.log('timeRanges', this.state.timeRanges);
     }
     generateAvailableTimes = (date) => {
-        //brian's availability: sunday and tuesday : 9am-5pm
-        //converted to our timezone will be 6am-2pm
-        //brian's timezone is -4 hrs UTC time
-        //our local offset is 7, which means our timezone is -7 hrs UTC time
-
         const dow = moment(date._d).weekday();
         console.log("typeof dow from moment weekday conversion", typeof dow);
         const startTime = this.state.timeRanges[dow][0];
@@ -123,7 +120,6 @@ class ConnectForm extends React.Component {
 
         let availableTimes = [];
         let current = startTime;
-        //if current is greater than end time, ex: startTime-11pm and endTime 1am.
         
         while (current <= endTime) {
             let hours; 
@@ -149,6 +145,26 @@ class ConnectForm extends React.Component {
         return availableTimes;
     }
 
+    addRequest = () => {
+        console.log("addRequest is called");
+        console.log("moment date", this.state.date);
+        const data = {
+            receiver_id: this.props.match.params.id,
+            referral_id: this.props.authUid,
+            comment: this.state.message,
+            skillType: this.state.skill.type,
+            skillIndex: this.state.skill.index,
+            time: moment(this.state.date._d + ' ' + this.state.time, 'DD/MM/YYYY HH:mm')._d
+        }
+        console.log("data.time", data.time);
+        console.log("request add before sent:", data);
+        try {
+            CloudFunctionManager.addRequest(data);
+        } catch (e) {
+            console.log("Error calling addRequest", e);
+        }
+    }
+
     render() {
         const { id } = this.props.match.params;
         const { photo_url, display_name, title, teach_skill, learn_skill } = {...this.state.user};
@@ -169,7 +185,14 @@ class ConnectForm extends React.Component {
                             <button key={index} 
                                 onClick={(e) => { 
                                     e.preventDefault(); 
-                                    this.setState({ skill });
+                                    this.setState({ 
+                                        skill: {
+                                            ...skill,
+                                            type: "offering",
+                                            index 
+                                        }
+
+                                     });
                                 }}
                             > 
                                 {skill.name}
@@ -182,7 +205,13 @@ class ConnectForm extends React.Component {
                             <button key={index} 
                                 onClick={(e) => { 
                                     e.preventDefault();
-                                    this.setState({ skill });
+                                    this.setState({ 
+                                        skill: {
+                                            ...skill,
+                                            type: "ask",
+                                            index
+                                        } 
+                                    });
                                 }}
                             > 
                                 {skill.name}
@@ -230,14 +259,19 @@ class ConnectForm extends React.Component {
                     > 
                     </textarea>
                 </div>
-                <button> Submit </button>
+                <button onClick={this.addRequest}> Submit </button>
             </div>
         )
     }
 }
 
 ConnectForm.propTypes = {
-    match: PropTypes.object.isRequired
+    match: PropTypes.object.isRequired,
+    authUid: PropTypes.string.isRequired
 };
 
-export default ConnectForm;
+const mapStateToProps = (state) => ({
+    authUid: state.auth.user.uid
+});
+
+export default connect(mapStateToProps)(ConnectForm);

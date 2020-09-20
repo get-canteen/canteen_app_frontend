@@ -111,11 +111,6 @@ class PublicConnectForm extends React.Component {
         console.log('timeRanges', this.state.timeRanges);
     }
     generateAvailableTimes = (date) => {
-        //brian's availability: sunday and tuesday : 9am-5pm
-        //converted to our timezone will be 6am-2pm
-        //brian's timezone is -4 hrs UTC time
-        //our local offset is 7, which means our timezone is -7 hrs UTC time
-
         const dow = moment(date._d).weekday();
         console.log("typeof dow from moment weekday conversion", typeof dow);
         const startTime = this.state.timeRanges[dow][0];
@@ -123,8 +118,7 @@ class PublicConnectForm extends React.Component {
 
         let availableTimes = [];
         let current = startTime;
-        //if current is greater than end time, ex: startTime-11pm and endTime 1am.
-        
+
         while (current <= endTime) {
             let hours; 
             let minutes;
