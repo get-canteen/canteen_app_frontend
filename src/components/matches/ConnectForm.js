@@ -23,21 +23,20 @@ class ConnectForm extends React.Component {
         const { id } = this.props.match.params;
         try {
             const snapshot = await database.collection("users").doc(id).get();
+            if (!snapshot) {
+                throw Error("Error fetching user");
+            }
             this.setState({
                 user: snapshot.data()
             })
             const { availability, time_zone } = snapshot.data(); 
-            console.log("availability:", availability)
+            console.log("availability:", availability);
             const daySeconds = 24 * 60 * 60;
             const localOffset = new Date().getTimezoneOffset() * 60;
             availability && Object.entries(availability).map(([dow, times]) => {
-                console.log("typeof dow in availability", typeof dow);
                 dow = parseInt(dow);
                 const startTime = times.start_time - time_zone - localOffset;
                 const endTime = times.end_time - time_zone - localOffset;
-        
-                console.log('startTime', startTime);
-                console.log('endTime', endTime);
         
                 if(startTime < 0 && endTime <= 0) {
                     startTime += daySeconds;
@@ -59,16 +58,16 @@ class ConnectForm extends React.Component {
                     && endTime > 0 && endTime <= daySeconds) {
                         this.addToTimeRange(startTime,endTime,dow, 0);
                 } else {
-                    console.log('error converting availability');
+                    throw Error('Error converting availability');
                 }
             })
         } catch (e) {
-            console.error("Error fetching user or calculating time range", e);
+            console.error(e);
         }
     }
     onDateChange = (date) => {
         this.setState({ 
-            date: moment(date._d, 'DD/MM/YYYY'), 
+            date, 
             availableTimes: this.generateAvailableTimes(date)
         });
     }
@@ -114,7 +113,6 @@ class ConnectForm extends React.Component {
     }
     generateAvailableTimes = (date) => {
         const dow = moment(date._d).weekday();
-        console.log("typeof dow from moment weekday conversion", typeof dow);
         const startTime = this.state.timeRanges[dow][0];
         const endTime = this.state.timeRanges[dow][1];
 
@@ -147,17 +145,17 @@ class ConnectForm extends React.Component {
 
     addRequest = () => {
         console.log("addRequest is called");
-        console.log("moment date", this.state.date);
+        console.log(this.state);
         const data = {
             receiver_id: this.props.match.params.id,
-            referral_id: this.props.authUid,
+            referral_id: null, 
             comment: this.state.message,
-            skillType: this.state.skill.type,
-            skillIndex: this.state.skill.index,
-            time: moment(this.state.date._d + ' ' + this.state.time, 'DD/MM/YYYY HH:mm')._d
+            referral_comment: "",
+            type: this.state.skill.type,
+            index: parseInt(this.state.skill.index),
+            time: moment(this.state.date + " " + this.state.time, 'DD/MM/YYYY HH:mm').valueOf(),
         }
-        console.log("data.time", data.time);
-        console.log("request add before sent:", data);
+        console.log("data passed to addRequest:", data);
         try {
             CloudFunctionManager.addRequest(data);
         } catch (e) {
@@ -168,7 +166,6 @@ class ConnectForm extends React.Component {
     render() {
         const { id } = this.props.match.params;
         const { photo_url, display_name, title, teach_skill, learn_skill } = {...this.state.user};
-        console.log("this.state", this.state);
         return (
             <div>
                 <h1> Connect Form Page </h1>
@@ -181,14 +178,14 @@ class ConnectForm extends React.Component {
                     <h2> Select a skill: </h2>
                     <h3> Offerings </h3>
                     { teach_skill && Object.entries(teach_skill).map(([index, skill]) => (
-                        <div>
-                            <button key={index} 
+                        <div key={index}>
+                            <button 
                                 onClick={(e) => { 
                                     e.preventDefault(); 
                                     this.setState({ 
                                         skill: {
                                             ...skill,
-                                            type: "offering",
+                                            type: "offer",
                                             index 
                                         }
 
@@ -201,14 +198,14 @@ class ConnectForm extends React.Component {
                     ))}
                     <h3> Asks </h3>
                     { learn_skill && Object.entries(learn_skill).map(([index, skill]) => (
-                        <div>
-                            <button key={index} 
+                        <div key={index}>
+                            <button 
                                 onClick={(e) => { 
                                     e.preventDefault();
                                     this.setState({ 
                                         skill: {
                                             ...skill,
-                                            type: "ask",
+                                            type: "request",
                                             index
                                         } 
                                     });
@@ -231,11 +228,11 @@ class ConnectForm extends React.Component {
                 />
                 <div>
                     <h2> Select an available time: </h2>
-                    <h4> Duration: {this.state.skill ? this.state.skill.duration + " minutes" : "please select a skill"} </h4>
+                    <h4> Duration: {this.state.skill ? this.state.skill.duration + " minutes" : "Please select a skill"} </h4>
                     {
                         this.state.availableTimes.map((time, i) => (
-                            <div>
-                                <button key={i}
+                            <div key={i}>
+                                <button
                                     onClick={(e) => {
                                         e.preventDefault();
                                         this.setState({ time });
@@ -253,7 +250,7 @@ class ConnectForm extends React.Component {
                         placeholder="Add a message"
                         value={this.state.message}
                         onChange={(e) => {
-                            const { message } = e.target.value;
+                            const message = e.target.value;
                             this.setState({ message });
                         }}
                     > 

@@ -4,6 +4,7 @@ import moment from 'moment';
 import 'react-dates/initialize';
 import { SingleDatePicker } from 'react-dates';
 import PropTypes from 'prop-types';
+import { CloudFunctionManager } from '../../functions/functions';
 
 class PublicConnectForm extends React.Component {
     state = {
@@ -141,6 +142,25 @@ class PublicConnectForm extends React.Component {
         }
         console.log("availableTimeslots: ", availableTimes);
         return availableTimes;
+    }
+    addRequest = () => {
+        console.log("addRequest is called");
+        console.log(this.state);
+        const data = {
+            receiver_id: this.props.match.params.id,
+            referral_id: null,
+            comment: this.state.message,
+            referral_comment: "",
+            type: this.state.skill.type,
+            index: parseInt(this.state.skill.index),
+            time: moment(this.state.date + " " + this.state.time, 'DD/MM/YYYY HH:mm').valueOf(),
+        }
+        console.log("data passed to addRequest:", data);
+        try {
+            CloudFunctionManager.addRequest(data);
+        } catch (e) {
+            console.log("Error calling addRequest", e);
+        }
     }
 
     render() {

@@ -8,27 +8,43 @@ class PopularUsersList extends React.Component {
     };
     async componentDidMount() {
         try {
-            const popularUsersSnapshot = await database.collection("discover").doc("1m6PLb3T1Lx3iGNEwFZ3").collection("users").get();
-            const popularUsers = {};
-            await popularUsersSnapshot.forEach((doc) => { 
-                popularUsers[doc.id] = {
-                    ...doc.data()
-                }
-            });
-            console.log("popular users: ", popularUsers);
-            Object.entries(popularUsers).forEach(async ([id, user]) => {
-                const { user_id } = user;
-                const userSnapshot = await database.collection("users").doc(user_id).get();
-                if (!userSnapshot) {
-                    throw Error("User does not exist");
-                }
-                popularUsers[id] = {
-                    ...user,
-                    ...userSnapshot.data()
-                }
-            })
-            console.log("popular users: ", popularUsers);
+            const discoverId = await database.collection("discover")
+                .where("active", "==", true)
+                .get()
+                .then((querySnapshot) => {
+                    if (!querySnapshot) {
+                        return null;
+                    }
+                    return querySnapshot.docs[0].id;
+                })
+
+            const popularUsers = await database.collection("discover").doc(discoverId).collection("users").get()
+                .then((querySnapshot) => {
+                    const users = {};
+                    querySnapshot.forEach((doc) => {
+                        users[doc.id] = { ...doc.data() }
+                    })
+                    return users;
+                })
+                .then((users) => {
+                    Object.entries(users).forEach(([id, entry]) => {
+                        const { user_id } = entry;
+                        database.collection("users").doc(user_id).get()
+                            .then((querySnapshot) => {
+                                if (!querySnapshot) {
+                                    throw Error("User does not exist");
+                                }
+                                users[id] = {
+                                    ...entry,
+                                    ...querySnapshot.data()
+                                }
+                            });
+                    })
+                    return users;
+                })  
+
             this.setState({ popularUsers });
+
         } catch (e) {
             console.error("Error fetching popular users", e);
         }
@@ -38,10 +54,12 @@ class PopularUsersList extends React.Component {
             <div>
                 <h3> Popular Users List </h3>
                 {
-                    this.state.popularUsers && Object.entries(this.state.popularUsers).map(([id, user]) => {
-                        const { user_id, display_name, photo_url, title, duration, name, price, rank } = user;
+                    this.state.popularUsers && Object.values(this.state.popularUsers).map((entry) => {
+                        console.log("popularUsers: ", this.state.popularUsers);
+                        console.log("entry: ", entry);
+                        const { user_id, duration, name, price, rank, display_name, photo_url, title } = entry;
                         return (
-                            <div key={id}>
+                            <div key={user_id}>
                                 <img src={photo_url || "/images/anonymous.png"} alt="profile photo" width="80px" height="100px"/>
                                 <p> {display_name} </p>
                                 <p> {title} </p>
