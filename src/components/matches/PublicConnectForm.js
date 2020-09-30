@@ -4,6 +4,7 @@ import moment from 'moment';
 import 'react-dates/initialize';
 import { SingleDatePicker } from 'react-dates';
 import PropTypes from 'prop-types';
+import { CloudFunctionManager } from '../../functions/functions';
 
 class PublicConnectForm extends React.Component {
     state = {
@@ -111,11 +112,6 @@ class PublicConnectForm extends React.Component {
         console.log('timeRanges', this.state.timeRanges);
     }
     generateAvailableTimes = (date) => {
-        //brian's availability: sunday and tuesday : 9am-5pm
-        //converted to our timezone will be 6am-2pm
-        //brian's timezone is -4 hrs UTC time
-        //our local offset is 7, which means our timezone is -7 hrs UTC time
-
         const dow = moment(date._d).weekday();
         console.log("typeof dow from moment weekday conversion", typeof dow);
         const startTime = this.state.timeRanges[dow][0];
@@ -123,8 +119,7 @@ class PublicConnectForm extends React.Component {
 
         let availableTimes = [];
         let current = startTime;
-        //if current is greater than end time, ex: startTime-11pm and endTime 1am.
-        
+
         while (current <= endTime) {
             let hours; 
             let minutes;
@@ -147,6 +142,25 @@ class PublicConnectForm extends React.Component {
         }
         console.log("availableTimeslots: ", availableTimes);
         return availableTimes;
+    }
+    addRequest = () => {
+        console.log("addRequest is called");
+        console.log(this.state);
+        const data = {
+            receiver_id: this.props.match.params.id,
+            referral_id: null,
+            comment: this.state.message,
+            referral_comment: "",
+            type: this.state.skill.type,
+            index: parseInt(this.state.skill.index),
+            time: moment(this.state.date + " " + this.state.time, 'DD/MM/YYYY HH:mm').valueOf(),
+        }
+        console.log("data passed to addRequest:", data);
+        try {
+            CloudFunctionManager.addRequest(data);
+        } catch (e) {
+            console.log("Error calling addRequest", e);
+        }
     }
 
     render() {
