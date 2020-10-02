@@ -12,6 +12,7 @@ import HomePage from '../pages/home/HomePage';
 import User from './User';
 import GroupPage from '../pages/groups/GroupPage';
 import MessagesPage from '../pages/messages/MessagesPage';
+import Chats from '../pages/messages/Chats';
 import NotificationsPage from '../pages/notifications/NotificationsPage';
 
 export const history = createBrowserHistory();
@@ -26,6 +27,7 @@ const AppRouter = () => (
             <PrivateRoute path="/profile/:id" component={User}/> 
             <PrivateRoute path="/group/:id" component={GroupPage}/>
             <PrivateRoute path="/messages" component={MessagesPage}/>
+            <PrivateRoute path="/chats" component={Chats}/>
             <PrivateRoute path="/notifications" component={NotificationsPage}/>
             <Route component={NotFoundPage}/>
         </Switch>
