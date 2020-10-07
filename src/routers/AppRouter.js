@@ -15,6 +15,7 @@ import MessagesPage from '../pages/messages/MessagesPage';
 import NotificationsPage from '../pages/notifications/NotificationsPage';
 import PublicConnectForm from '../components/matches/PublicConnectForm';
 import LandingPage from '../canteen/LandingPage';
+import TeamPage from '../canteen/TeamPage';
 
 export const history = createBrowserHistory();
 
@@ -23,6 +24,7 @@ const AppRouter = () => (
         <Switch>
             <PublicRoute exact path="/" component={LoginPage}/>
             <PublicRoute path = "/landingPage" component={LandingPage}/>
+            <PublicRoute path = "/teamPage" component={TeamPage}/>
             <PublicRoute path="/signup" component={SignupPage}/>
             <PublicRoute path="/forgot" component={ForgotPasswordPage}/>
             <Route path="/invite/:id" component={PublicConnectForm}/>
