@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { startFetchMessages } from '../../actions/matches';
 import moment from 'moment';
 import database from '../../../firebase/firebase';
 import { CloudFunctionManager } from '../../functions/functions';
 import { createStore, applyMiddleware, compose } from 'redux';
 import reducers from '../../reducers/matches';
+import MessagesPage from './MessagesPage';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
@@ -18,23 +18,19 @@ class Chats extends React.Component {
     state = {
         messages: {},
         chats: {},
-        content: '',
-        timestamp: '',
-        request: {},
-        notes: {}
+        content: ''
     }
 
-
-    async componentDidMount() {
+  
+    componentDidMount() {
         //this.props.authUid
-        const authUid = '3uJrPEDpXLXN6R8dKmcWXgGPVzf2If9DejkPFdVo5Qf56HRmOlXcMZw1';
-        await database.collection("matches").doc(authUid).collection("messages").onSnapshot((snapshot) => {
+        database.collection("matches").doc('3uJrPEDpXLXN6R8dKmcWXgGPVzf2If9DejkPFdVo5Qf56HRmOlXcMZw1').collection("messages").onSnapshot((snapshot) => {
             const messages = {};
             snapshot.forEach(doc => {
                 messages[doc.id] = doc.data();
             })
             this.setState({ messages });
-            console.log("message:", messages);
+            console.log("message: ", messages);
         })
     }
 
@@ -50,75 +46,63 @@ class Chats extends React.Component {
         return -1;
     }
 
-    getDetails() {
-        const firstMessageIndex = this.getIndex('first-message', this.state.messages);
-        const matchStartIndex = this.getIndex('match-start', this.state.messages);
-        console.log("first message index:", firstMessageIndex);
-
-        const firstMessage = arr[firstMessageIndex];
-        const match = arr[matchStartIndex];
-        console.log("First message:", firstMessage);
-        console.log("Match:", match);
-
-        this.setState({
-            request: match,
-            notes: firstMessage
-        })
-    }
-
-    onInputChange = (e) => {
-        const content = e.target.value;
-        this.setState({ content });
-    }
 
     handleSubmit = (e) => {
         e.preventDefault();
         console.log(this.state);
     }
 
-    render() {
-        
-
-        const arr = Object.values(this.state.messages); 
-        console.log('messages:', arr);
-
-
-
-        
-
-        const requestDetails = Object.entries(this.state.request).map((x, i) => {
-            const { data, event, source, timestamp } = x;
-            return (
-                <div key={i}>
-                    <p> {event} </p>
-                </div>
-            )
-        });
-
-
-        const chatBody = arr.map((i, chat) => {
-            return (
-                <div>
-                    <p key={`${i}-sender-id`}> {chat.sender_id} </p>
-                    <p style={{marginBottom: '40px'}} key={i}> {chat.text} </p>
-                </div>
-            )
-        });
-
+    render() {  
+        const messages = this.state.messages;
+        const firstMessageIndex = this.getIndex('first-message', messages);
+        const matchStartIndex = this.getIndex('match-start', messages);
+        console.log(matchStartIndex);
+        const requestMessage = Object.values(messages)[firstMessageIndex];
+        const request = Object.values(messages)[matchStartIndex];
+        console.log(request);
+        console.log(requestMessage);
+    
         return (
             <div>
                 <div className="chats">
-                    <p className="timestamp"> {this.state.timestamp} </p>
-                    <p className="message-request" onLoad={this.getDetails}>
+                { 
+                    request !== undefined ?
+                        <div className="request-details" style={{marginBottom: '40px'}}>
+                            <h3> { request.data.title } </h3>
+                            <p><strong>Offering/Ask:</strong> { request.data.skill }</p>
+                            <p><strong>Price:</strong> ${ request.data.price }</p>
+                            <p><strong>Date:</strong> { request.data.timestamp }</p>
+                            <p><strong>Time:</strong> { request.data.timestamp }</p>
+                        </div>
 
-                    </p>
-                    {chatBody}
+                    : null
+                }
+                {
+                    requestMessage !== undefined ? 
+                        <div className="request-message" style={{marginBottom: '40px'}}>
+                            <p><em>{ requestMessage.data.sender }</em></p>
+                        </div> 
+                    : null
+                }
+                { 
+                    Object.values(messages).map((chat, i) => {
+                        return (
+                            <div className="chat-item" key={i}>
+                                <p> {chat.sender_id} </p>
+                                <p style={{marginBottom: '40px'}}> {chat.text} </p>
+                            </div>
+                        )
+                    }) 
+                }
                 </div>
                 <form onSubmit={this.handleSubmit}>
                     <input 
                         placeholder="Send a message..." 
-                        onChange={this.onInputChange} 
-                        value={this.state.content}>
+                        onChange={(e) => {
+                            const content = e.target.value;
+                            this.setState({ content });
+                        }}
+                    >
                     </input>
                     <button type="submit">Send</button>
                 </form>
