@@ -7,6 +7,9 @@ import HeroImage from './HeroImage';
 import MissionBlock from './MissionBlock';
 import NavBar from './NavBar';
 import NewsBlock from './NewsBlock';
+import '../../public/dist/normalize.css';
+import '../../public/dist/skeleton.css';
+import '../../public/dist/style.css';
 
 const LandingPage = () => (
     <React.Fragment>
