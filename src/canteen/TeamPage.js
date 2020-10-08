@@ -4,6 +4,17 @@ import Modal from 'react-modal';
 const TeamPage = () => {
 
     const [ccOpen, setccOpen] = useState(false);
+    const [brianOpen, setbrianOpen] = useState(false);
+    const [danielOpen, setdanielOpen] = useState(false);
+    const [donaldOpen, setdonaldOpen] = useState(false);
+    const [melelaniOpen, setmelelaniOpen] = useState(false);
+    const [lillianOpen, setlillianOpen] = useState(false);
+
+    const [gregOpen, setgregOpen] = useState(false);
+    const [sterlingOpen, setsterlingOpen] = useState(false);
+    const [richardOpen, setrichardOpen] = useState(false);
+    const [akuOpen, setakuOpen] = useState(false);
+    
 
     return(
     <React.Fragment>
@@ -51,17 +62,17 @@ const TeamPage = () => {
                     <div className="profile-text-block">
                         <p className="team-name-text">Brian Hsu</p>
                         <p className="team-title-text">Co-Founder</p>
-                        <p id="view-profile-brian" className="view-profile-button">View Canteen Profile</p>
+                        <button id="view-profile-brian" className="view-profile-button" onClick={()=>setbrianOpen(true)}>View Canteen Profile</button>
                     </div>
                 </div>
 
                 <div id="profile-modal-brian" className="modal">
-                    <div className="modal-block">
+                    <Modal isOpen={brianOpen} onRequestClose={()=>setbrianOpen(false)} className="modal-block">
                         <div className="modal-content">
                             <span className="close">&times;</span>
                             <img className="app" src="images/landingPage/canteen-brian-profile.png" alt="Canteen profile Brian Hsu"/>
                         </div>
-                    </div>
+                    </Modal>
                 </div>
 
                 <div className="team-profile">
@@ -70,18 +81,18 @@ const TeamPage = () => {
                     <div className="profile-text-block">
                         <p className="team-name-text">Daniel Lipson</p>
                         <p className="team-title-text">Product Marketing Manager</p>
-                        <p id="view-profile-daniel" className="view-profile-button">View Canteen Profile</p>
+                        <button id="view-profile-daniel" className="view-profile-button" onClick={()=>setdanielOpen(true)}>View Canteen Profile</button>
                     </div>
                 </div>
 
                 <div id="profile-modal-daniel" className="modal">
-                    <div className="modal-block">
+                    <Modal isOpen={danielOpen} onRequestClose={() => setdanielOpen(false)} className="modal-block">
                         <div className="modal-content">
                             <span className="close">&times;</span>
                             <img className="app" src="images/landingPage/canteen-daniel-profile.png"
                                 alt="Canteen profile Daniel Lipson"/>
                         </div>
-                    </div>
+                    </Modal>
                 </div>
 
                 <div className="team-profile">
@@ -89,17 +100,17 @@ const TeamPage = () => {
                     <div className="profile-text-block">
                         <p className="team-name-text">Donald Chen</p>
                         <p className="team-title-text">Software Engineer</p>
-                        <p id="view-profile-don" className="view-profile-button">View Canteen Profile</p>
+                        <button id="view-profile-don" className="view-profile-button" onClick={() => setdonaldOpen(true)}>View Canteen Profile</button>
                     </div>
                 </div>
 
                 <div id="profile-modal-don" className="modal">
-                    <div className="modal-block">
+                    <Modal isOpen = {donaldOpen} onRequestClose = {() => setdonaldOpen(false)} className="modal-block">
                         <div className="modal-content">
                             <span className="close">&times;</span>
                             <img className="app" src="images/landingPage/canteen-donald-profile.png" alt="Canteen profile Donald Chen"/>
                         </div>
-                    </div>
+                    </Modal>
                 </div>
 
                 <div className="team-profile">
@@ -107,17 +118,17 @@ const TeamPage = () => {
                     <div className="profile-text-block">
                         <p className="team-name-text">Melelani</p>
                         <p className="team-title-text">UX Designer</p>
-                        <p id="view-profile-melelani" className="view-profile-button">View Canteen Profile</p>
+                        <button id="view-profile-melelani" className="view-profile-button" onClick={() => setmelelaniOpen(true)}>View Canteen Profile</button>
                     </div>
                 </div>
 
                 <div id="profile-modal-melelani" className="modal">
-                    <div className="modal-block">
+                    <Modal isOpen={melelaniOpen} onRequestClose={() => setmelelaniOpen(false)} className="modal-block">
                         <div className="modal-content">
                             <span className="close">&times;</span>
                             <img className="app" src="images/landingPage/canteen-melelani-profile.png" alt="Canteen profile Melelani"/>
                         </div>
-                    </div>
+                    </Modal>
                 </div>
 
                 <div className="team-profile">
@@ -125,18 +136,18 @@ const TeamPage = () => {
                     <div className="profile-text-block">
                         <p className="team-name-text">Lillian Chan</p>
                         <p className="team-title-text">Partnership Manager</p>
-                        <p id="view-profile-lillian" className="view-profile-button">View Canteen Profile</p>
+                        <button id="view-profile-lillian" className="view-profile-button" onClick = {() => setlillianOpen(true)}>View Canteen Profile</button>
                     </div>
                 </div>
 
                 <div id="profile-modal-lillian" className="modal">
-                    <div className="modal-block">
+                    <Modal isOpen = {lillianOpen} onRequestClose = {() => setlillianOpen(false)} className="modal-block">
                         <div className="modal-content">
                             <span className="close">&times;</span>
                             <img className="app" src="images/landingPage/canteen-lillian-profile.png"
                                 alt="Canteen profile Lillian Chan"/>
                         </div>
-                    </div>
+                    </Modal>
                 </div>
             </div>
 
@@ -152,17 +163,17 @@ const TeamPage = () => {
                     <div className="profile-text-block">
                         <p className="team-name-text">Greg Hornby</p>
                         <p className="team-title-text">Technical Advisor</p>
-                        <a id="view-profile-greg" className="view-profile-button">View Canteen Profile</a>
+                        <button id="view-profile-greg" className="view-profile-button" onClick = {() => setgregOpen(true)}>View Canteen Profile</button>
                     </div>
                 </div>
 
                 <div id="profile-modal-greg" className="modal">
-                    <div className="modal-block">
+                    <Modal isOpen = {gregOpen} onRequestClose = {() => setgregOpen(false)} className="modal-block">
                         <div className="modal-content">
                             <span className="close">&times;</span>
                             <img className="app" src="images/landingPage/canteen-greg-profile.png" alt="Canteen profile Greg Hornby"/>
                         </div>
-                    </div>
+                    </Modal>
                 </div>
 
                 <div className="team-profile">
@@ -171,18 +182,18 @@ const TeamPage = () => {
                     <div className="profile-text-block">
                         <p className="team-name-text">Sterling Nakamura</p>
                         <p className="team-title-text">Healthcare Advisor</p>
-                        <p id="view-profile-sterling" className="view-profile-button">View Canteen Profile</p>
+                        <button id="view-profile-sterling" className="view-profile-button" onClick = {() => setsterlingOpen(true)}>View Canteen Profile</button>
                     </div>
                 </div>
 
                 <div id="profile-modal-sterling" className="modal">
-                    <div className="modal-block">
+                    <Modal isOpen = {sterlingOpen} onRequestClose = {() => setsterlingOpen(false)} className="modal-block">
                         <div className="modal-content">
                             <span className="close">&times;</span>
                             <img className="app" src="images/landingPage/canteen-sterling-profile.png"
                                 alt="Canteen profile Sterling Nakamura"/>
                         </div>
-                    </div>
+                    </Modal>
                 </div>
 
                 <div className="team-profile">
@@ -191,18 +202,18 @@ const TeamPage = () => {
                     <div className="profile-text-block">
                         <p className="team-name-text">Richard Ling</p>
                         <p className="team-title-text">Venture Capital Advisor</p>
-                        <p id="view-profile-richard" className="view-profile-button">View Canteen Profile</p>
+                        <button id="view-profile-richard" className="view-profile-button" onClick = {() => setrichardOpen(true)} >View Canteen Profile</button>
                     </div>
                 </div>
 
                 <div id="profile-modal-richard" className="modal">
-                    <div className="modal-block">
+                    <Modal isOpen = {richardOpen} onRequestClose = {() => setrichardOpen(false)} className="modal-block">
                         <div className="modal-content">
                             <span className="close">&times;</span>
                             <img className="app" src="images/landingPage/canteen-richard-profile.png"
                                 alt="Canteen profile Richard Ling"/>
                         </div>
-                    </div>
+                    </Modal>
                 </div>
 
                 <div className="team-profile">
@@ -211,18 +222,18 @@ const TeamPage = () => {
                     <div className="profile-text-block">
                         <p className="team-name-text">Aku Aakriti Srikanth</p>
                         <p className="team-title-text">Marketing Advisor</p>
-                        <p id="view-profile-aku" className="view-profile-button">View Canteen Profile</p>
+                        <button id="view-profile-aku" className="view-profile-button" onClick = {() => setakuOpen(true)}>View Canteen Profile</button>
                     </div>
                 </div>
 
                 <div id="profile-modal-aku" className="modal">
-                    <div className="modal-block">
+                    <Modal isOpen={akuOpen} onRequestClose={() => setakuOpen(false)} className="modal-block">
                         <div className="modal-content">
                             <span className="close">&times;</span>
                             <img className="app" src="images/landingPage/canteen-aku-profile.png"
                                 alt="Canteen profile Aku Aakriti Srikanth"/>
                         </div>
-                    </div>
+                    </Modal>
                 </div>
             </div>
         </div>
