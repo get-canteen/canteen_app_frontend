@@ -1,24 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import momentTZ from 'moment-timezone';
 import database from '../../../firebase/firebase';
 import { CloudFunctionManager } from '../../functions/functions';
 import { createStore, applyMiddleware, compose } from 'redux';
-import reducers from '../../reducers/matches';
-import MessagesPage from './MessagesPage';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(
-    reducers,
-    composeEnhancers(applyMiddleware())
-);
+const store = createStore(reducer, /* preloadedState, */ composeEnhancers(
+    applyMiddleware(...middleware)
+  ));
 
 class Chats extends React.Component {
 
     state = {
         messages: {},
-        chats: {},
-        content: ''
+        text: ''
     }
 
   
@@ -46,33 +43,68 @@ class Chats extends React.Component {
         return -1;
     }
 
+    getTimeZone = (t) => {
+        const time = Number(t);
+        const date = new Date(time);
+        const timeZone = moment.tz.guess();
+        const timeZoneOffset = date.getTimezoneOffset();
+        return moment.tz.zone(timeZone).abbr(timeZoneOffset);
+    }
+
+    sortMessages = (obj) => {
+        Object.values(obj).forEach(element => {
+            element.timestamp.seconds = moment(element.timestamp.seconds * 1000).format()
+        });
+        const sortedMessages = Object.values(obj).sort((a,b) => { 
+            return moment(a.timestamp.seconds).diff(moment(b.timestamp.seconds)) 
+        });
+        return sortedMessages;
+    }
 
     handleSubmit = (e) => {
         e.preventDefault();
-        console.log(this.state);
+        const newTime = new Date();
+        const seconds = newTime / 1000;
+        const nanoseconds = newTime * 1000000;
+        const userRef = database.collection("matches").doc('3uJrPEDpXLXN6R8dKmcWXgGPVzf2If9DejkPFdVo5Qf56HRmOlXcMZw1').collection("messages").add({
+            data: null,
+            sender_id: this.props.authUid,
+            text: this.state.text,
+            timestamp: {
+                nanoseconds: nanoseconds,
+                seconds: seconds
+            },
+            type: 0
+        });  
+        this.setState({
+            text: ''
+        });
+        const form = document.getElementById('chat-form');
+        form.reset();
     }
 
     render() {  
-        const messages = this.state.messages;
+        let messages = this.state.messages;
+        
         const firstMessageIndex = this.getIndex('first-message', messages);
         const matchStartIndex = this.getIndex('match-start', messages);
-        console.log(matchStartIndex);
         const requestMessage = Object.values(messages)[firstMessageIndex];
         const request = Object.values(messages)[matchStartIndex];
-        console.log(request);
-        console.log(requestMessage);
+
+        const sortedMessages = this.sortMessages(messages);
+        console.log("sorted messages: ", sortedMessages);
     
         return (
             <div>
                 <div className="chats">
-                { 
+                {   
                     request !== undefined ?
                         <div className="request-details" style={{marginBottom: '40px'}}>
                             <h3> { request.data.title } </h3>
                             <p><strong>Offering/Ask:</strong> { request.data.skill }</p>
                             <p><strong>Price:</strong> ${ request.data.price }</p>
-                            <p><strong>Date:</strong> { request.data.timestamp }</p>
-                            <p><strong>Time:</strong> { request.data.timestamp }</p>
+                            <p><strong>Date:</strong> { moment.utc(request.data.time.seconds * 1000).format('dddd, MMMM D, YYYY') }</p>
+                            <p><strong>Time:</strong> { [moment.utc(request.data.time.seconds * 1000).format('h:mm A'), ' ',  this.getTimeZone(request.data.time.seconds * 1000)] }</p>
                         </div>
 
                     : null
@@ -82,25 +114,26 @@ class Chats extends React.Component {
                         <div className="request-message" style={{marginBottom: '40px'}}>
                             <p><em>{ requestMessage.data.sender }</em></p>
                         </div> 
+
                     : null
                 }
                 { 
-                    Object.values(messages).map((chat, i) => {
+                    Object.values(sortedMessages).map((chat, i) => {
                         return (
                             <div className="chat-item" key={i}>
                                 <p> {chat.sender_id} </p>
                                 <p style={{marginBottom: '40px'}}> {chat.text} </p>
                             </div>
                         )
-                    }) 
+                    })
                 }
                 </div>
-                <form onSubmit={this.handleSubmit}>
+                <form id="chat-form" onSubmit={this.handleSubmit}>
                     <input 
                         placeholder="Send a message..." 
                         onChange={(e) => {
-                            const content = e.target.value;
-                            this.setState({ content });
+                            const text = e.target.value;
+                            this.setState({ text });
                         }}
                     >
                     </input>
