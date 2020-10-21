@@ -5,12 +5,15 @@ import { withRouter } from 'react-router-dom';
 const HeroImage = (props) => {
     console.log('history', props.history);
     const [email, setEmail] = useState('');
-    // const location = {
-    //   pathname: '/signup', 
-    //   state: {
-    //     email: email
-    //   }
-    // }
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      props.history.push(
+        { 
+          pathname:`/signup`,
+          state: { email: email } 
+        }
+      )
+    }
     return(
     <div className="hero-image">
     <div className="banner">
@@ -39,14 +42,15 @@ const HeroImage = (props) => {
                 id="mce-EMAIL"
                 pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" 
                 value = {email} 
-                onChange={(e) => setEmail(e.target.value)} required/>
+                onChange={(e) => setEmail(e.target.value)} 
+                required/>
             </div>
             <div>
               <input 
                 className="button-primary" 
                 value="Sign Up" 
                 type="submit"
-                onSubmit={() => props.history.push('/signup')}
+                onClick={handleSubmit}
               />
             </div>
           </div>
