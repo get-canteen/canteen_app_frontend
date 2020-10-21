@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 
 import PublicRoute from '../routers/PublicRoute';
@@ -20,10 +20,10 @@ import TeamPage from '../canteen/TeamPage';
 export const history = createBrowserHistory();
 
 const AppRouter = () => (
-    <Router history={history}>
+    <BrowserRouter history={history}>
         <Switch>
-            <PublicRoute exact path="/" component={LoginPage}/>
-            <PublicRoute path = "/landingPage" component={LandingPage}/>
+            <PublicRoute exact path = "/" component={LandingPage}/>
+            <PublicRoute path="/loginPage" component={LoginPage}/>
             <PublicRoute path = "/teamPage" component={TeamPage}/>
             <PublicRoute path="/signup" component={SignupPage}/>
             <PublicRoute path="/forgot" component={ForgotPasswordPage}/>
@@ -35,7 +35,7 @@ const AppRouter = () => (
             <PrivateRoute path="/notifications" component={NotificationsPage}/>
             <Route component={NotFoundPage}/>
         </Switch>
-    </Router>
+    </BrowserRouter>
 );
   
 export default AppRouter;

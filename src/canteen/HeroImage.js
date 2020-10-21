@@ -1,6 +1,17 @@
-import React from 'react';
+import React, {useState} from 'react';
+// import { history } from '../routers/AppRouter';
+import { withRouter } from 'react-router-dom';
 
-const HeroImage = () => (
+const HeroImage = (props) => {
+    console.log('history', props.history);
+    const [email, setEmail] = useState('');
+    // const location = {
+    //   pathname: '/signup', 
+    //   state: {
+    //     email: email
+    //   }
+    // }
+    return(
     <div className="hero-image">
     <div className="banner">
       <div className="banner-text">
@@ -17,14 +28,26 @@ const HeroImage = () => (
             Connect with the right people for your professional needs and offer solutions to your community.
           </h4>
         </div>
-        <form method='post'>
+        <form>
           <div className="row" id="form-row">
             <div className="landing-page-email-block">
-              <input type="email" placeholder="Enter email address" name="EMAIL" className="text-input" id="mce-EMAIL"
-                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required/>
+              <input 
+                type="email" 
+                placeholder="Enter email address" 
+                name="EMAIL" 
+                className="text-input" 
+                id="mce-EMAIL"
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" 
+                value = {email} 
+                onChange={(e) => setEmail(e.target.value)} required/>
             </div>
             <div>
-              <input className="button-primary" type="submit" value="Sign Up"/>
+              <input 
+                className="button-primary" 
+                value="Sign Up" 
+                type="submit"
+                onSubmit={() => props.history.push('/signup')}
+              />
             </div>
           </div>
         </form>
@@ -32,6 +55,7 @@ const HeroImage = () => (
       <img className="app" src="/images/landingPage/canteen-app.png" alt="Canteen app"/>
     </div>
     </div>
-);
+    )
+};
 
-export default HeroImage;
+export default withRouter(HeroImage);

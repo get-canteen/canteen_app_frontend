@@ -74,7 +74,7 @@ class SignupPage extends React.Component {
                         </ButtonContainer>
                         <Footer>
                             <FooterText> Already have an account? </FooterText>
-                            <LoginLink to="/"> Login </LoginLink>
+                            <LoginLink to="/loginPage"> Login </LoginLink>
                         </Footer>
                     </BoxLayoutBox>
                 </BoxLayout>

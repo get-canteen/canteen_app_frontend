@@ -10,6 +10,7 @@ import NewsBlock from './NewsBlock';
 import '../../public/dist/normalize.css';
 import '../../public/dist/skeleton.css';
 import '../../public/dist/style.css';
+import { withRouter } from 'react-router-dom';
 
 const LandingPage = () => (
     <React.Fragment>
@@ -24,4 +25,4 @@ const LandingPage = () => (
     </React.Fragment>
 )
 
-export default LandingPage;
+export default withRouter(LandingPage);
