@@ -1,6 +1,17 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 
-const NavBar = () => (
+const NavBar = (props) => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    props.history.push(
+      { 
+        pathname:`/signup`,
+        state: { email: '' } 
+      }
+    )
+  }
+  return(
     <div id="navbar">
     <div id="navbar-block">
       <a id="navbar-logo" href="/">
@@ -10,10 +21,11 @@ const NavBar = () => (
       </a>
       <div id="navbar-menu">
         <a id="navbar-link" href="/teamPage">Team</a>
-        <a id="nav-sign-up-button" href="/signup">Sign Up</a>
+        <button id="nav-sign-up-button" onClick={handleSubmit}>Sign Up</button>
       </div>
     </div>
   </div>
-);
+  )
+};
 
-export default NavBar;
+export default withRouter(NavBar);

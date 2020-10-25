@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { startLoginWithEmailAndPassword, startLoginWithGoogle, startLoginWithFacebook } from '../../actions/auth';
 import { BoxLayout, BoxLayoutBox, Title, Form, Input, SubmitButton, ForgotLink, SignupLink, ButtonContainer, FacebookButton, GoogleButton, ButtonText, Footer, FooterText, ErrorMessage, Line } from '../../styles/auth/Authentication';
 import PropTypes from 'prop-types';
+import {Link} from 'react-router-dom';
 
 class LoginPage extends React.Component {
     state = {
@@ -25,7 +26,9 @@ class LoginPage extends React.Component {
         return (
                 <BoxLayout>
                     <BoxLayoutBox>
-                        <img src="/images/canteen/logo.png" alt="logo" height="40px"/>
+                    <Link>
+                    <img src="/images/canteen/logo.png" alt="logo" height="40px"/>
+                    </Link>
                         <Title> Sign in </Title>
                         <Form onSubmit={this.onSubmit}>
                             <Input
