@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { addInterest, deleteInterest } from '../../actions/user';
 import { history } from '../../routers/AppRouter';
 import PropTypes from 'prop-types';
+// import { withRouter } from 'react-router-dom';
 
 class EditInterestPage extends React.Component {
     state = {

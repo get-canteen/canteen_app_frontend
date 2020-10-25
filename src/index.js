@@ -10,6 +10,7 @@ import { startSetUserDocument, addUserDocument } from './actions/user';
 import { startSetUserGroups } from './actions/groups';
 import 'react-dates/lib/css/_datepicker.css';
 
+
 const store = configureStore(); 
 
 let hasRendered = false;

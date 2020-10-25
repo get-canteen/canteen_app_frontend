@@ -3,11 +3,12 @@ import { connect } from 'react-redux';
 import { startCreateUserWithEmailAndPassword, startLoginWithGoogle, startLoginWithFacebook } from '../../actions/auth';
 import { BoxLayout, BoxLayoutBox, Title, Form, Input, SubmitButton, LoginLink, ButtonContainer, FacebookButton, GoogleButton, ButtonText, Footer, FooterText, ErrorMessage, Line } from '../../styles/auth/Authentication';
 import PropTypes from 'prop-types';
+import {Link} from "react-router-dom";
 
 class SignupPage extends React.Component {
     state = {
         name: '',
-        email: '',
+        email: this.props.location.state.email ? this.props.location.state.email : "",
         password: ''
     }
     onNameChange = (e) => {
@@ -30,7 +31,9 @@ class SignupPage extends React.Component {
         return (
                 <BoxLayout>
                     <BoxLayoutBox>
-                        <img src="/images/canteen/logo.png" alt="logo" height="40px"/>
+                        <Link to = "/">
+                            <img src="/images/canteen/logo.png" alt="logo" height="40px"/>
+                        </Link>
                         <Title> Sign up </Title>
                         <Form onSubmit={this.onSubmit}>
                             <Input
@@ -74,7 +77,7 @@ class SignupPage extends React.Component {
                         </ButtonContainer>
                         <Footer>
                             <FooterText> Already have an account? </FooterText>
-                            <LoginLink to="/"> Login </LoginLink>
+                            <LoginLink to="/loginPage"> Login </LoginLink>
                         </Footer>
                     </BoxLayoutBox>
                 </BoxLayout>
